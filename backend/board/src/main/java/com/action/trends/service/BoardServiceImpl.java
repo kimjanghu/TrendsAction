@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Sharer;
 import com.action.trends.dto.User;
 import com.action.trends.repository.BoardMapper;
 
@@ -21,7 +22,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<User> getSharerList(int boardId) {
+	public List<Sharer> getSharerList(int boardId) {
 		return boardMapper.getSharerList(boardId);
 	}
 	
@@ -38,6 +39,21 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			throw new RuntimeException();
 		}
+	}	
+	
+	@Override
+	public User searchUser(String email) {
+		return boardMapper.searchUser(email);
+	}
+	
+	@Override
+	public int updateBoard(int boardId, String name) {
+		return boardMapper.updateBoard(boardId, name);
+	}
+	
+	@Override
+	public int updateUserAuth(int userId, int boardId, String authority) {
+		return boardMapper.updateUserAuth(userId, boardId, authority);
 	}
 	
 	public int connectUserBoard(int userId, int boardId) {
@@ -51,13 +67,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int updateBoard(int boardId, String name) {
-		return boardMapper.updateBoard(boardId, name);
+	public int leaveBoard(int userId, int boardId) {
+		return boardMapper.leaveBoard(userId, boardId);
 	}
+
 	
-	
-	@Override
-	public User searchUser(String email) {
-		return boardMapper.searchUser(email);
-	}
+
 }

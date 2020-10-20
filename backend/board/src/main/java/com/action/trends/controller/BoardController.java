@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Sharer;
 import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
 
@@ -54,6 +55,26 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="보드원 조회", response = List.class)
+	@GetMapping("/board/sharer/{boardId}")
+	public ResponseEntity<Map<String, Object>> getSharerList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<Sharer> list = new ArrayList<Sharer>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getSharerList(boardId);
+			resultMap.put("status", true);
+			resultMap.put("message", "보드원 조회에 성공했습니다.");
+			resultMap.put("data", list);
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
 	@ApiOperation(value="보드 생성")
 	@PostMapping("/board")
 	public ResponseEntity<Map<String, Object>> createBoard(@RequestBody Map<String, Object> data) {
@@ -66,58 +87,6 @@ public class BoardController {
 			Board board = new Board(name, thumbnail);
 			boardService.createBoard(userId, board);
 			entity = handleSuccess("보드가 생성됐습니다.");
-		} catch (RuntimeException e) {
-			entity = handleException(e);
-		}
-		
-		return entity;
-	}
-	
-	@ApiOperation(value="보드 삭제", response = String.class)
-	@DeleteMapping("/board/{boardId}")
-	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId) {
-		ResponseEntity<Map<String, Object>> entity = null;
-		
-		try {
-			boardService.deleteBoard(boardId);
-			entity = handleSuccess(boardId + " 보드가 삭제됐습니다.");
-		} catch (RuntimeException e) {
-			entity = handleException(e);
-		}
-		
-		return entity;
-	}
-	
-	@ApiOperation(value="보드 정보 변경", response = String.class)
-	@PutMapping("/board")
-	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data) {
-		ResponseEntity<Map<String, Object>> entity = null;
-		int boardId = (int) data.get("boardId");
-		String name = (String) data.get("name");
-		
-		try {
-			boardService.updateBoard(boardId, name);
-			entity = handleSuccess(boardId + " 보드의 이름을 " + name + " (으)로 변경했습니다.");
-		} catch (RuntimeException e) {
-			entity = handleException(e);
-		}
-		
-		return entity;
-	}
-	
-	@ApiOperation(value="보드원 조회", response = List.class)
-	@GetMapping("/board/sharer/{boardId}")
-	public ResponseEntity<Map<String, Object>> getSharerList(@PathVariable int boardId) {
-		ResponseEntity<Map<String, Object>> entity = null;
-		List<User> list = new ArrayList<User>();
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		try {
-			list = boardService.getSharerList(boardId);
-			resultMap.put("status", true);
-			resultMap.put("message", "보드원 조회에 성공했습니다.");
-			resultMap.put("data", list);
-			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
@@ -150,6 +119,82 @@ public class BoardController {
 
 		return entity;
 	}
+
+	@ApiOperation(value="보드 정보 변경", response = String.class)
+	@PutMapping("/board")
+	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int boardId = (int) data.get("boardId");
+		String name = (String) data.get("name");
+		
+		try {
+			if (boardService.updateBoard(boardId, name) == 0) {
+				entity = handleSuccess("fail");
+			} else {
+				entity = handleSuccess(boardId + " 보드의 이름을 " + name + " (으)로 변경했습니다.");				
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드원 권한 변경", response = String.class)
+	@PutMapping("/board/updateauth")
+	public ResponseEntity<Map<String, Object>> updateUserAuth(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int userId = (int) data.get("userId");
+		int boardId = (int) data.get("boardId");
+		String authority = (String) data.get("authority");
+		
+		try {
+			if (boardService.updateUserAuth(userId, boardId, authority) == 0) {
+				entity = handleSuccess("fail");
+			} else {
+				entity = handleSuccess(userId + " 사용자의 권한을 " + authority + " 로 변경했습니다.");				
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 삭제", response = String.class)
+	@DeleteMapping("/board/{boardId}")
+	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			boardService.deleteBoard(boardId);
+			entity = handleSuccess(boardId + " 보드가 삭제됐습니다.");
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 탈퇴", response = String.class)
+	@DeleteMapping("/board/leave/{userId}/{boardId}")
+	public ResponseEntity<Map<String, Object>> leaveBoard(@PathVariable int userId, @PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			if (boardService.leaveBoard(userId, boardId) == 0) {
+				entity = handleSuccess("fail");
+			} else {
+				entity = handleSuccess(userId + " 사용자가 " + boardId + " 보드를 탈퇴했습니다.");				
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+
 	
 	// ------------------- 예외처리 -----------------------
 	
