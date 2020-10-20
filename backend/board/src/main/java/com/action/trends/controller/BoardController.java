@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +44,25 @@ public class BoardController {
 			}
 			resultMap.put("data", list);
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 생성")
+	@PostMapping("/board")
+	public ResponseEntity<Map<String, Object>> createBoard(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int userId = (int) data.get("userId");
+		String name = (String) data.get("name");
+		String thumbnail = (String) data.get("thumbnail");
+		
+		try {
+			Board board = new Board(name, thumbnail);
+			boardService.createBoard(userId, board);
+			entity = handleSuccess("보드가 생성됐습니다.");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}

@@ -10,4 +10,10 @@ import lombok.NoArgsConstructor;
 public class Board {
 	private int boardId;
 	private String name;
+	private String thumbnail;
+	
+	public Board(String name, String thumbnail) {
+		this.name = name;
+		this.thumbnail = thumbnail;
+	}
 }
