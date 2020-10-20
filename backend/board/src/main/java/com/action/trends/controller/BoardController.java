@@ -194,7 +194,6 @@ public class BoardController {
 		return entity;
 	}
 	
-
 	
 	// ------------------- 예외처리 -----------------------
 	
