@@ -1,0 +1,100 @@
+<template>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" lg="10" xl="8">
+        <v-img :aspect-ratio="16/9"
+          lazy-src="https://picsum.photos/id/11/10/6"
+          src="https://picsum.photos/id/11/500/300"
+          class="trend-img"
+        >
+          <div class="trend-desc">
+            <p class="text-h6">멀티 페르소나</p>
+            <span>'멀티 페르소나'의 의미를 직역하면 '여러 개의 가면'이라는 뜻이 됩니다. 페르소나는 고대 그리스에서 배우들이 쓰던 가면을 일컫는 단어인데요. 심리학에서는 타인에게 비치는 외적 성격을 나타내는 용어로 쓰입니다.</span>
+          </div>
+        </v-img>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="12" lg="7">
+        <v-tabs
+          v-model="tab"
+          background-color="transparent"
+          color="black"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tab">
+          <v-tab-item
+            v-for="item in items"
+            :key="item"
+          >
+            <v-card
+              color="basil"
+              flat
+            >
+              <v-card-text>{{ text }}</v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-col>
+      <v-col cols="12" lg="3">
+        <p class="mt-2 mb-5 subtitle-1">Others</p>
+        <v-list class="py-0 px-3" style="border: 1px solid black">
+          <v-list-item two-line class="px-0">
+            <v-list-item-content class="py-0">
+              <v-list-item-title>Two-line item</v-list-item-title>
+              <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item two-line class="px-0">
+            <v-list-item-content class="py-0">
+              <v-list-item-title>Two-line item</v-list-item-title>
+              <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  data () {
+      return {
+        tab: null,
+        items: [
+          'News', 'Sns', 'Agora',
+        ],
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      }
+    },
+
+}
+</script>
+
+<style>
+.trend-img {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.trend-desc {
+  position: absolute;
+  top:0;
+  left: 0;
+  margin: 2rem;
+}
+
+.other-words-list {
+  border: 1px solid black;
+}
+</style>
