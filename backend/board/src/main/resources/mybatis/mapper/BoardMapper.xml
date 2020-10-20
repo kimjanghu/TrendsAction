@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.action.trends.repository.BoardMapper">
+    <select id="getBoardList" parameterType="int" resultType="Board">
+		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId}
+	</select>
+	
+	<select id="getSharerList" parameterType="int" resultType="Sharer">
+		SELECT u.id as userID, email, nickname, profile, authority FROM user_board as ub, user as u WHERE u.id=ub.user_id and ub.board_id=#{boardId}
+	</select>
+	
+	<insert id="createBoard" parameterType="Board">
+		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
+	</insert>
+	
+	<insert id="connectUserBoard" parameterType="map">
+		INSERT into user_board values(#{userId}, #{boardId}, 'host')
+	</insert>
+	
+	<select id="selectLast" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<select id="searchUser" resultType="User">
+		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
+	</select>
+	
+	<update id="updateBoard" parameterType="map">
+		UPDATE board SET name=#{name} WHERE id=#{boardId}
+	</update>
+	
+	<update id="updateUserAuth" parameterType="map">
+		UPDATE user_board SET authority=#{authority} WHERE user_id=#{userId} and board_id=#{boardId}
+	</update>
+
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board where id=#{boardId}
+	</delete>
+	
+	<delete id="deleteUserBoard" parameterType="int">
+		DELETE FROM user_board where board_id=#{boardId}
+	</delete>
+	
+	<delete id="leaveBoard" parameterType="map">
+		DELETE FROM user_board where board_id=#{boardId} and user_id=#{userId}
+	</delete>
+</mapper>
