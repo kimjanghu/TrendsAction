@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Sharer;
+import com.action.trends.dto.Twitter;
 import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
 
@@ -92,6 +93,31 @@ public class BoardController {
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			} else {
 				resultMap.put("message", boardId + " 보드에 담긴 뉴스가 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 내 트위터 조회", response = String.class)
+	@GetMapping("/board/contents/twitter/{boardId}")
+	public ResponseEntity<Map<String, Object>> getTwitterList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<Twitter> list = new ArrayList<Twitter>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getTwitterList(boardId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", boardId + " 보드의 트위터 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", boardId + " 보드에 담긴 트윗이 없습니다.");
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}
 		} catch (RuntimeException e) {

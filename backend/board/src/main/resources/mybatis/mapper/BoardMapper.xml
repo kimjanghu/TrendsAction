@@ -18,6 +18,12 @@
 		FROM news as n, board_news as bn WHERE n.id=bn.news_id and board_id=#{boardId} 
 	</select>
 	
+	<select id="getTwitterList" parameterType="int" resultType="Twitter">
+		SELECT id as twitterId, content, author, date, category_id as categoryId, trend_id as trendId
+		
+		FROM twitter as t, board_twitter as bt WHERE t.id=bt.twitter_id and board_id=#{boardId} 
+	</select>
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>

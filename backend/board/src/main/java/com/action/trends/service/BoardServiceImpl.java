@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Sharer;
+import com.action.trends.dto.Twitter;
 import com.action.trends.dto.User;
 import com.action.trends.repository.BoardMapper;
 
@@ -30,6 +31,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<News> getNewsList(int boardId) {
 		return boardMapper.getNewsList(boardId);
+	}
+	
+	@Override
+	public List<Twitter> getTwitterList(int boardId) {
+		return boardMapper.getTwitterList(boardId);
 	}
 	
 	@Override
