@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.action.trends.repository.BoardMapper">
+    <select id="getBoardList" parameterType="int" resultType="Board">
+		SELECT boardID, name FROM board as b, user_board as ub WHERE b.id = ub.boardID and ub.boardID = #{userId};
+	</select>
+
+	
+
+</mapper>
