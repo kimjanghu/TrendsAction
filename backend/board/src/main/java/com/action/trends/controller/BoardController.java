@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
 
 import io.swagger.annotations.ApiOperation;
@@ -104,6 +105,25 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="보드원 조회", response = List.class)
+	@GetMapping("/board/sharer/{boardId}")
+	public ResponseEntity<Map<String, Object>> getSharerList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<User> list = new ArrayList<User>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getSharerList(boardId);
+			resultMap.put("status", true);
+			resultMap.put("message", "보드원 조회에 성공했습니다.");
+			resultMap.put("data", list);
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
 	
 	// ------------------- 예외처리 -----------------------
 	

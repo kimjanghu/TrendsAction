@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.User;
 
 @Mapper
 public interface BoardMapper {
@@ -15,4 +16,5 @@ public interface BoardMapper {
 	public int deleteBoard(int boardId);
 	public int deleteUserBoard(int boardId);
 	public int updateBoard(int boardId, String name);
+	public List<User> getSharerList(int boardId);
 }

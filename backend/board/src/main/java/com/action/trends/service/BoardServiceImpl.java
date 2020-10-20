@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.User;
 import com.action.trends.repository.BoardMapper;
 
 @Service
@@ -17,6 +18,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<Board> getBoardList(int userId) {
 		return boardMapper.getBoardList(userId);
+	}
+	
+	@Override
+	public List<User> getSharerList(int boardId) {
+		return boardMapper.getSharerList(boardId);
 	}
 	
 	@Override
