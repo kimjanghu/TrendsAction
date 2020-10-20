@@ -63,4 +63,8 @@
 	<delete id="deleteNews" parameterType="map">
 		DELETE FROM board_news where board_id=#{boardId} and news_id=#{newsId}
 	</delete>
+	
+	<delete id="deleteTwitts" parameterType="map">
+		DELETE FROM board_twitter where board_id=#{boardId} and twitter_id=#{twitterId}
+	</delete>
 </mapper>

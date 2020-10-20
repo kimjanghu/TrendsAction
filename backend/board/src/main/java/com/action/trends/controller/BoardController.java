@@ -247,7 +247,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 뉴스글 삭제", response = String.class)
-	@DeleteMapping("/board/contents/{boardId}/{newsId}")
+	@DeleteMapping("/board/contents/news/{boardId}/{newsId}")
 	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		
@@ -256,6 +256,24 @@ public class BoardController {
 				entity = handleSuccess("fail");
 			} else {
 				entity = handleSuccess(boardId + " 보드에서 " + newsId + " 뉴스를 삭제했습니다.");				
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 내 트윗 삭제", response = String.class)
+	@DeleteMapping("/board/contents/twitter/{boardId}/{twitterId}")
+	public ResponseEntity<Map<String, Object>> deleteTwitts(@PathVariable int boardId, @PathVariable int twitterId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			if (boardService.deleteTwitts(boardId, twitterId) == 0) {
+				entity = handleSuccess("fail");
+			} else {
+				entity = handleSuccess(boardId + " 보드에서 " + twitterId + " 트윗을 삭제했습니다.");				
 			}
 		} catch (RuntimeException e) {
 			entity = handleException(e);

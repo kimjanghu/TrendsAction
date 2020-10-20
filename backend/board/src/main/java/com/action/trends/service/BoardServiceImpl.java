@@ -87,5 +87,10 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteNews(int boardId, int newsId) {
 		return boardMapper.deleteNews(boardId, newsId);
 	}
+	
+	@Override
+	public int deleteTwitts(int boardId, int twitterId) {
+		return boardMapper.deleteTwitts(boardId, twitterId);
+	}
 
 }

@@ -26,4 +26,5 @@ public interface BoardMapper {
 	public int deleteUserBoard(int boardId);
 	public int leaveBoard(int userId, int boardId);
 	public int deleteNews(int boardId, int newsId);
+	public int deleteTwitts(int boardId, int twitterId);
 }
