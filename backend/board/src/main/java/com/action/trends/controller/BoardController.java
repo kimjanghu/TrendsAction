@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.News;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
@@ -68,6 +69,31 @@ public class BoardController {
 			resultMap.put("message", "보드원 조회에 성공했습니다.");
 			resultMap.put("data", list);
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 내 뉴스 조회", response = String.class)
+	@GetMapping("/board/contents/news/{boardId}")
+	public ResponseEntity<Map<String, Object>> getNewsList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<News> list = new ArrayList<News>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getNewsList(boardId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", boardId + " 보드의 뉴스 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", boardId + " 보드에 담긴 뉴스가 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}

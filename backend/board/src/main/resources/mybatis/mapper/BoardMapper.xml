@@ -12,6 +12,12 @@
 		SELECT u.id as userID, email, nickname, profile, authority FROM user_board as ub, user as u WHERE u.id=ub.user_id and ub.board_id=#{boardId}
 	</select>
 	
+	<select id="getNewsList" parameterType="int" resultType="News">
+		SELECT id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, category_id as categoryId, trend_id as trendId
+		
+		FROM news as n, board_news as bn WHERE n.id=bn.news_id and board_id=#{boardId} 
+	</select>
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>
