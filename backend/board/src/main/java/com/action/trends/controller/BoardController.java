@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Sharer;
+import com.action.trends.dto.TwittBoard;
 import com.action.trends.dto.Twitter;
 import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
@@ -139,6 +140,28 @@ public class BoardController {
 			Board board = new Board(name, thumbnail);
 			boardService.createBoard(userId, board);
 			entity = handleSuccess("보드가 생성됐습니다.");
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드에 트윗 담기")
+	@PostMapping("/board/contents/twitter")
+	public ResponseEntity<Map<String, Object>> addTwitts(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int boardId = (int) data.get("boardId");
+		int twitterId = (int) data.get("twitterId");
+		int userId = (int) data.get("userId");
+		
+		try {
+			TwittBoard twittBoard = new TwittBoard(boardId, twitterId, userId);
+			if (boardService.addTwitts(twittBoard) == 1) {
+				entity = handleSuccess(boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");				
+			} else {
+				entity = handleSuccess("fail");
+			}
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
