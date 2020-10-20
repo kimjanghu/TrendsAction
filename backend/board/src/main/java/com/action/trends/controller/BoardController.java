@@ -246,6 +246,23 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="보드 내 뉴스글 삭제", response = String.class)
+	@DeleteMapping("/board/contents/{boardId}/{newsId}")
+	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			if (boardService.deleteNews(boardId, newsId) == 0) {
+				entity = handleSuccess("fail");
+			} else {
+				entity = handleSuccess(boardId + " 보드에서 " + newsId + " 뉴스를 삭제했습니다.");				
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
 	
 	// ------------------- 예외처리 -----------------------
 	

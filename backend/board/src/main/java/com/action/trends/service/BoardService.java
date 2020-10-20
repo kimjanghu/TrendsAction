@@ -19,4 +19,5 @@ public interface BoardService {
 	public int updateUserAuth(int userId, int boardId, String authority);
 	public void deleteBoard(int boardId);
 	public int leaveBoard(int userId, int boardId);
+	public int deleteNews(int boardId, int newsId);
 }

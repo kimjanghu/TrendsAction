@@ -83,6 +83,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.leaveBoard(userId, boardId);
 	}
 
-	
+	@Override
+	public int deleteNews(int boardId, int newsId) {
+		return boardMapper.deleteNews(boardId, newsId);
+	}
 
 }
