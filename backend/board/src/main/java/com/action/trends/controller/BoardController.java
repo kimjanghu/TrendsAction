@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
+import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.TwittBoard;
 import com.action.trends.dto.Twitter;
@@ -149,7 +150,7 @@ public class BoardController {
 	
 	@ApiOperation(value="보드에 트윗 담기")
 	@PostMapping("/board/contents/twitter")
-	public ResponseEntity<Map<String, Object>> addTwitts(@RequestBody Map<String, Object> data) {
+	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int boardId = (int) data.get("boardId");
 		int twitterId = (int) data.get("twitterId");
@@ -157,8 +158,30 @@ public class BoardController {
 		
 		try {
 			TwittBoard twittBoard = new TwittBoard(boardId, twitterId, userId);
-			if (boardService.addTwitts(twittBoard) == 1) {
+			if (boardService.addTwitt(twittBoard) == 1) {
 				entity = handleSuccess(boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");				
+			} else {
+				entity = handleSuccess("fail");
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드에 뉴스 담기")
+	@PostMapping("/board/contents/news")
+	public ResponseEntity<Map<String, Object>> addNews(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int boardId = (int) data.get("boardId");
+		int newsId = (int) data.get("newsId");
+		int userId = (int) data.get("userId");
+		
+		try {
+			NewsBoard newsBoard = new NewsBoard(boardId, newsId, userId);
+			if (boardService.addNews(newsBoard) == 1) {
+				entity = handleSuccess(boardId + " 보드에 " + newsId + " 뉴스가 담겼습니다." + " by " + userId + " 사용자");				
 			} else {
 				entity = handleSuccess("fail");
 			}

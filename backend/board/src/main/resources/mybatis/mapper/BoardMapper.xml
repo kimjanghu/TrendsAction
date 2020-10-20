@@ -32,8 +32,12 @@
 		INSERT into user_board values(#{userId}, #{boardId}, 'host')
 	</insert>
 	
-	<insert id="addTwitts" parameterType="TwittBoard">
+	<insert id="addTwitt" parameterType="TwittBoard">
 		INSERT into board_twitter values(#{boardId}, #{twitterId}, #{scrapUser})
+	</insert>
+	
+	<insert id="addNews" parameterType="NewsBoard">
+		INSERT into board_news values(#{boardId}, #{newsId}, #{scrapUser})
 	</insert>
 	
 	<select id="selectLast" resultType="int">

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
+import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.TwittBoard;
 import com.action.trends.dto.Twitter;
@@ -20,7 +21,8 @@ public interface BoardMapper {
 	public int createBoard(Board board);
 	public int connectUserBoard(int userId, int boardId);
 	public int selectLast();
-	public int addTwitts(TwittBoard twittBoard);
+	public int addTwitt(TwittBoard twittBoard);
+	public int addNews(NewsBoard newsBoard);
 	public User searchUser(String email);
 	public int updateBoard(int boardId, String name);
 	public int updateUserAuth(int userId, int boardId, String authority);

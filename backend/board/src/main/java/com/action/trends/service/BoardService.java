@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
+import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.TwittBoard;
 import com.action.trends.dto.Twitter;
@@ -15,7 +16,8 @@ public interface BoardService {
 	public List<News> getNewsList(int boardId);
 	public List<Twitter> getTwitterList(int boardId);
 	public int createBoard(int userId, Board board);
-	public int addTwitts(TwittBoard twittBoard);
+	public int addTwitt(TwittBoard twittBoard);
+	public int addNews(NewsBoard newsBoard);
 	public User searchUser(String email);
 	public int updateBoard(int boardId, String name);
 	public int updateUserAuth(int userId, int boardId, String authority);

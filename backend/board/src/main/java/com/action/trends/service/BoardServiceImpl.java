@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
 import com.action.trends.dto.News;
+import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.TwittBoard;
 import com.action.trends.dto.Twitter;
@@ -55,8 +56,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int addTwitts(TwittBoard twittBoard) {
-		return boardMapper.addTwitts(twittBoard);
+	public int addTwitt(TwittBoard twittBoard) {
+		return boardMapper.addTwitt(twittBoard);
+	}
+	
+	@Override
+	public int addNews(NewsBoard newsBoard) {
+		return boardMapper.addNews(newsBoard);
 	}
 	
 	@Override
