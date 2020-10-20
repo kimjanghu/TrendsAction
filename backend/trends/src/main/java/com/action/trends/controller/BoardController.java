@@ -35,7 +35,11 @@ public class BoardController {
 		try {
 			list = boardService.getBoardList(userId);
 			resultMap.put("status", true);
-			resultMap.put("message", "보드 리스트 조회에 성공했습니다.");
+			if (list.size() == 0) {
+				resultMap.put("message", "생성된 보드가 없습니다.");
+			} else {
+				resultMap.put("message", "보드 리스트 조회에 성공했습니다.");
+			}
 			resultMap.put("data", list);
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		} catch (RuntimeException e) {
