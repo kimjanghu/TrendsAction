@@ -43,4 +43,9 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(boardId);
 		boardMapper.deleteUserBoard(boardId);
 	}
+	
+	@Override
+	public int updateBoard(int boardId, String name) {
+		return boardMapper.updateBoard(boardId, name);
+	}
 }

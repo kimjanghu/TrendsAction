@@ -7,4 +7,5 @@ public interface BoardService {
 	public List<Board> getBoardList(int userId);
 	public int createBoard(int userId, Board board);
 	public void deleteBoard(int boardId);
+	public int updateBoard(int boardId, String name);
 }

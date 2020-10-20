@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,6 +80,23 @@ public class BoardController {
 		try {
 			boardService.deleteBoard(boardId);
 			entity = handleSuccess(boardId + " 보드가 삭제됐습니다.");
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 정보 변경", response = String.class)
+	@PutMapping("/board")
+	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int boardId = (int) data.get("boardId");
+		String name = (String) data.get("name");
+		
+		try {
+			boardService.updateBoard(boardId, name);
+			entity = handleSuccess(boardId + " 보드의 이름을 " + name + " (으)로 변경했습니다.");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}

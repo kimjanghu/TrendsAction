@@ -14,4 +14,5 @@ public interface BoardMapper {
 	public int selectLast();
 	public int deleteBoard(int boardId);
 	public int deleteUserBoard(int boardId);
+	public int updateBoard(int boardId, String name);
 }
