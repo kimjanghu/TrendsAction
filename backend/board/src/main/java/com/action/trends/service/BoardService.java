@@ -11,4 +11,5 @@ public interface BoardService {
 	public int createBoard(int userId, Board board);
 	public void deleteBoard(int boardId);
 	public int updateBoard(int boardId, String name);
+	public User searchUser(String email);
 }

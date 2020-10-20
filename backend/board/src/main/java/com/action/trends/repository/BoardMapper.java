@@ -17,4 +17,5 @@ public interface BoardMapper {
 	public int deleteUserBoard(int boardId);
 	public int updateBoard(int boardId, String name);
 	public List<User> getSharerList(int boardId);
+	public User searchUser(String email);
 }

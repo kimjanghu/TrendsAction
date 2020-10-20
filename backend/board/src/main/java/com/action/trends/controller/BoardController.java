@@ -125,6 +125,32 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="유저 검색(이메일)")
+	@PostMapping("/board/searchuser")
+	public ResponseEntity<Map<String, Object>> searchUser(@RequestBody String email) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			User user = boardService.searchUser(email);
+			if (user != null) {
+				resultMap.put("status", true);
+				resultMap.put("message", "유저 검색에 성공했습니다.");
+				resultMap.put("data", user);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("status", true);
+				resultMap.put("message", "해당하는 유저가 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			
+			entity = handleException(e);
+		}
+
+		return entity;
+	}
+	
 	// ------------------- 예외처리 -----------------------
 	
 	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {

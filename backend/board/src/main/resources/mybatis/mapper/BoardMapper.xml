@@ -11,14 +11,19 @@
 	<select id="getSharerList" parameterType="int" resultType="User">
 		SELECT u.id as userID, email, nickname, profile FROM user_board as ub, user as u WHERE u.id=ub.user_id and ub.board_id=#{boardId}
 	</select>
-
-	<insert id="createBoard" parameterType="Board">
-		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
-	</insert>
-		
+	
 	<select id="selectLast" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
+	<select id="searchUser" resultType="User">
+		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
+	</select>
+	
+	<insert id="createBoard" parameterType="Board">
+		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
+	</insert>
+	
 	
 	<insert id="connectUserBoard" parameterType="map">
 		INSERT into user_board values(#{userId}, #{boardId}, 'host')

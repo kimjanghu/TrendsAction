@@ -54,4 +54,10 @@ public class BoardServiceImpl implements BoardService {
 	public int updateBoard(int boardId, String name) {
 		return boardMapper.updateBoard(boardId, name);
 	}
+	
+	
+	@Override
+	public User searchUser(String email) {
+		return boardMapper.searchUser(email);
+	}
 }
