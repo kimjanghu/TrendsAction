@@ -37,4 +37,10 @@ public class BoardServiceImpl implements BoardService {
 	public int connectUserBoard(int userId, int boardId) {
 		return boardMapper.connectUserBoard(userId, boardId);
 	}
+	
+	@Override
+	public void deleteBoard(int boardId) {
+		boardMapper.deleteBoard(boardId);
+		boardMapper.deleteUserBoard(boardId);
+	}
 }

@@ -12,4 +12,6 @@ public interface BoardMapper {
 	public int createBoard(Board board);
 	public int connectUserBoard(int userId, int boardId);
 	public int selectLast();
+	public int deleteBoard(int boardId);
+	public int deleteUserBoard(int boardId);
 }

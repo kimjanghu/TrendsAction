@@ -5,7 +5,7 @@
 
 <mapper namespace="com.action.trends.repository.BoardMapper">
     <select id="getBoardList" parameterType="int" resultType="Board">
-		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id = ub.board_id and ub.board_id = #{userId};
+		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id = ub.board_id and ub.user_id = #{userId}
 	</select>
 
 	<insert id="createBoard" parameterType="Board">
@@ -20,4 +20,11 @@
 		INSERT into user_board values(#{userId}, #{boardId}, 'host')
 	</insert>
 
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board where id=#{boardId}
+	</delete>
+	
+	<delete id="deleteUserBoard" parameterType="int">
+		DELETE FROM user_board where board_id=#{boardId}
+	</delete>
 </mapper>
