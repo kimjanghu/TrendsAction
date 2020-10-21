@@ -1,0 +1,24 @@
+package com.action.trends.repository;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.action.trends.dto.Board;
+import com.action.trends.dto.Sharer;
+import com.action.trends.dto.User;
+
+@Mapper
+public interface BoardMapper {
+	public List<Board> getBoardList(int userId);
+	public List<Sharer> getSharerList(int boardId);
+	public int createBoard(Board board);
+	public int connectUserBoard(int userId, int boardId);
+	public int selectLast();
+	public User searchUser(String email);
+	public int updateBoard(int boardId, String name);
+	public int updateUserAuth(int userId, int boardId, String authority);
+	public int deleteBoard(int boardId);
+	public int deleteUserBoard(int boardId);
+	public int leaveBoard(int userId, int boardId);
+}
