@@ -12,4 +12,6 @@ public interface TrendService {
 	List<News> readNewsByTrendId(int trendId);
 	
 	List<Twitter> readTwitterByTrendId(int trendId);
+	
+	List<Trend> readPredictedTrend();
 }

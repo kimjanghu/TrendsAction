@@ -24,4 +24,11 @@
 		where trend_id=#{trendId}
 	</select>
 
+	<!-- 예측 트렌드 키워드 리스트 조회 -->
+	<select id="readPredictedTrend" resultType="Trend">
+		select *
+		from trend
+		where predicted=1
+	</select>
+
 </mapper>

@@ -12,7 +12,7 @@ import com.action.trends.repository.TrendRepository;
 
 @Service
 public class TrendServiceImpl implements TrendService {
-
+	
 	@Autowired
 	TrendRepository repository;
 
@@ -29,6 +29,11 @@ public class TrendServiceImpl implements TrendService {
 	@Override
 	public List<Twitter> readTwitterByTrendId(int trendId) {
 		return repository.readTwitterByTrendId(trendId);
+	}
+
+	@Override
+	public List<Trend> readPredictedTrend() {
+		return repository.readPredictedTrend();
 	}
 
 }
