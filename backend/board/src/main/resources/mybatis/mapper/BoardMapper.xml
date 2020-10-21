@@ -12,16 +12,26 @@
 		SELECT u.id as userID, email, nickname, profile, authority FROM user_board as ub, user as u WHERE u.id=ub.user_id and ub.board_id=#{boardId}
 	</select>
 	
-	<select id="getNewsList" parameterType="int" resultType="News">
-		SELECT id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, category_id as categoryId, trend_id as trendId
-		
-		FROM news as n, board_news as bn WHERE n.id=bn.news_id and board_id=#{boardId} 
+	<select id="getNewsList" parameterType="int" resultType="NewsList">
+		SELECT n.id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, n.category_id as categoryId, n.trend_id as trendId,
+		u.id as scrapUser, nickname, profile, c.name as categoryName, t.name as trendName
+		FROM news as n, board_news as bn, user as u, category as c, trend as t
+		WHERE n.id=bn.news_id and board_id=#{boardId} and bn.scrap_user=u.id and n.category_id=c.id and n.trend_id=t.id
 	</select>
 	
-	<select id="getTwitterList" parameterType="int" resultType="Twitter">
-		SELECT id as twitterId, content, author, date, category_id as categoryId, trend_id as trendId
-		
-		FROM twitter as t, board_twitter as bt WHERE t.id=bt.twitter_id and board_id=#{boardId} 
+	<select id="getTwitterList" parameterType="int" resultType="TwittList">
+		SELECT tw.id as twitterId, content, author, date, tw.category_id as categoryId, tw.trend_id as trendId,
+		u.id as scrapUser, nickname, profile, c.name as categoryName, t.name as trendName
+		FROM twitter as tw, board_twitter as bt, user as u, category as c, trend as t
+		WHERE tw.id=bt.twitter_id and board_id=#{boardId} and bt.scrap_user=u.id and tw.category_id=c.id and tw.trend_id=t.id
+	</select>
+	
+	<select id="getCategoryName" parameterType="int" resultType="String">
+		SELECT name FROM category WHERE category_id=#{categoryId}
+	</select>
+	
+	<select id="getTrendName" parameterType="int" resultType="String">
+		SELECT name FROM trend WHERE trend_id=#{trendId}
 	</select>
 	
 	<insert id="createBoard" parameterType="Board">

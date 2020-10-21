@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
-import com.action.trends.dto.News;
 import com.action.trends.dto.NewsBoard;
+import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
 import com.action.trends.dto.TwittBoard;
-import com.action.trends.dto.Twitter;
+import com.action.trends.dto.TwittList;
 import com.action.trends.dto.User;
 import com.action.trends.service.BoardService;
 
@@ -83,7 +83,7 @@ public class BoardController {
 	@GetMapping("/board/contents/news/{boardId}")
 	public ResponseEntity<Map<String, Object>> getNewsList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
-		List<News> list = new ArrayList<News>();
+		List<NewsList> list = new ArrayList<NewsList>();
 		Map<String, Object> resultMap = new HashMap<>();
 		
 		try {
@@ -108,7 +108,7 @@ public class BoardController {
 	@GetMapping("/board/contents/twitter/{boardId}")
 	public ResponseEntity<Map<String, Object>> getTwitterList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
-		List<Twitter> list = new ArrayList<Twitter>();
+		List<TwittList> list = new ArrayList<TwittList>();
 		Map<String, Object> resultMap = new HashMap<>();
 		
 		try {
