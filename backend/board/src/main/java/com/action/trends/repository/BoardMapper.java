@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
@@ -26,6 +27,7 @@ public interface BoardMapper {
 	public int addTwitt(TwittBoard twittBoard);
 	public int addNews(NewsBoard newsBoard);
 	public User searchUser(String email);
+	public int inviteSharer(Message message);
 	public int updateBoard(int boardId, String name);
 	public int updateUserAuth(int userId, int boardId, String authority);
 	public int deleteBoard(int boardId);

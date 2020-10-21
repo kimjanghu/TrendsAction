@@ -3,6 +3,7 @@ package com.action.trends.service;
 import java.util.List;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
@@ -19,6 +20,7 @@ public interface BoardService {
 	public int addTwitt(TwittBoard twittBoard);
 	public int addNews(NewsBoard newsBoard);
 	public User searchUser(String email);
+	public int inviteSharer(Message message);
 	public int updateBoard(int boardId, String name);
 	public int updateUserAuth(int userId, int boardId, String authority);
 	public void deleteBoard(int boardId);

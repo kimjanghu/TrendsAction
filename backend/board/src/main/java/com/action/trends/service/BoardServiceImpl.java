@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
@@ -68,6 +69,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public User searchUser(String email) {
 		return boardMapper.searchUser(email);
+	}
+	
+	@Override
+	public int inviteSharer(Message message) {
+		return boardMapper.inviteSharer(message);
 	}
 	
 	@Override

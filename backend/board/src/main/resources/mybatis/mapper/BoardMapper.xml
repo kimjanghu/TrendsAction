@@ -50,6 +50,10 @@
 		INSERT into board_news values(#{boardId}, #{newsId}, #{scrapUser})
 	</insert>
 	
+	<insert id="inviteSharer" parameterType="Message">
+		INSERT into message (send_from, send_to, authority, board_id) values(#{sendFrom}, #{sendTo}, #{authority}, #{boardId})
+	</insert>
+	
 	<select id="selectLast" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>

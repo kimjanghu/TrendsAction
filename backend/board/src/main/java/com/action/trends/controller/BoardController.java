@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
@@ -211,10 +212,25 @@ public class BoardController {
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}
 		} catch (RuntimeException e) {
-			
 			entity = handleException(e);
 		}
 
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 초대", response= String.class)
+	@PostMapping("/board/invite")
+	public ResponseEntity<Map<String, Object>> inviteSharer(@RequestBody Message message) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			if (boardService.inviteSharer(message) == 1) {
+				entity = handleSuccess(message.getSendFrom() + " 사용자가 " + message.getSendTo() + " 사용자를 " + message.getBoardId() + " 보드로 초대 완료했습니다.");
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
 		return entity;
 	}
 
