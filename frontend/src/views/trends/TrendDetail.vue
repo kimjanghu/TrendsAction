@@ -15,7 +15,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" lg="7">
+      <v-col cols="12" md="8" lg="7">
         <v-tabs
           v-model="tab"
           background-color="transparent"
@@ -43,21 +43,16 @@
           </v-tab-item>
         </v-tabs-items>
       </v-col>
-      <v-col cols="12" lg="3">
+      <v-col cols="12" md="4" lg="3" v-if="$vuetify.breakpoint.mdAndUp">
         <p class="mt-2 mb-5 subtitle-1">Others</p>
         <v-list class="py-0 px-3" style="border: 1px solid black">
-          <v-list-item two-line class="px-0">
+          <v-list-item two-line class="px-0" v-for="n in 6" :key="n">
             <v-list-item-content class="py-0">
               <v-list-item-title>Two-line item</v-list-item-title>
               <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item two-line class="px-0">
-            <v-list-item-content class="py-0">
-              <v-list-item-title>Two-line item</v-list-item-title>
-              <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          
         </v-list>
 
       </v-col>
