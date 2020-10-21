@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/css/all.css'
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import { preset } from 'vue-cli-plugin-vuetify-preset-fortnightly/preset'
@@ -17,5 +18,8 @@ export default new Vuetify({
   preset,
   // User options are then merged, overwriting defaults and the global preset
   ...options,
+  icons: {
+    iconfont: 'fa',
+  },
 })
 
