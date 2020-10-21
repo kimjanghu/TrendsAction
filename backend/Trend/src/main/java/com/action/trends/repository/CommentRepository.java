@@ -9,4 +9,6 @@ import com.action.trends.dto.Comment;
 @Repository
 public interface CommentRepository {
 	List<Comment> readByTrendId(int trendId);
+
+	int insert(Comment comment);
 }

@@ -9,4 +9,10 @@
 		where trend_id=#{trendId}
 	</select>
 	
+	<!-- 해당 트렌드에 댓글 삽입 -->
+	<insert id="insert">
+		insert into comment(user_id, trend_id, content, date)
+		values(#{userId}, #{trendId}, #{content}, #{date})
+	</insert>
+	
 </mapper>

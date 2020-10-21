@@ -19,4 +19,11 @@ public class CommentServiceImpl implements CommentService {
 		return repository.readByTrendId(trendId);
 	}
 
+	@Override
+	public void insert(Comment comment) {
+		if (repository.insert(comment) < 1) {
+			throw new RuntimeException("트렌드 댓글 삽입 실패");
+		}
+	}
+
 }
