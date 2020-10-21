@@ -8,6 +8,14 @@
           class="trend-img"
         >
           <div class="trend-desc">
+             <v-chip
+              class="white--text ml-0 mb-2"
+              color="purple"
+              label
+              small
+            >
+              사회문화
+            </v-chip>
             <p class="text-h6">멀티 페르소나</p>
             <span>'멀티 페르소나'의 의미를 직역하면 '여러 개의 가면'이라는 뜻이 됩니다. 페르소나는 고대 그리스에서 배우들이 쓰던 가면을 일컫는 단어인데요. 심리학에서는 타인에게 비치는 외적 성격을 나타내는 용어로 쓰입니다.</span>
           </div>
@@ -20,6 +28,7 @@
           v-model="tab"
           background-color="transparent"
           color="black"
+          :grow="$vuetify.breakpoint.mobile"
         >
           <v-tab
             v-for="item in items"
