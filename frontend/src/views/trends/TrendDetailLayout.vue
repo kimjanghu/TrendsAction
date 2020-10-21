@@ -54,25 +54,27 @@
         <p class="mt-2 mb-5 subtitle-1">Others</p>
         <v-list three-line>
           <v-list-item
-            v-for="(item, i) in newsitems"
+            v-for="(keyword, i) in otherkeywords"
             :key="i"
             ripple
             @click="() => {}"
           >
             <v-img
-              :src="item.image"
+              :src="keyword.image"
               class="mr-4"
               max-width="64"
               min-width="64"
+              min-height="50"
+              max-height="50"
             ></v-img>
 
             <v-list-item-content>
               <span
-                class="text-uppercase font-weight-regular caption"
-                v-text="item.category"
+                class="font-weight-regular caption"
+                style="margin-bottom:-15px"
+                v-text="keyword.category"
               ></span>
-
-              <div v-text="item.title"></div>
+              <span v-text="keyword.title" class="mt-0"></span>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -101,37 +103,31 @@ export default {
           {id: 2, name:'Sns'},
           {id: 3, name:'Agora'},
         ],
-        newsitems: [
+        otherkeywords: [
         {
           image: 'https://cdn-images-1.medium.com/max/1024/1*9C9hLji68wV373tk8okLYA.jpeg',
-          title: 'TBI’s 5 Best: SF Mocktails to Finish Dry January Strong',
+          title: '자본주의키즈',
           category: 'Travel',
-          keyword: 'Drinks',
-
         },
         {
           image: 'https://cdn-images-1.medium.com/max/1024/1*BBNtYUieAqHoXKjiJ2mMjQ.png',
-          title: 'PWAs on iOS 12.2 beta: the good, the bad, and the “not sure yet if good”',
+          title: '브이노믹스',
           category: 'Technology',
-          keyword: 'Phones',
         },
         {
           image: 'https://cdn-images-1.medium.com/max/1024/1*rTEtei1UEmNqbq6evRsExw.jpeg',
-          title: 'How to Get Media Mentions for Your Business',
+          title: '유투버',
           category: 'Media',
-          keyword: 'Social',
         },
         {
           image: 'https://cdn-images-1.medium.com/max/1024/1*FD2nkJewVeQnGf0ommQfrw.jpeg',
-          title: 'The Pitfalls Of Outsourcing Self-Awareness To Artificial Intelligence',
+          title: '랜선 집들이',
           category: 'Technology',
-          keyword: 'Military',
         },
         {
           image: 'https://cdn-images-1.medium.com/max/1024/1*eogFpsVgNzXQLCVgFzT_-A.jpeg',
-          title: 'Degrees of Freedom and Sudoko',
+          title: '오팔세대',
           category: 'Travel',
-          keyword: 'Social',
         },
       ],
       }
