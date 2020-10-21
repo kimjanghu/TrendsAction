@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Trend", value = "트렌드 컨트롤러")
 public class TrendController {
 	static final Logger logger = LoggerFactory.getLogger(TrendController.class);
-	
+
 	@Autowired
 	TrendService service;
 
@@ -32,5 +32,12 @@ public class TrendController {
 		logger.debug("카테고리별 트렌드 목록 조회");
 		return new ResponseEntity<>(service.readBycategoryId(categoryId), HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "트렌드에 맞는 뉴스 목록 조회")
+	@GetMapping("news/{trendId}")
+	public ResponseEntity<?> readNewsByTrendId(@PathVariable int trendId) {
+		logger.debug("트렌드에 맞는 뉴스 목록 조회");
+		return new ResponseEntity<>(service.readNewsByTrendId(trendId), HttpStatus.OK);
+	}
+
 }
