@@ -26,6 +26,10 @@
 		WHERE tw.id=bt.twitter_id and board_id=#{boardId} and bt.scrap_user=u.id and tw.category_id=c.id and tw.trend_id=t.id
 	</select>
 	
+	<select id="getMessageList" parameterType="int" resultType="Message">
+		SELECT message.id, send_to as sendTo, send_from as sendFrom, board_id as boardId, authority, nickname as sendFromName FROM message, user where send_to=#{userId} and accepted="unread" and send_from=user.id
+	</select>
+	
 	<select id="getCategoryName" parameterType="int" resultType="String">
 		SELECT name FROM category WHERE category_id=#{categoryId}
 	</select>

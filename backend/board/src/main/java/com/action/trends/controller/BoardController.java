@@ -130,6 +130,31 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="초대 메시지 리스트 조회", response = String.class)
+	@GetMapping("/message/list/{userId}")
+	public ResponseEntity<Map<String, Object>> getMessageList(@PathVariable int userId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<Message> list = new ArrayList<Message>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getMessageList(userId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", userId + " 사용자에게 온 보드 초대 메시지 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", userId + " 사용자에게 온 보드 초대 메시지가 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
 	@ApiOperation(value="보드 생성")
 	@PostMapping("/board")
 	public ResponseEntity<Map<String, Object>> createBoard(@RequestBody Map<String, Object> data) {

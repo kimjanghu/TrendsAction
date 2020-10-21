@@ -42,6 +42,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<Message> getMessageList(int userId) {
+		return boardMapper.getMessageList(userId);
+	}
+	
+	@Override
 	public int createBoard(int userId, Board board) {
 		int result = boardMapper.createBoard(board);
 		if (result == 1) {

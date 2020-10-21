@@ -13,4 +13,6 @@ public class Message {
 	private int sendFrom;
 	private int sendTo;
 	private String authority;
+	
+	private String sendFromName;
 }
