@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import TrendDetail from '../views/trends/TrendDetail.vue'
+import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
 
 Vue.use(VueRouter)
 
@@ -21,8 +21,8 @@ const routes = [
   },
   {
     path: '/trend-detail',
-    name: 'TrendDetail',
-    component: TrendDetail
+    name: 'TrendDetailLayout',
+    component: TrendDetailLayout
   }
 ]
 
