@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Message;
+import com.action.trends.dto.NewsBoard;
+import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
+import com.action.trends.dto.TwittBoard;
+import com.action.trends.dto.TwittList;
 import com.action.trends.dto.User;
 import com.action.trends.repository.BoardMapper;
 
@@ -27,6 +32,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<NewsList> getNewsList(int boardId) {
+		return boardMapper.getNewsList(boardId);
+	}
+	
+	@Override
+	public List<TwittList> getTwitterList(int boardId) {
+		return boardMapper.getTwitterList(boardId);
+	}
+	
+	@Override
+	public List<Message> getMessageList(int userId) {
+		return boardMapper.getMessageList(userId);
+	}
+	
+	@Override
 	public int createBoard(int userId, Board board) {
 		int result = boardMapper.createBoard(board);
 		if (result == 1) {
@@ -39,11 +59,32 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			throw new RuntimeException();
 		}
-	}	
+	}
+	
+	@Override
+	public int addTwitt(TwittBoard twittBoard) {
+		return boardMapper.addTwitt(twittBoard);
+	}
+	
+	@Override
+	public int addNews(NewsBoard newsBoard) {
+		return boardMapper.addNews(newsBoard);
+	}
 	
 	@Override
 	public User searchUser(String email) {
 		return boardMapper.searchUser(email);
+	}
+	
+	@Override
+	public int inviteSharer(Message message) {
+		return boardMapper.inviteSharer(message);
+	}
+	
+	@Override
+	public int acceptInvite(int messageId, String accepted) {
+		boardMapper.updateAccepted(messageId, accepted);
+		return boardMapper.acceptInvite(messageId);
 	}
 	
 	@Override
@@ -71,6 +112,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.leaveBoard(userId, boardId);
 	}
 
+	@Override
+	public int deleteNews(int boardId, int newsId) {
+		return boardMapper.deleteNews(boardId, newsId);
+	}
 	
+	@Override
+	public int deleteTwitts(int boardId, int twitterId) {
+		return boardMapper.deleteTwitts(boardId, twitterId);
+	}
 
 }
