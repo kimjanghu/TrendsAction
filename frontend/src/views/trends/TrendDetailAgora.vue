@@ -4,127 +4,7 @@
       dense
       clipped
     >
-      <v-timeline-item
-        fill-dot
-        class="white--text mb-12"
-        color="orange"
-        large
-      >
-        <template v-slot:icon>
-          <span>박싸피</span>
-        </template>
-        <v-text-field
-          v-model="input"
-          hide-details
-          flat
-          label="의견을 남겨주세요!"
-          solo
-          @keydown.enter="comment"
-        >
-          <template v-slot:append>
-            <v-btn
-              class="mx-0"
-              depressed
-              @click="comment"
-            >
-              댓글작성
-            </v-btn>
-          </template>
-        </v-text-field>
-      </v-timeline-item>
-
-      <v-slide-x-transition
-        group
-      >
-        <v-timeline-item
-          v-for="event in timeline"
-          :key="event.id"
-          class="mb-4"
-          color="pink"
-          small
-        >
-          <v-row justify="space-between">
-            <v-col
-              cols="7"
-              v-text="event.text"
-            ></v-col>
-            <v-col
-              class="text-right"
-              cols="5"
-              v-text="event.time"
-            ></v-col>
-          </v-row>
-        </v-timeline-item>
-      </v-slide-x-transition>
-
-      <v-timeline-item
-        class="mb-6"
-        hide-dot
-      >
-        <span>TODAY</span>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        color="grey"
-        icon-color="grey lighten-2"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            This order was archived.
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            15:26 EDT
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            <v-chip
-              class="white--text ml-0"
-              color="purple"
-              label
-              small
-            >
-              APP
-            </v-chip>
-            Digital Downloads fulfilled 1 item.
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            15:25 EDT
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        color="grey"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            Order confirmation email was sent to John Leider (john@vuetifyjs.com).
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            15:25 EDT
-          </v-col>
-        </v-row>
-      </v-timeline-item>
+      
       <div class="font-weight-bold ml-8 mb-2">
         Today
       </div>
@@ -133,6 +13,35 @@
         align-top
         dense
       >
+        <v-timeline-item
+          fill-dot
+          class="white--text mb-12"
+          color="orange"
+          large
+        >
+          <template v-slot:icon>
+            <span>박싸피</span>
+          </template>
+          <v-text-field
+            v-model="input"
+            hide-details
+            flat
+            label="어떻게 생각하세요?"
+            solo
+            @keydown.enter="comment"
+          >
+            <template v-slot:append>
+              <v-btn
+                class="mx-0"
+                depressed
+                @click="comment"
+              >
+                댓글작성
+              </v-btn>
+            </template>
+          </v-text-field>
+        </v-timeline-item>
+
         <v-timeline-item
           v-for="message in messages"
           :key="message.time"
@@ -160,20 +69,20 @@ export default {
       nonce: 0,
       messages: [
         {
-          from: 'You',
-          message: `Sure, I'll see you later.`,
+          from: '영등포솜주먹',
+          message: `'multi-persona' 멀티 페르소나 : 가면이라 칭해져야 하는가.`,
           time: '10:42am',
           color: 'deep-purple lighten-1',
         },
         {
-          from: 'John Doe',
-          message: 'Yeah, sure. Does 1:00pm work?',
+          from: '백엔드마스터',
+          message: '이러한 멀티 페르소나에는 단점 또한 존재한다. 멀티 페르소나가 지속된다면 정체성이 불안정해질 수 있다. 정체성의 불안정이 지속되면 혼란이 올 수 있고, 결과적으로는 실제 자신의 정체성이 무엇인지 인식하기 어려워질 수 있다.',
           time: '10:37am',
           color: 'green',
         },
         {
-          from: 'You',
-          message: 'Did you still want to grab lunch today?',
+          from: '도봉산나와바리',
+          message: '멀티 페르소나, 나를 나라고 말할 수 있는 것은 누구인가?',
           time: '9:47am',
           color: 'deep-purple lighten-1',
         },
@@ -189,9 +98,11 @@ export default {
     methods: {
       comment () {
         const time = (new Date()).toTimeString()
-        this.events.push({
+        this.messages.push({
           id: this.nonce++,
-          text: this.input,
+          from: "박싸피",
+          message: this.input,
+          color: 'green',
           time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, ) => {
             return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
           }),
