@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
+import com.action.trends.dto.Twitter;
 import com.action.trends.repository.TrendRepository;
 
 @Service
 public class TrendServiceImpl implements TrendService {
-	
+
 	@Autowired
 	TrendRepository repository;
 
@@ -23,6 +24,11 @@ public class TrendServiceImpl implements TrendService {
 	@Override
 	public List<News> readNewsByTrendId(int trendId) {
 		return repository.readNewsByTrendId(trendId);
+	}
+
+	@Override
+	public List<Twitter> readTwitterByTrendId(int trendId) {
+		return repository.readTwitterByTrendId(trendId);
 	}
 
 }

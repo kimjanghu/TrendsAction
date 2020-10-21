@@ -16,4 +16,12 @@
 		where trend_id=#{trendId}
 	</select>
 
+	<!-- 트렌드에 맞는 트위터 리스트 조회 -->
+	<select id="readTwitterByTrendId" resultType="Twitter">
+		select *
+		from
+		twitter
+		where trend_id=#{trendId}
+	</select>
+
 </mapper>

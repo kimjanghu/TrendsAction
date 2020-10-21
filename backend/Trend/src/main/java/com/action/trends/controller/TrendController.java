@@ -40,4 +40,11 @@ public class TrendController {
 		return new ResponseEntity<>(service.readNewsByTrendId(trendId), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "트렌드에 맞는 트위터 목록 조회")
+	@GetMapping("twitter/{trendId}")
+	public ResponseEntity<?> readTwitterByTrendId(@PathVariable int trendId) {
+		logger.debug("트렌드에 맞는 트위터 목록 조회");
+		return new ResponseEntity<>(service.readTwitterByTrendId(trendId), HttpStatus.OK);
+	}
+
 }
