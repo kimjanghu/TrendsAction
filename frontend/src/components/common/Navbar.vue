@@ -3,16 +3,7 @@
     <div class="web-title">
       <h2>TrendsAction</h2>
     </div>
-    <div class="router-area">
-      <!-- <p class="router-name">
-        Trend
-      </p>
-      <p class="router-name">
-        Predict
-      </p>
-      <p class="router-name">
-        Login
-      </p> -->
+    <div class="router-area" v-if="$vuetify.breakpoint.smAndUp">
       <v-tabs align-with-title>
         <v-tab>Trend</v-tab>
         <v-tab>Predict</v-tab>
@@ -33,26 +24,29 @@
         </div>
       </v-tabs>
     </div>
+    <div v-if="$vuetify.breakpoint.xsOnly">
+      햄버거
+    </div>
   </div>
 </template>
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
   data() {
     return {
       dialog: false,
-      // isLogin: true
+      isLogin: true
     }
   },
   components: {
     UsersLoginForm
   },
   computed: {
-    ...mapGetters('userStore', ['isLogin'])
+    // ...mapGetters('userStore', ['isLogin'])
   },
   methods: {
     changeDialog(dialog) {
