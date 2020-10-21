@@ -16,15 +16,49 @@
       <v-tabs align-with-title>
         <v-tab>Trend</v-tab>
         <v-tab>Predict</v-tab>
-        <v-tab>Login</v-tab>
+        <v-tab @click="dialog = true" v-if="!isLogin">
+          Login
+          <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
+        </v-tab>
+        <v-tab @click="dialog = true" v-if="isLogin">
+          Logout
+        </v-tab>
+        <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
+          <v-icon class="mr-3">
+            mdi-account-circle
+          </v-icon>
+          <v-icon>
+            mdi-bell
+          </v-icon>
+        </div>
       </v-tabs>
     </div>
   </div>
 </template>
 
 <script>
+import UsersLoginForm from '@/components/users/UsersLoginForm'
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data() {
+    return {
+      dialog: false,
+      // isLogin: true
+    }
+  },
+  components: {
+    UsersLoginForm
+  },
+  computed: {
+    ...mapGetters('userStore', ['isLogin'])
+  },
+  methods: {
+    changeDialog(dialog) {
+      this.dialog = dialog
+    }
+  }
 }
 </script>
 
@@ -50,6 +84,11 @@ export default {
 
     .router-name:hover {
       font-weight: bold;
+    }
+
+    .navbar-icon {
+      display: flex;
+      align-items: center;
     }
   }
 }
