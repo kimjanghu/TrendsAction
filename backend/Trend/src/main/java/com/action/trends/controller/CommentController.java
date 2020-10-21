@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,22 +27,30 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Comment", value = "댓글 컨트롤러")
 public class CommentController {
 	static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-
+	
 	@Autowired
 	CommentService service;
-
+	
 	@ApiOperation(value = "해당 트렌드의 댓글 리스트 조회")
 	@GetMapping("{trendId}")
 	public ResponseEntity<?> readByTrendId(@PathVariable int trendId) {
 		logger.debug("해당 트렌드의 댓글 리스트 조회");
 		return new ResponseEntity<>(service.readByTrendId(trendId), HttpStatus.OK);
 	}
-
+	
 	@ApiOperation(value = "해당 트렌드에 댓글 삽입")
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Comment comment) {
 		logger.debug("해당 트렌드에 댓글 삽입");
 		service.insert(comment);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
+	@ApiOperation(value = "해당 트렌드의 댓글 수정")
+	@PutMapping
+	public ResponseEntity<?> update(@RequestBody Comment comment) {
+		logger.debug("해당 트렌드의 댓글 수정");
+		service.update(comment);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

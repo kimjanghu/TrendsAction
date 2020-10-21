@@ -11,4 +11,6 @@ public interface CommentRepository {
 	List<Comment> readByTrendId(int trendId);
 
 	int insert(Comment comment);
+
+	int update(Comment comment);
 }

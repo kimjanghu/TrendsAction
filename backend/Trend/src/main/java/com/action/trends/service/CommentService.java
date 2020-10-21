@@ -8,4 +8,6 @@ public interface CommentService {
 	List<Comment> readByTrendId(int trendId);
 
 	void insert(Comment comment);
+
+	void update(Comment comment);
 }

@@ -26,4 +26,11 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
+	@Override
+	public void update(Comment comment) {
+		if (repository.update(comment) < 1) {
+			throw new RuntimeException("트렌드 댓글 수정 실패");
+		}
+	}
+
 }
