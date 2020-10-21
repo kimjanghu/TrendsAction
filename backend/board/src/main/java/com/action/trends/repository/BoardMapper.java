@@ -29,8 +29,10 @@ public interface BoardMapper {
 	public int addNews(NewsBoard newsBoard);
 	public User searchUser(String email);
 	public int inviteSharer(Message message);
+	public int acceptInvite(int messageId);
 	public int updateBoard(int boardId, String name);
 	public int updateUserAuth(int userId, int boardId, String authority);
+	public int updateAccepted(int messageId, String accepted);
 	public int deleteBoard(int boardId);
 	public int deleteUserBoard(int boardId);
 	public int leaveBoard(int userId, int boardId);

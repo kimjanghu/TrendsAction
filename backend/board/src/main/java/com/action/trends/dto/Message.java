@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
-	private int id;
+	private int messageId;
 	private int boardId;
 	private int sendFrom;
 	private int sendTo;
 	private String authority;
+	private String accepted;
 	
 	private String sendFromName;
 }

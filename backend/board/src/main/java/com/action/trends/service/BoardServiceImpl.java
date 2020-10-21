@@ -82,6 +82,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public int acceptInvite(int messageId, String accepted) {
+		boardMapper.updateAccepted(messageId, accepted);
+		return boardMapper.acceptInvite(messageId);
+	}
+	
+	@Override
 	public int updateBoard(int boardId, String name) {
 		return boardMapper.updateBoard(boardId, name);
 	}

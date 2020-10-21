@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="getMessageList" parameterType="int" resultType="Message">
-		SELECT message.id, send_to as sendTo, send_from as sendFrom, board_id as boardId, authority, nickname as sendFromName FROM message, user where send_to=#{userId} and accepted="unread" and send_from=user.id
+		SELECT message.id as messageId, send_to as sendTo, send_from as sendFrom, board_id as boardId, authority, nickname as sendFromName FROM message, user where send_to=#{userId} and accepted="unread" and send_from=user.id
 	</select>
 	
 	<select id="getCategoryName" parameterType="int" resultType="String">
@@ -58,6 +58,10 @@
 		INSERT into message (send_from, send_to, authority, board_id) values(#{sendFrom}, #{sendTo}, #{authority}, #{boardId})
 	</insert>
 	
+	<insert id="acceptInvite" parameterType="int">
+		INSERT into user_board (user_id, board_id, authority) SELECT send_to, board_id, authority FROM message WHERE id=#{messageId}
+	</insert>
+	
 	<select id="selectLast" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
@@ -72,6 +76,10 @@
 	
 	<update id="updateUserAuth" parameterType="map">
 		UPDATE user_board SET authority=#{authority} WHERE user_id=#{userId} and board_id=#{boardId}
+	</update>
+	
+	<update id="updateAccepted" parameterType="map">
+		UPDATE message SET accepted=#{accepted} WHERE id=#{messageId}
 	</update>
 
 	<delete id="deleteBoard" parameterType="int">

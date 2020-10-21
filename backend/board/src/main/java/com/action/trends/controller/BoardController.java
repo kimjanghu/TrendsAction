@@ -258,6 +258,28 @@ public class BoardController {
 		
 		return entity;
 	}
+	
+	@ApiOperation(value="보드 초대 수락", response= String.class)
+	@PostMapping("/board/invite/accept")
+	public ResponseEntity<Map<String, Object>> acceptInvite(@RequestBody Map<String, Object> data) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		int messageId = (int) data.get("messageId");
+		String accepted = (String) data.get("accepted");
+		
+		if (accepted.equals("true")) {
+			try {
+				if (boardService.acceptInvite(messageId, accepted) == 1) {
+					entity = handleSuccess("보드로의 초대 수락이 완료됐습니다.");
+				}
+			} catch (RuntimeException e) {
+				entity = handleException(e);
+			}
+		} else {
+			entity = handleSuccess("보드로의 초대를 거절했습니다.\n Nothing Happened");
+		}
+		
+		return entity;
+	}
 
 	@ApiOperation(value="보드 정보 변경", response = String.class)
 	@PutMapping("/board")
