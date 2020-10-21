@@ -33,9 +33,13 @@ export default {
 };
 </script>
 
-<style scoped>
-.main-area {
-  width: 85%;
-  margin: 0 auto;
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+#app {
+  font-family: 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 </style>
