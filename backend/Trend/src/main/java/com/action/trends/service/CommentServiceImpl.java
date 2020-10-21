@@ -33,4 +33,11 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
+	@Override
+	public void delete(int id) {
+		if (repository.delete(id) < 1) {
+			throw new RuntimeException("트렌드 댓글 삭제 실패");
+		}
+	}
+
 }

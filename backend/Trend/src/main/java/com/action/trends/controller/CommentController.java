@@ -54,4 +54,11 @@ public class CommentController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "해당 트렌드의 댓글 삭제")
+	@DeleteMapping("{id}")
+	public ResponseEntity<?> delete(@PathVariable int id) {
+		logger.debug("해당 트렌드의 댓글 삭제");
+		service.delete(id);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
 }

@@ -10,4 +10,6 @@ public interface CommentService {
 	void insert(Comment comment);
 
 	void update(Comment comment);
+
+	void delete(int id);
 }
