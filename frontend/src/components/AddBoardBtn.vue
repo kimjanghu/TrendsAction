@@ -18,7 +18,7 @@
             </v-icon>
             <!-- <span class="subheading">45</span> -->
           </template>
-          <v-card>
+          <v-card class="custom-rounded">
             <v-card-title>
               <span>트렌드보드에 추가</span>
               <v-spacer></v-spacer>
@@ -65,7 +65,43 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions class="ml-3 py-3">
-              <span><i class="fas fa-plus-circle mr-1"></i>새그룹 추가</span>
+              <v-dialog
+                v-model="dialog2"
+                persistent
+                max-width="420px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">
+                    <i class="fas fa-plus-circle mr-1"></i>새그룹 추가
+                  </span>
+                </template>
+                <v-card class="custom-rounded">
+                  <v-card-title>
+                    <span>새로운 보드 만들기</span>
+                    <v-spacer></v-spacer>
+                    <i class="fas fa-times" @click="dialog2 = false" style="cursor:pointer;"></i>
+                  </v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text class="pt-5 pb-0">
+                    <v-row justify="center">
+                      <v-col
+                        cols="9"
+                      >
+                        <v-text-field
+                          v-model="newBoard"
+                          placeholder="트렌드보드 이름"
+                          outlined
+                          dense
+                          class="px-0 py-0 mb-0 custom-rounded"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-btn dark color="blue" width="75px" height="40px" class="custom-rounded" @click="addNewBoard">저장</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
               <v-spacer></v-spacer>
               <v-btn
                 color="blue darken-1"
@@ -88,16 +124,26 @@ export default {
       return {
         dialogm1: '',
         dialog: false,
+        dialog2: false,
+        newBoard: '',
         model: [],
         myboards: ['news', 'project', 'favorite', '꼴라쥬']
       }
     },
   methods: {
+    addNewBoard() {
+      this.myboards.push(this.newBoard);
+      this.dialog2 = false;
+      this.newBoard = '';
+    }
   }
 
 }
 </script>
 
-<style>
+<style scoped>
+.custom-rounded {
+  border-radius: 4px;
+}
 
 </style>
