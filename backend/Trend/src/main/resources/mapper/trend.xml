@@ -8,6 +8,7 @@
 		from category
 		where self_made=#{selfMade}
 	</select>
+	
 	<!-- 카테고리로 트렌드 목록 조회 -->
 	<select id="readBycategoryId" resultType="Trend">
 		select *
