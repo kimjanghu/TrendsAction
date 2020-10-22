@@ -3,7 +3,7 @@
     <div class="web-title">
       <h2>TrendsAction</h2>
     </div>
-    <div class="router-area" v-if="$vuetify.breakpoint.smAndUp">
+    <div class="router-area" v-if="$vuetify.breakpoint.mdAndUp">
       <v-tabs align-with-title>
         <v-tab>Trend</v-tab>
         <v-tab>Predict</v-tab>
@@ -24,9 +24,90 @@
         </div>
       </v-tabs>
     </div>
-    <div v-if="$vuetify.breakpoint.xsOnly">
-      햄버거
+    <div v-if="$vuetify.breakpoint.smAndDown">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </div>
+
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      right
+      temporary
+      v-if="$vuetify.breakpoint.smAndDown"
+    >
+      <!-- 로그인 false -->
+      <v-list-item v-if="!isLogin" class="avatar-info">
+        <!-- 익명 이미지 -->
+        <v-list-item-avatar>
+          <v-img src="mdi-account"></v-img>
+        </v-list-item-avatar>
+        <!-- 비로그인 유저 안내 -->
+        <v-list-item-content>
+          <v-list-item-title>로그인이 필요합니다.</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- 로그인 true -->
+      <v-list-item v-if="isLogin" class="avatar-info">
+        <!-- 유저 프로필 이미지 -->
+        <v-list-item-avatar>
+          <v-icon>mdi-menu-down</v-icon>
+        </v-list-item-avatar>
+
+        <!-- 유저 닉네임 -->
+        <v-list-item-content>
+          <v-list-item-title>메뉴 리스트</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- 하단 구분선 -->
+      <v-divider></v-divider>
+
+      <!-- 사이드바 메뉴 리스트 -->
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-orange--text text--accent-4"
+        >
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>홈</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>내 정보</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-if="isLogin">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>로그아웃</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-else>
+            <v-list-item-icon>
+              <v-icon>mdi-login</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>로그인</v-list-item-title>
+          </v-list-item>
+
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
+
+
+
   </div>
 </template>
 
@@ -39,7 +120,9 @@ export default {
   data() {
     return {
       dialog: false,
-      isLogin: true
+      isLogin: true,
+      drawer: false,
+      group: null
     }
   },
   components: {
@@ -47,6 +130,11 @@ export default {
   },
   computed: {
     // ...mapGetters('userStore', ['isLogin'])
+  },
+  watch: { 
+    group () {
+      this.drawer = false
+    },
   },
   methods: {
     changeDialog(dialog) {
