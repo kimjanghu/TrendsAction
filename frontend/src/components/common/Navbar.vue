@@ -15,9 +15,15 @@
           Logout
         </v-tab>
         <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
-          <v-icon class="mr-3">
-            mdi-account-circle
-          </v-icon>
+          <router-link
+            tag="button"
+            class="router-btn"
+            :to="{ name: 'UserProfile' }"
+          >
+            <v-icon class="mr-3">
+              mdi-account-circle
+            </v-icon>
+          </router-link>
           <v-icon>
             mdi-bell
           </v-icon>
@@ -171,6 +177,10 @@ export default {
     .navbar-icon {
       display: flex;
       align-items: center;
+
+      .router-btn:focus {
+        outline: none;
+      }
     }
   }
 }
