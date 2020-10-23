@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://k3a408.p.ssafy.io:3306/trend?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    username: root
+    password: trendsaction1234
