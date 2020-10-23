@@ -37,7 +37,7 @@ const userStore = {
         commit('SET_TOKEN', null)
         cookies.remove('auth-token')
         window.localStorage.removeItem('userInfo')
-        router.push('/home')
+        router.push('/')
         alert('로그아웃 되었습니다.')
       } else {
         router.go(-1)
