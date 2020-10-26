@@ -30,7 +30,6 @@ import com.action.trends.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api")
 public class BoardController {
 	
 	@Autowired
