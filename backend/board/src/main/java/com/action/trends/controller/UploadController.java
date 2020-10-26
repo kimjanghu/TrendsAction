@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.action.trends.service.S3Service;
 
 @RestController
-@RequestMapping("/api")
 public class UploadController {
 	@Autowired
 	private S3Service s3Service;
