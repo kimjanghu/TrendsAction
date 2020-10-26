@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.action</groupId>
-	<artifactId>Trend</artifactId>
+	<artifactId>Zuul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Trend</name>
+	<name>Zuul</name>
 	<description>Spring Boot Practice</description>
 
 	<properties>
@@ -46,37 +46,17 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- DB 설정 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-
-		<!-- Swagger 2 -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		
 		<!-- Eureka Client -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>2.2.5.RELEASE</version>
+		</dependency>
+		
+		<!-- Zuul -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 			<version>2.2.5.RELEASE</version>
 		</dependency>
 	</dependencies>
