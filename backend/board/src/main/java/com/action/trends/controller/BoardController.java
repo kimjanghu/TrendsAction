@@ -129,6 +129,30 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="트렌드 내 스크랩 많은 트윗 리스트 조회", response = String.class)
+	@GetMapping("/board/twitter/scrapcount/{trendId}")
+	public ResponseEntity<Map<String, Object>> getMostScrappedTwittList(@PathVariable int trendId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<TwittList> list = new ArrayList<TwittList>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getMostScrappedTwittList(trendId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", trendId + " 트렌드의 MostScrapped 트윗 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", trendId + " 트렌드에서 스크랩된 트위터 내역이 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
 
 	@ApiOperation(value="트렌드 내 스크랩 많은 뉴스 리스트 조회", response = String.class)
 	@GetMapping("/board/news/scrapcount/{trendId}")

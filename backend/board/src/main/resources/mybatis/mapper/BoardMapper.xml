@@ -46,6 +46,15 @@
 		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
 	</select>
 	
+	<select id="getMostScrappedTwittList" parameterType="int" resultType="TwittList">
+		SELECT tw.id as twitterId, content, author, date, tw.category_id as categoryId, tw.trend_id as trendId,
+		c.name as categoryName, t.name as trendName, scrap_count as scrapCount
+		FROM twitter as tw, category as c, trend as t
+		WHERE tw.trend_id=#{trendId} and tw.category_id=c.id and tw.trend_id=t.id
+		ORDER BY scrap_count DESC
+		limit 5;
+	</select>
+	
 	<select id="getMostScrappedNewsList" parameterType="int" resultType="NewsList">
 		SELECT n.id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, n.category_id as categoryId, n.trend_id as trendId,
 		c.name as categoryName, t.name as trendName, scrap_count as scrapCount
