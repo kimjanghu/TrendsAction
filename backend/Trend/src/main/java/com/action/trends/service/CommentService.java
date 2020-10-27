@@ -1,11 +1,12 @@
 package com.action.trends.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.action.trends.dto.Comment;
 
 public interface CommentService {
-	List<Comment> readByTrendId(int trendId);
+	List<HashMap<String, Object>> readByTrendId(int trendId);
 
 	void insert(Comment comment);
 

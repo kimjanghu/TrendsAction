@@ -35,6 +35,7 @@ public class CommentController {
 	@GetMapping("{trendId}")
 	public ResponseEntity<?> readByTrendId(@PathVariable int trendId) {
 		logger.debug("해당 트렌드의 댓글 리스트 조회");
+		System.out.println(service.readByTrendId(trendId));
 		return new ResponseEntity<>(service.readByTrendId(trendId), HttpStatus.OK);
 	}
 	

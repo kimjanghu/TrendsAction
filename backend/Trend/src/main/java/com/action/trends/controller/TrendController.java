@@ -46,17 +46,17 @@ public class TrendController {
 		return new ResponseEntity<List<Trend>>(service.readBycategoryId(categoryId), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "트렌드에 맞는 뉴스 목록 조회")
+	@ApiOperation(value = "해당 트렌드의 최신 뉴스 리스트 조회")
 	@GetMapping("news/{trendId}")
 	public ResponseEntity<List<News>> readNewsByTrendId(@PathVariable int trendId) {
-		logger.debug("트렌드에 맞는 뉴스 목록 조회");
+		logger.debug("해당 트렌드의 최신 뉴스 리스트 조회");
 		return new ResponseEntity<List<News>>(service.readNewsByTrendId(trendId), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "트렌드에 맞는 트위터 목록 조회")
+	@ApiOperation(value = "해당 트렌드의 최신 트위터 리스트 조회")
 	@GetMapping("twitter/{trendId}")
 	public ResponseEntity<List<Twitter>> readTwitterByTrendId(@PathVariable int trendId) {
-		logger.debug("트렌드에 맞는 트위터 목록 조회");
+		logger.debug("해당 트렌드의 최신 트위터 리스트 조회");
 		return new ResponseEntity<List<Twitter>>(service.readTwitterByTrendId(trendId), HttpStatus.OK);
 	}
 
