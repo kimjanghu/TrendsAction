@@ -16,7 +16,7 @@ export default {
       predictTrend: '/trend/predictTrend' // GET / 예측 트렌드 키워드 목록 조회
     },
     comments: {
-      URL: 'http://k3a408.p.ssafy.io:8881',
+      URL: 'http://k3a408.p.ssafy.io:8881/api',
       rdComment: '/comment/', // GET / 해당 트렌드의 댓글 목록 조회, DELETE / 해당 트렌드 댓글 삭제
       cuComment: '/comment', // POST / 해당 트렌드에 댓글 생성, PUT / 해당 트렌드 댓글 수정
     },

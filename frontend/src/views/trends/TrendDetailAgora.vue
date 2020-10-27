@@ -42,7 +42,7 @@
           </v-text-field>
         </v-timeline-item>
 
-        <v-timeline-item
+        <!-- <v-timeline-item
           v-for="message in messages"
           :key="message.time"
           :color="message.color"
@@ -54,6 +54,18 @@
             </div>
             <div>{{ message.message }}</div>
           </div>
+        </v-timeline-item> -->
+        <v-timeline-item
+          v-for="comment in comments"
+          :key="comment.id"
+          small
+        >
+          <div>
+            <div class="font-weight-normal">
+              <strong>{{ comment.user_id }}</strong> @{{ comment.date }}
+            </div>
+            <div>{{ comment.content }}</div>
+          </div>
         </v-timeline-item>
       </v-timeline>
       
@@ -62,8 +74,12 @@
 </template>
 
 <script>
+import axios from 'axios'
+import SERVER from '@/lib/api'
+
 export default {
     data: () => ({
+      comments: [],
       events: [],
       input: null,
       nonce: 0,
@@ -94,8 +110,19 @@ export default {
         return this.events.slice().reverse()
       },
     },
+    created() {
+      this.getComments()
+    },
 
     methods: {
+      getComments() {
+        axios
+          .get(SERVER.ROUTES.comments.URL + SERVER.ROUTES.comments.rdComment + 1)
+          .then((res) => 
+            { console.log(res);
+              this.comments = res.data })
+          .catch((err) => { console.log(err)})
+      },
       comment () {
         const time = (new Date()).toTimeString()
         this.messages.push({
