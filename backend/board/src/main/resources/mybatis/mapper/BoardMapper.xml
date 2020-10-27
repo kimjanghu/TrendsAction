@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.action.trends.repository.BoardMapper">
+    <select id="getBoardList" parameterType="int" resultType="Board">
+		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId}
+	</select>
+	
+	<select id="getSharerList" parameterType="int" resultType="Sharer">
+		SELECT u.id as userID, email, nickname, profile, authority FROM user_board as ub, user as u WHERE u.id=ub.user_id and ub.board_id=#{boardId}
+	</select>
+	
+	<select id="getNewsList" parameterType="int" resultType="NewsList">
+		SELECT n.id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, n.category_id as categoryId, n.trend_id as trendId,
+		u.id as scrapUser, nickname, profile, c.name as categoryName, t.name as trendName
+		FROM news as n, board_news as bn, user as u, category as c, trend as t
+		WHERE n.id=bn.news_id and board_id=#{boardId} and bn.scrap_user=u.id and n.category_id=c.id and n.trend_id=t.id
+	</select>
+	
+	<select id="getTwitterList" parameterType="int" resultType="TwittList">
+		SELECT tw.id as twitterId, content, author, date, tw.category_id as categoryId, tw.trend_id as trendId,
+		u.id as scrapUser, nickname, profile, c.name as categoryName, t.name as trendName
+		FROM twitter as tw, board_twitter as bt, user as u, category as c, trend as t
+		WHERE tw.id=bt.twitter_id and board_id=#{boardId} and bt.scrap_user=u.id and tw.category_id=c.id and tw.trend_id=t.id
+	</select>
+	
+	<select id="getMessageList" parameterType="int" resultType="Message">
+		SELECT message.id as messageId, send_to as sendTo, send_from as sendFrom, board_id as boardId, authority, nickname as sendFromName FROM message, user where send_to=#{userId} and accepted="unread" and send_from=user.id
+	</select>
+	
+	<select id="getCategoryName" parameterType="int" resultType="String">
+		SELECT name FROM category WHERE category_id=#{categoryId}
+	</select>
+	
+	<select id="getTrendName" parameterType="int" resultType="String">
+		SELECT name FROM trend WHERE trend_id=#{trendId}
+	</select>
+	
+	<insert id="createBoard" parameterType="Board">
+		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
+	</insert>
+	
+	<insert id="connectUserBoard" parameterType="map">
+		INSERT into user_board values(#{userId}, #{boardId}, 'host')
+	</insert>
+	
+	<insert id="addTwitt" parameterType="TwittBoard">
+		INSERT into board_twitter values(#{boardId}, #{twitterId}, #{scrapUser})
+	</insert>
+	
+	<insert id="addNews" parameterType="NewsBoard">
+		INSERT into board_news values(#{boardId}, #{newsId}, #{scrapUser})
+	</insert>
+	
+	<insert id="inviteSharer" parameterType="Message">
+		INSERT into message (send_from, send_to, authority, board_id) values(#{sendFrom}, #{sendTo}, #{authority}, #{boardId})
+	</insert>
+	
+	<insert id="acceptInvite" parameterType="int">
+		INSERT into user_board (user_id, board_id, authority) SELECT send_to, board_id, authority FROM message WHERE id=#{messageId}
+	</insert>
+	
+	<select id="selectLast" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<select id="searchUser" resultType="User">
+		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
+	</select>
+	
+	<update id="updateBoard" parameterType="map">
+		UPDATE board SET name=#{name} WHERE id=#{boardId}
+	</update>
+	
+	<update id="updateUserAuth" parameterType="map">
+		UPDATE user_board SET authority=#{authority} WHERE user_id=#{userId} and board_id=#{boardId}
+	</update>
+	
+	<update id="updateAccepted" parameterType="map">
+		UPDATE message SET accepted=#{accepted} WHERE id=#{messageId}
+	</update>
+
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board where id=#{boardId}
+	</delete>
+	
+	<delete id="deleteUserBoard" parameterType="int">
+		DELETE FROM user_board where board_id=#{boardId}
+	</delete>
+	
+	<delete id="leaveBoard" parameterType="map">
+		DELETE FROM user_board where board_id=#{boardId} and user_id=#{userId}
+	</delete>
+	
+	<delete id="deleteNews" parameterType="map">
+		DELETE FROM board_news where board_id=#{boardId} and news_id=#{newsId}
+	</delete>
+	
+	<delete id="deleteTwitts" parameterType="map">
+		DELETE FROM board_twitter where board_id=#{boardId} and twitter_id=#{twitterId}
+	</delete>
+</mapper>
