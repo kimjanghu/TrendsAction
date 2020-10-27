@@ -19,6 +19,7 @@
           
           <span class="mt-3">박싸피</span>
           <span>abcd@naver.com</span>
+          <span>관심카테고리</span>
           <v-dialog
             v-model="dialog"
             persistent
@@ -64,23 +65,19 @@
         
       </v-col>
       <v-col cols="12" md="8" lg="7" xl="6">
-        <v-sheet
-          class="px-5 py-2"
-          color="grey lighten-3"
-        >
-        <v-row>
-          <v-col cols="12" md="6" v-for="n in 4" :key="n">
-            <v-card color="white" :height="$vuetify.breakpoint.smAndDown? 250:200" ></v-card>
-          </v-col>
-        </v-row>
-        </v-sheet>
+        <BoardList />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import BoardList from '../boards/BoardList.vue'
+
 export default {
+  components: {
+    BoardList,
+  },
   data() { 
     return {
       dialog: false,

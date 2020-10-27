@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
+import BoardDetail from '../views/boards/BoardDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,12 @@ const routes = [
     path: '/mypage',
     name: 'UserProfile',
     component: UserProfile
-  }
+  },
+  {
+    path: '/board-detail',
+    name: 'BoardDetail',
+    component: BoardDetail
+  },
 ]
 
 const router = new VueRouter({
