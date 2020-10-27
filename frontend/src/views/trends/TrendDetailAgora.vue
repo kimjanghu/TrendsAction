@@ -38,7 +38,7 @@
               >
                 댓글작성
               </v-btn>
-              
+
             </template>
           </v-text-field>
         </v-timeline-item>
@@ -109,7 +109,7 @@ export default {
   methods: {
     getComments() {
       axios
-        .get(SERVER.ROUTES.comments.URL + SERVER.ROUTES.comments.rdComment + 1)
+        .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1)
         .then((res) => 
           { console.log(res);
             this.comments = res.data })

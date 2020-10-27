@@ -56,7 +56,7 @@ export default {
   methods: {
     getSns() {
       axios
-        .get(SERVER.ROUTES.trends.URL + SERVER.ROUTES.trends.trendSns + 1)
+        .get(SERVER.URL + SERVER.ROUTES.trends.trendSns + 1)
         .then((res) => 
           { console.log(res);
             this.snsList = res.data })

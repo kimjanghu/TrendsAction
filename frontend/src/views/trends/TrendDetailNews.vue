@@ -53,7 +53,7 @@ export default {
   methods: {
     getNews() {
       axios
-        .get(SERVER.ROUTES.trends.URL + SERVER.ROUTES.trends.trendNews + 1)
+        .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + 1)
         .then((res) => 
           { console.log(res);
             this.newsList = res.data })
