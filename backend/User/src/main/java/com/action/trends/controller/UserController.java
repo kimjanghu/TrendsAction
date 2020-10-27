@@ -148,6 +148,6 @@ public class UserController {
 		}
 	}
 	
-	//status , data , messege
+	
 	
 }
