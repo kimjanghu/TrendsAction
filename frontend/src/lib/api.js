@@ -9,7 +9,7 @@ export default {
       checkNickname: "/user/checknickname/", // GET / 닉네임 중복 체크
     },
     trends: {
-      URL: 'http://k3a408.p.ssafy.io:8881',
+      URL: 'http://k3a408.p.ssafy.io:8881/api',
       trendCategories: '/trend/', // GET / 카테고리별 트렌드 목록 조회
       trendNews: '/trend/news/', // GET / 트렌드에 맞는 뉴스 목록 조회
       trendSns: '/trend/twitter/', // GET / 트렌드에 맞는 트위터 목록 조회
