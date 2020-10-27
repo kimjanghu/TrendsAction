@@ -231,6 +231,7 @@ public class BoardController {
 	@PostMapping("/board/twitter")
 	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		int twitterId = (int) data.get("twitterId");
 		int userId = (int) data.get("userId");
@@ -238,12 +239,20 @@ public class BoardController {
 		try {
 			TwittBoard twittBoard = new TwittBoard(boardId, twitterId, userId);
 			if (boardService.addTwitt(twittBoard) == 1) {
-				entity = handleSuccess(boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");				
+				resultMap.put("status", true);
+				resultMap.put("message", boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			} else {
 				entity = handleSuccess("fail");
 			}
 		} catch (RuntimeException e) {
-			entity = handleException(e);
+			if (e.getMessage().contains("Duplicate")) {
+				resultMap.put("status", false);
+				resultMap.put("message",  "이미 담은 트윗입니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				entity = handleException(e);
+			}
 		}
 		
 		return entity;
@@ -253,6 +262,7 @@ public class BoardController {
 	@PostMapping("/board/news")
 	public ResponseEntity<Map<String, Object>> addNews(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		int newsId = (int) data.get("newsId");
 		int userId = (int) data.get("userId");
@@ -260,12 +270,20 @@ public class BoardController {
 		try {
 			NewsBoard newsBoard = new NewsBoard(boardId, newsId, userId);
 			if (boardService.addNews(newsBoard) == 1) {
-				entity = handleSuccess(boardId + " 보드에 " + newsId + " 뉴스가 담겼습니다." + " by " + userId + " 사용자");				
+				resultMap.put("status", true);
+				resultMap.put("message", boardId + " 보드에 " + newsId + " 뉴스가 담겼습니다." + " by " + userId + " 사용자");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);	
 			} else {
 				entity = handleSuccess("fail");
 			}
 		} catch (RuntimeException e) {
-			entity = handleException(e);
+			if (e.getMessage().contains("Duplicate")) {
+				resultMap.put("status", false);
+				resultMap.put("message", "이미 담은 뉴스입니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				entity = handleException(e);
+			}
 		}
 		
 		return entity;

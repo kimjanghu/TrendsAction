@@ -78,13 +78,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int addTwitt(TwittBoard twittBoard) {
 		boardMapper.plusCountOfTwitt(twittBoard.getTwitterId());
-		return boardMapper.addTwitt(twittBoard);
+		int result = boardMapper.addTwitt(twittBoard);
+		return result;
 	}
 	
 	@Override
 	public int addNews(NewsBoard newsBoard) {
 		boardMapper.plusCountOfNews(newsBoard.getNewsId());
-		return boardMapper.addNews(newsBoard);
+		int result = boardMapper.addNews(newsBoard);
+		return result;
 	}
 	
 	@Override
