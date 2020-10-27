@@ -16,19 +16,20 @@
 		where category_id=#{categoryId}
 	</select>
 
-	<!-- 트렌드에 맞는 뉴스 리스트 조회 -->
+	<!-- 해당 트렌드의 최신 뉴스 리스트 조회 -->
 	<select id="readNewsByTrendId" resultType="News">
 		select *
 		from news
 		where trend_id=#{trendId}
+		order by pub_date desc
 	</select>
 
-	<!-- 트렌드에 맞는 트위터 리스트 조회 -->
+	<!-- 해당 트렌드의 최신 트위터 리스트 조회 -->
 	<select id="readTwitterByTrendId" resultType="Twitter">
 		select *
-		from
-		twitter
+		from twitter
 		where trend_id=#{trendId}
+		order by date desc
 	</select>
 
 	<!-- 예측 트렌드 키워드 리스트 조회 -->
@@ -37,5 +38,5 @@
 		from trend
 		where predicted=1
 	</select>
-
+	
 </mapper>
