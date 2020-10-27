@@ -85,11 +85,11 @@
 	</update>
 	
 	<update id="plusCountOfTwitt" parameterType="int">
-		UPDATE twitter SET scrap_count=scrap_count+1 WHERE id=#{newsId}
+		UPDATE twitter SET scrap_count=scrap_count+1 WHERE id=#{twitterId}
 	</update>
 	
 	<update id="plusCountOfNews" parameterType="int">
-		UPDATE news SET scrap_count=scrap_count+1 WHERE id=#{twitterId}
+		UPDATE news SET scrap_count=scrap_count+1 WHERE id=#{newsId}
 	</update>
 	
 	
