@@ -38,6 +38,15 @@
 		SELECT name FROM trend WHERE trend_id=#{trendId}
 	</select>
 	
+	<select id="selectLast" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<select id="searchUser" resultType="User">
+		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
+	</select>
+	
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>
@@ -62,13 +71,6 @@
 		INSERT into user_board (user_id, board_id, authority) SELECT send_to, board_id, authority FROM message WHERE id=#{messageId}
 	</insert>
 	
-	<select id="selectLast" resultType="int">
-		SELECT LAST_INSERT_ID()
-	</select>
-	
-	<select id="searchUser" resultType="User">
-		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
-	</select>
 	
 	<update id="updateBoard" parameterType="map">
 		UPDATE board SET name=#{name} WHERE id=#{boardId}
@@ -81,7 +83,16 @@
 	<update id="updateAccepted" parameterType="map">
 		UPDATE message SET accepted=#{accepted} WHERE id=#{messageId}
 	</update>
-
+	
+	<update id="plusCountOfTwitt" parameterType="int">
+		UPDATE twitter SET scrap_count=scrap_count+1 WHERE id=#{newsId}
+	</update>
+	
+	<update id="plusCountOfNews" parameterType="int">
+		UPDATE news SET scrap_count=scrap_count+1 WHERE id=#{twitterId}
+	</update>
+	
+	
 	<delete id="deleteBoard" parameterType="int">
 		DELETE FROM board where id=#{boardId}
 	</delete>

@@ -7,6 +7,7 @@ public class Twitter {
 	private String date;
 	private int categoryId;
 	private int trendId;
+	private int scrapCount;
 	public int getTwitterId() {
 		return twitterId;
 	}
@@ -43,6 +44,11 @@ public class Twitter {
 	public void setTrendId(int trendId) {
 		this.trendId = trendId;
 	}
-	
+	public int getScrapCount() {
+		return scrapCount;
+	}
+	public void setScrapCount(int scrapCount) {
+		this.scrapCount = scrapCount;
+	}
 	
 }

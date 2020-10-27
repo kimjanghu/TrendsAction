@@ -80,7 +80,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 뉴스 조회", response = String.class)
-	@GetMapping("/board/contents/news/{boardId}")
+	@GetMapping("/board/news/{boardId}")
 	public ResponseEntity<Map<String, Object>> getNewsList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		List<NewsList> list = new ArrayList<NewsList>();
@@ -105,7 +105,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 트위터 조회", response = String.class)
-	@GetMapping("/board/contents/twitter/{boardId}")
+	@GetMapping("/board/twitter/{boardId}")
 	public ResponseEntity<Map<String, Object>> getTwitterList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		List<TwittList> list = new ArrayList<TwittList>();
@@ -174,7 +174,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드에 트윗 담기")
-	@PostMapping("/board/contents/twitter")
+	@PostMapping("/board/twitter")
 	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int boardId = (int) data.get("boardId");
@@ -196,7 +196,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드에 뉴스 담기")
-	@PostMapping("/board/contents/news")
+	@PostMapping("/board/news")
 	public ResponseEntity<Map<String, Object>> addNews(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int boardId = (int) data.get("boardId");
@@ -355,7 +355,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 뉴스글 삭제", response = String.class)
-	@DeleteMapping("/board/contents/news/{boardId}/{newsId}")
+	@DeleteMapping("/board/news/{boardId}/{newsId}")
 	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		
@@ -373,7 +373,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 트윗 삭제", response = String.class)
-	@DeleteMapping("/board/contents/twitter/{boardId}/{twitterId}")
+	@DeleteMapping("/board/twitter/{boardId}/{twitterId}")
 	public ResponseEntity<Map<String, Object>> deleteTwitts(@PathVariable int boardId, @PathVariable int twitterId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		
