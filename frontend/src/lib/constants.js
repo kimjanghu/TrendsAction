@@ -1,11 +1,6 @@
 export default {
   TITLE: '',
   URL_TYPE: {
-    UPLOAD: {
-      CAMERA: 'camera',
-      CANVAS: 'canvas',
-      DIET: 'diet'
-    },
     USER: {
       JOIN: 'join',
       LOGIN: 'login',
@@ -13,12 +8,11 @@ export default {
       MYPAGE:'mypage',
       EDIT: 'userEdit'
     },
-    POST: {
-      CREATE: 'create',
-      DELETE: 'delete'
+    TREND: {
+      LIST: 'trendlist'
     },
-    CALENDAR: {
-      DIARY: 'diary'
+    PREDICT: {
+      LIST: 'predictlist'
     }
   },
 }

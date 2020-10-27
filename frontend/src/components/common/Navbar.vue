@@ -1,17 +1,40 @@
 <template>
   <div class="navbar transparent">
     <div class="web-title">
-      <h2>TrendsAction</h2>
+      <h2
+        class="navbar-link"
+        @click="$router.push('/')"
+      >
+        TrendsAction
+      </h2>
     </div>
     <div class="router-area" v-if="$vuetify.breakpoint.mdAndUp">
       <v-tabs align-with-title>
-        <v-tab>Trend</v-tab>
-        <v-tab>Predict</v-tab>
-        <v-tab @click="dialog = true" v-if="!isLogin">
+        <v-tab
+          class="navbar-link"
+          @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })"
+        >
+          Trend
+        </v-tab>
+        <v-tab
+          class="navbar-link"
+          @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })"
+        >
+          Predict
+        </v-tab>
+        <v-tab 
+          class="navbar-link"
+          @click="dialog = true" 
+          v-if="!isLogin"
+        >
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
         </v-tab>
-        <v-tab @click="dialog = true" v-if="isLogin">
+        <v-tab
+          class="navbar-link"
+          @click="dialog = true" 
+          v-if="isLogin"
+        >
           Logout
         </v-tab>
         <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
@@ -34,13 +57,12 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </div>
 
-
+    <!-- Side bar -->
     <v-navigation-drawer
       v-model="drawer"
       absolute
       right
       temporary
-      v-if="$vuetify.breakpoint.smAndDown"
     >
       <!-- 로그인 false -->
       <v-list-item v-if="!isLogin" class="avatar-info">
@@ -111,9 +133,6 @@
       </v-list>
     </v-navigation-drawer>
 
-
-
-
   </div>
 </template>
 
@@ -183,5 +202,9 @@ export default {
       }
     }
   }
+}
+
+.navbar-link {
+  cursor: pointer;
 }
 </style>

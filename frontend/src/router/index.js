@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import constants from '@/lib/constants'
 import Home from '../views/Home.vue'
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
 
 Vue.use(VueRouter)
+
+function loadView(view) {
+  return () => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+}
 
 const routes = [
   {
@@ -16,10 +21,7 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('@/views/About.vue')
   },
   {
     path: '/trend-detail',
@@ -36,6 +38,16 @@ const routes = [
     name: 'BoardDetail',
     component: BoardDetail
   },
+  {
+    path: '/trend',
+    name: constants.URL_TYPE.TREND.LIST,
+    component: loadView('trends/TrendList')
+  },
+  {
+    path: '/predict',
+    name: constants.URL_TYPE.PREDICT.LIST,
+    component: loadView('predict/PredictList')
+  }
 ]
 
 const router = new VueRouter({
