@@ -214,8 +214,12 @@ public class BoardController {
 		
 		try {
 			Board board = new Board(name, thumbnail);
-			boardService.createBoard(userId, board);
-			entity = handleSuccess("보드가 생성됐습니다.");
+			if (boardService.createBoard(userId, board) == -1) {
+				entity = handleSuccess("같은 보드명이 존재합니다.");
+			} else {
+				entity = handleSuccess("보드가 생성됐습니다.");			
+			}
+			
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}

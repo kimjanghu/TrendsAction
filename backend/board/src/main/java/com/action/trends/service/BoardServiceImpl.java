@@ -58,6 +58,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int createBoard(int userId, Board board) {
+		int check = boardMapper.checkBoardName(userId, board.getName());
+		if (check > 0) {
+			return -1;
+		}
 		int result = boardMapper.createBoard(board);
 		if (result == 1) {
 			int boardId = boardMapper.selectLast();

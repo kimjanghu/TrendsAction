@@ -19,13 +19,14 @@ public interface BoardMapper {
 	public List<Sharer> getSharerList(int boardId);
 	public List<NewsList> getNewsList(int boardId);
 	public List<TwittList> getTwitterList(int boardId);
+	public List<Message> getMessageList(int userId);
 	public List<NewsList> getMostScrappedNewsList(int trendId);
 	public List<TwittList> getMostScrappedTwittList(int trendId);
-	public List<Message> getMessageList(int userId);
 	public String getCategoryName(int categoryId);
 	public String getTrendName(int trendid);
 	public int selectLast();
 	public User searchUser(String email);
+	public int checkBoardName(int userId, String name);
 	public int createBoard(Board board);
 	public int connectUserBoard(int userId, int boardId);
 	public int addTwitt(TwittBoard twittBoard);
