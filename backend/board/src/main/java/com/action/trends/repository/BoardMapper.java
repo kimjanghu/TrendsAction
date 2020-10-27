@@ -19,6 +19,8 @@ public interface BoardMapper {
 	public List<Sharer> getSharerList(int boardId);
 	public List<NewsList> getNewsList(int boardId);
 	public List<TwittList> getTwitterList(int boardId);
+	public List<NewsList> getMostScrappedNewsList(int trendId);
+	public List<TwittList> getMostScrappedTwittList(int trendId);
 	public List<Message> getMessageList(int userId);
 	public String getCategoryName(int categoryId);
 	public String getTrendName(int trendid);

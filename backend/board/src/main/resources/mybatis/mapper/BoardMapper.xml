@@ -46,6 +46,14 @@
 		SELECT id as userId, email, nickname, profile FROM user WHERE email=#{email}
 	</select>
 	
+	<select id="getMostScrappedNewsList" parameterType="int" resultType="NewsList">
+		SELECT n.id as newsId, title, content, thumbnail, author, press, pub_date as pubDate, naver_link as naverLink, press_link as pressLink, n.category_id as categoryId, n.trend_id as trendId,
+		c.name as categoryName, t.name as trendName, scrap_count as scrapCount
+		FROM news as n, category as c, trend as t
+		WHERE n.trend_id=#{trendId} and n.category_id=c.id and n.trend_id=t.id
+		ORDER BY scrap_count DESC
+		limit 5;
+	</select>
 	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})

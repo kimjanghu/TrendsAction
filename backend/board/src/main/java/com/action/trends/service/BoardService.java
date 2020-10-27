@@ -16,6 +16,8 @@ public interface BoardService {
 	public List<Sharer> getSharerList(int boardId);
 	public List<NewsList> getNewsList(int boardId);
 	public List<TwittList> getTwitterList(int boardId);
+	public List<NewsList> getMostScrappedNewsList(int trendId);
+	public List<TwittList> getMostScrappedTwittList(int trendId);
 	public List<Message> getMessageList(int userId);
 	public int createBoard(int userId, Board board);
 	public int addTwitt(TwittBoard twittBoard);

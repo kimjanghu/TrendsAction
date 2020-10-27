@@ -42,6 +42,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<NewsList> getMostScrappedNewsList(int trendId) {
+		return boardMapper.getMostScrappedNewsList(trendId);
+	}
+	
+	@Override
+	public List<TwittList> getMostScrappedTwittList(int trendId) {
+		return boardMapper.getMostScrappedTwittList(trendId);
+	}
+	
+	@Override
 	public List<Message> getMessageList(int userId) {
 		return boardMapper.getMessageList(userId);
 	}
