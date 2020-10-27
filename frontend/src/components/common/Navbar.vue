@@ -138,14 +138,13 @@
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
   data() {
     return {
       dialog: false,
-      isLogin: true,
       drawer: false,
       group: null
     }
@@ -154,7 +153,7 @@ export default {
     UsersLoginForm
   },
   computed: {
-    // ...mapGetters('userStore', ['isLogin'])
+    ...mapGetters('userStore', ['isLogin'])
   },
   watch: { 
     group () {

@@ -6,11 +6,13 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import VueCookies from 'vue-cookies'
 import constants from '@/lib/constants'
+import SERVER from '@/lib/api'
 
 Vue.use(VueCookies)
 
 Vue.prototype.$http = axios
 Vue.prototype.$constants = constants
+Vue.prototype.$api = SERVER
 Vue.config.productionTip = false
 
 new Vue({
