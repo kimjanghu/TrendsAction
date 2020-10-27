@@ -2,8 +2,8 @@
   <v-container>
     <v-card
       class="mx-auto my-5 px-3 py-3"
-      v-for="n in 3"
-      :key="n"
+      v-for="sns in snsList"
+      :key="sns.id"
     >
       <v-card-title>
         <v-list-item-avatar color="grey darken-3">
@@ -15,12 +15,12 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title><span class="font-weight-black">박싸피</span><span class="ml-3">@10:21am</span></v-list-item-title>
+            <v-list-item-title><span class="font-weight-black">{{ sns.author }}</span><span class="ml-3">@{{ sns.date }}</span></v-list-item-title>
           </v-list-item-content>
       </v-card-title>
 
       <v-card-text class="body-1 font-weight-bold">
-        "사람들과 함께 있을 때의 나, SNS 속의 나, 집에서의 나. 당신은 늘 한결같은 당신으로 존재하는가? 이 질문에 단번에 ‘그렇다’고 답할 사람이 과연 몇이나 있을까? 별로 없다. 왜냐하면 지금은 분명 ‘멀티 페르소나’의 시대이기 때문이다."
+        {{ sns.content }}
       </v-card-text>
 
       <AddBoardBtn/>
@@ -37,6 +37,9 @@
 
 <script>
 import AddBoardBtn from '@/components/AddBoardBtn.vue'
+import axios from 'axios'
+import SERVER from '@/lib/api'
+
 export default {
   components: {
     AddBoardBtn
@@ -44,8 +47,23 @@ export default {
   data() {
     return {
       page: 1,
+      snsList: []
     }
   },
+  created() {
+    this.getSns()
+  },
+  methods: {
+    getSns() {
+      axios
+        .get(SERVER.ROUTES.trends.URL + SERVER.ROUTES.trends.trendSns + 1)
+        .then((res) => 
+          { console.log(res);
+            this.snsList = res.data })
+        .catch((err) => { console.log(err)})
+    }
+  }
+
 
 }
 </script>
