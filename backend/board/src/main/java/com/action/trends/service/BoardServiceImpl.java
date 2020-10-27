@@ -42,12 +42,26 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public List<NewsList> getMostScrappedNewsList(int trendId) {
+		return boardMapper.getMostScrappedNewsList(trendId);
+	}
+	
+	@Override
+	public List<TwittList> getMostScrappedTwittList(int trendId) {
+		return boardMapper.getMostScrappedTwittList(trendId);
+	}
+	
+	@Override
 	public List<Message> getMessageList(int userId) {
 		return boardMapper.getMessageList(userId);
 	}
 	
 	@Override
 	public int createBoard(int userId, Board board) {
+		int check = boardMapper.checkBoardName(userId, board.getName());
+		if (check > 0) {
+			return -1;
+		}
 		int result = boardMapper.createBoard(board);
 		if (result == 1) {
 			int boardId = boardMapper.selectLast();
@@ -63,12 +77,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int addTwitt(TwittBoard twittBoard) {
-		return boardMapper.addTwitt(twittBoard);
+		boardMapper.plusCountOfTwitt(twittBoard.getTwitterId());
+		int result = boardMapper.addTwitt(twittBoard);
+		return result;
 	}
 	
 	@Override
 	public int addNews(NewsBoard newsBoard) {
-		return boardMapper.addNews(newsBoard);
+		boardMapper.plusCountOfNews(newsBoard.getNewsId());
+		int result = boardMapper.addNews(newsBoard);
+		return result;
 	}
 	
 	@Override

@@ -18,6 +18,7 @@ public class NewsList {
 	private int scrapUser;
 	private String nickname;
 	private String profile;
+	private int scrapCount;
 	public int getNewsId() {
 		return newsId;
 	}
@@ -114,7 +115,12 @@ public class NewsList {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	
+	public int getScrapCount() {
+		return scrapCount;
+	}
+	public void setScrapCount(int scrapCount) {
+		this.scrapCount = scrapCount;
+	}
 	
 	
 }

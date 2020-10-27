@@ -80,7 +80,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 뉴스 조회", response = String.class)
-	@GetMapping("/board/contents/news/{boardId}")
+	@GetMapping("/board/news/{boardId}")
 	public ResponseEntity<Map<String, Object>> getNewsList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		List<NewsList> list = new ArrayList<NewsList>();
@@ -105,7 +105,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 트위터 조회", response = String.class)
-	@GetMapping("/board/contents/twitter/{boardId}")
+	@GetMapping("/board/twitter/{boardId}")
 	public ResponseEntity<Map<String, Object>> getTwitterList(@PathVariable int boardId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		List<TwittList> list = new ArrayList<TwittList>();
@@ -120,6 +120,56 @@ public class BoardController {
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			} else {
 				resultMap.put("message", boardId + " 보드에 담긴 트윗이 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="트렌드 내 스크랩 많은 트윗 리스트 조회", response = String.class)
+	@GetMapping("/board/twitter/scrapcount/{trendId}")
+	public ResponseEntity<Map<String, Object>> getMostScrappedTwittList(@PathVariable int trendId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<TwittList> list = new ArrayList<TwittList>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getMostScrappedTwittList(trendId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", trendId + " 트렌드의 MostScrapped 트윗 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", trendId + " 트렌드에서 스크랩된 트위터 내역이 없습니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+
+	@ApiOperation(value="트렌드 내 스크랩 많은 뉴스 리스트 조회", response = String.class)
+	@GetMapping("/board/news/scrapcount/{trendId}")
+	public ResponseEntity<Map<String, Object>> getMostScrappedNewsList(@PathVariable int trendId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<NewsList> list = new ArrayList<NewsList>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getMostScrappedNewsList(trendId);
+			resultMap.put("status", true);
+			if (list.size() != 0) {
+				resultMap.put("message", trendId + " 트렌드의 MostScrapped 뉴스 리스트 조회에 성공했습니다.");
+				resultMap.put("data", list);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				resultMap.put("message", trendId + " 트렌드에서 스크랩된 뉴스 내역이 없습니다.");
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			}
 		} catch (RuntimeException e) {
@@ -164,8 +214,12 @@ public class BoardController {
 		
 		try {
 			Board board = new Board(name, thumbnail);
-			boardService.createBoard(userId, board);
-			entity = handleSuccess("보드가 생성됐습니다.");
+			if (boardService.createBoard(userId, board) == -1) {
+				entity = handleSuccess("같은 보드명이 존재합니다.");
+			} else {
+				entity = handleSuccess("보드가 생성됐습니다.");			
+			}
+			
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
@@ -174,9 +228,10 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드에 트윗 담기")
-	@PostMapping("/board/contents/twitter")
+	@PostMapping("/board/twitter")
 	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		int twitterId = (int) data.get("twitterId");
 		int userId = (int) data.get("userId");
@@ -184,21 +239,30 @@ public class BoardController {
 		try {
 			TwittBoard twittBoard = new TwittBoard(boardId, twitterId, userId);
 			if (boardService.addTwitt(twittBoard) == 1) {
-				entity = handleSuccess(boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");				
+				resultMap.put("status", true);
+				resultMap.put("message", boardId + " 보드에 " + twitterId + " 트윗이 담겼습니다." + " by " + userId + " 사용자");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 			} else {
 				entity = handleSuccess("fail");
 			}
 		} catch (RuntimeException e) {
-			entity = handleException(e);
+			if (e.getMessage().contains("Duplicate")) {
+				resultMap.put("status", false);
+				resultMap.put("message",  "이미 담은 트윗입니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				entity = handleException(e);
+			}
 		}
 		
 		return entity;
 	}
 	
 	@ApiOperation(value="보드에 뉴스 담기")
-	@PostMapping("/board/contents/news")
+	@PostMapping("/board/news")
 	public ResponseEntity<Map<String, Object>> addNews(@RequestBody Map<String, Object> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		int newsId = (int) data.get("newsId");
 		int userId = (int) data.get("userId");
@@ -206,12 +270,20 @@ public class BoardController {
 		try {
 			NewsBoard newsBoard = new NewsBoard(boardId, newsId, userId);
 			if (boardService.addNews(newsBoard) == 1) {
-				entity = handleSuccess(boardId + " 보드에 " + newsId + " 뉴스가 담겼습니다." + " by " + userId + " 사용자");				
+				resultMap.put("status", true);
+				resultMap.put("message", boardId + " 보드에 " + newsId + " 뉴스가 담겼습니다." + " by " + userId + " 사용자");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);	
 			} else {
 				entity = handleSuccess("fail");
 			}
 		} catch (RuntimeException e) {
-			entity = handleException(e);
+			if (e.getMessage().contains("Duplicate")) {
+				resultMap.put("status", false);
+				resultMap.put("message", "이미 담은 뉴스입니다.");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				entity = handleException(e);
+			}
 		}
 		
 		return entity;
@@ -355,7 +427,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 뉴스글 삭제", response = String.class)
-	@DeleteMapping("/board/contents/news/{boardId}/{newsId}")
+	@DeleteMapping("/board/news/{boardId}/{newsId}")
 	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		
@@ -373,7 +445,7 @@ public class BoardController {
 	}
 	
 	@ApiOperation(value="보드 내 트윗 삭제", response = String.class)
-	@DeleteMapping("/board/contents/twitter/{boardId}/{twitterId}")
+	@DeleteMapping("/board/twitter/{boardId}/{twitterId}")
 	public ResponseEntity<Map<String, Object>> deleteTwitts(@PathVariable int boardId, @PathVariable int twitterId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		

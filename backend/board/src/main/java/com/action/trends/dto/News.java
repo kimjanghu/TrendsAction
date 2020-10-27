@@ -12,6 +12,7 @@ public class News {
 	private String pressLink;
 	private int categoryId;
 	private int trendId;
+	private int scrapCount;
 	public int getNewsId() {
 		return newsId;
 	}
@@ -77,6 +78,12 @@ public class News {
 	}
 	public void setTrendId(int trendId) {
 		this.trendId = trendId;
+	}
+	public int getScrapCount() {
+		return scrapCount;
+	}
+	public void setScrapCount(int scrapCount) {
+		this.scrapCount = scrapCount;
 	}
 	
 	

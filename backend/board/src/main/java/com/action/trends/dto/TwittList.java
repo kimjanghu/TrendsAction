@@ -13,6 +13,7 @@ public class TwittList {
 	private int scrapUser;
 	private String nickname;
 	private String profile;
+	private int scrapCount;
 	public int getTwitterId() {
 		return twitterId;
 	}
@@ -79,7 +80,12 @@ public class TwittList {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	
+	public int getScrapCount() {
+		return scrapCount;
+	}
+	public void setScrapCount(int scrapCount) {
+		this.scrapCount = scrapCount;
+	}
 	
 	
 }
