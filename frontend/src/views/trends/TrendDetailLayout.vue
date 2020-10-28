@@ -33,22 +33,24 @@
           <v-tab
             v-for="item in items"
             :key="item.id"
+            :to="{name: item.link}"
           >
             {{ item.name }}
           </v-tab>
         </v-tabs>
-
-        <v-tabs-items v-model="tab">
+        <router-view></router-view>
+        <!-- <v-tabs-items v-model="tab">
           <v-tab-item
             v-for="item in items"
             :key="item.id"
           >
+            
             <trend-detail-news v-if="item.id==1"/>
             <trend-detail-sns v-if="item.id==2" />
             <trend-detail-agora v-if="item.id==3" />
 
           </v-tab-item>
-        </v-tabs-items>
+        </v-tabs-items> -->
       </v-col>
       <v-col cols="12" md="4" lg="3" v-if="$vuetify.breakpoint.mdAndUp">
         <p class="mt-2 mb-5 subtitle-1">Others</p>
@@ -84,24 +86,24 @@
 </template>
 
 <script>
-import TrendDetailNews from './TrendDetailNews.vue'
-import TrendDetailSns from './TrendDetailSns.vue'
-import TrendDetailAgora from './TrendDetailAgora.vue'
+// import TrendDetailNews from './TrendDetailNews.vue'
+// import TrendDetailSns from './TrendDetailSns.vue'
+// import TrendDetailAgora from './TrendDetailAgora.vue'
 
 
 export default {
   components: {
-    TrendDetailNews,
-    TrendDetailSns,
-    TrendDetailAgora
+    // TrendDetailNews,
+    // TrendDetailSns,
+    // TrendDetailAgora
   },
   data () {
       return {
         tab: null,
         items: [ 
-          {id: 1, name:'News'},
-          {id: 2, name:'Sns'},
-          {id: 3, name:'Agora'},
+          {id: 1, name:'News', link: 'TrendDetailNews'},
+          {id: 2, name:'Sns', link: 'TrendDetailSns'},
+          {id: 3, name:'Agora', link: 'TrendDetailAgora'},
         ],
         otherkeywords: [
         {

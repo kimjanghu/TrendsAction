@@ -2,11 +2,21 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import constants from '@/lib/constants'
 import Home from '../views/Home.vue'
+
+// trend
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
+import TrendDetailNews from '../views/trends/TrendDetailNews.vue'
+import TrendDetailSns from '../views/trends/TrendDetailSns.vue'
+import TrendDetailAgora from '../views/trends/TrendDetailAgora.vue'
+
+// user
 import UserProfile from '../views/users/UserProfile.vue'
+import UserProfileUpdate from '../views/users/UserProfileUpdate.vue'
+
+// board
 import BoardList from '../views/boards/BoardList.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
-import UserProfileUpdate from '../views/users/UserProfileUpdate.vue'
+
 
 Vue.use(VueRouter)
 
@@ -27,8 +37,24 @@ const routes = [
   },
   {
     path: '/trend-detail',
-    name: 'TrendDetailLayout',
-    component: TrendDetailLayout
+    component: TrendDetailLayout,
+    children: [
+      {
+        path: 'news',
+        name: 'TrendDetailNews',
+        component: TrendDetailNews
+      },
+      {
+        path: 'sns',
+        name: 'TrendDetailSns',
+        component: TrendDetailSns
+      },
+      {
+        path: 'agora',
+        name: 'TrendDetailAgora',
+        component: TrendDetailAgora
+      },
+    ]
   },
   {
     path: '/mypage',
