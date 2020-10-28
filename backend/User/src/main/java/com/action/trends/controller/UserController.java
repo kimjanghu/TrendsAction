@@ -1,6 +1,7 @@
 package com.action.trends.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -148,6 +150,62 @@ public class UserController {
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////
 	
+						/*여기부턴 유저 개인의 관심카테고리 CURD 작성*/
+	
+	/////////////////////////////////////////////////////////////////////////////////
+	
+	@ApiOperation(value = "유저 개인의 관심 카테고리를 조회힌다.", response = Map.class)
+	@GetMapping("/category/{userId}")
+	public ResponseEntity<Map<String, Object>> userCategoryInfo(@PathVariable int userId) throws Exception {
+		logger.debug("유저 개인의 관심 카테고리를 조회 - 호출");
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			
+			List<Integer> userCategoryList = userService.userCategoryList(userId);
+			
+			map.put("data", userCategoryList);
+			map.put("status", true);
+			map.put("message", "유저 개인의 관심 카테고리 목록 조회 성공했습니다.");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			
+		}catch(Exception e) {
+			
+			map.put("Error", ERROR);
+			map.put("status", false);
+			map.put("message", "유저 개인의 관심 카테고리 목록 조회 실패했습니다.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}
+	}
+	
+	@ApiOperation(value = "유저 개인의 관심 카테고리를 등록 및 삭제힌다.", response = Map.class)
+	@PostMapping("/category")
+	public ResponseEntity<Map<String, Object>> writeUserCategory(@RequestBody List<Integer> categoryIdList, int userId) throws Exception {
+		logger.debug("유저 개인의 관심 카테고리를 등록 및 삭제 - 호출");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		try {
+		
+			List<Integer> previusUserCategoryList = userService.userCategoryList(userId);
+			List<Integer> newUserCategoryList = categoryIdList;
+			
+			userService.updateUserCategory(previusUserCategoryList, newUserCategoryList, userId);
+		
+			map.put("status", true);
+			map.put("message", "유저 개인의 관심 카테고리를 등록 및 삭제 성공했습니다.");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			map.put("status", false);
+			map.put("message", "유저 개인의 관심 카테고리를 등록 및 삭제 실패했습니다.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}
+	}
 	
 }
