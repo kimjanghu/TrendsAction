@@ -23,8 +23,8 @@
           <span>관심카테고리</span>
           
         </v-sheet>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfileUpdate' }">내 프로필 관리</v-btn>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드 관리</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드</v-btn>
       </v-col>
       
       <v-col cols="12" md="8" lg="9" >
@@ -43,13 +43,6 @@ export default {
   },
   data() { 
     return {
-      select: ['IT', '경제'],
-      items: [
-        'IT',
-        '사회/문화',
-        '경제',
-        '스포츠',
-      ],
     }
   }
 }

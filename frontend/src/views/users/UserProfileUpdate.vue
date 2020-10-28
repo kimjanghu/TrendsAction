@@ -5,7 +5,7 @@
     max-width="400px"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" v-bind="attrs" v-on="on">내 프로필 변경</v-btn>
+      <v-btn dark class="mt-2 custom-rounded mr-3" color="teal" v-bind="attrs" v-on="on">내 프로필 변경</v-btn>
     </template>
     <v-card class="custom-rounded">
       <v-card-title>
@@ -47,6 +47,13 @@ export default {
   data() {
     return {
       dialog: false,
+      select: ['IT', '경제'],
+      items: [
+        'IT',
+        '사회/문화',
+        '경제',
+        '스포츠',
+      ],
     }
   }
 

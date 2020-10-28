@@ -12,7 +12,6 @@ import TrendDetailAgora from '../views/trends/TrendDetailAgora.vue'
 // user
 import UserProfileLayout from '../views/users/UserProfileLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
-import UserProfileUpdate from '../views/users/UserProfileUpdate.vue'
 
 // board
 import BoardList from '../views/boards/BoardList.vue'
@@ -70,11 +69,6 @@ const routes = [
         path: 'username',
         name: 'UserProfile',
         component: UserProfile,
-      },
-      {
-        path: 'update',
-        name: 'UserProfileUpdate',
-        component: UserProfileUpdate,
       },
       {
         path: 'board',
