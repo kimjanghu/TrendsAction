@@ -3,8 +3,7 @@ export default {
   // BOARD: '8882',
   ROUTES: {
     accounts: {
-      URL: 'http://k3a408.p.ssafy.io:8880',
-      kakaoLogin: '/login/kakao',
+      kakaoLogin: '/user/login/kakao',
       user: '/user/user', // GET / 유저 정보 받아오기, PUT / 유저 생성
       deleteUser: '/user/user/', // DELETE / 유저 정보 삭제
       checkNickname: '/user/user/checknickname/', // GET / 닉네임 중복 체크
