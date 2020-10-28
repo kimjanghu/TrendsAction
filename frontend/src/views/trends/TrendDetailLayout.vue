@@ -3,6 +3,7 @@
     <v-row justify="center">
       <v-col cols="12" lg="10" xl="8">
         <v-img :aspect-ratio="16/9"
+          width="100%"
           lazy-src="https://picsum.photos/id/11/10/6"
           src="https://picsum.photos/id/11/500/300"
           class="trend-img"
@@ -30,16 +31,20 @@
           color="black"
           :grow="$vuetify.breakpoint.mobile"
         >
-          <v-tab
+          <!-- <v-tab
             v-for="item in items"
             :key="item.id"
             :to="{name: item.link}"
+          > -->
+          <v-tab
+            v-for="item in items"
+            :key="item.id"
           >
             {{ item.name }}
           </v-tab>
         </v-tabs>
-        <router-view></router-view>
-        <!-- <v-tabs-items v-model="tab">
+        <!-- <router-view></router-view> -->
+        <v-tabs-items v-model="tab">
           <v-tab-item
             v-for="item in items"
             :key="item.id"
@@ -50,7 +55,7 @@
             <trend-detail-agora v-if="item.id==3" />
 
           </v-tab-item>
-        </v-tabs-items> -->
+        </v-tabs-items>
       </v-col>
       <v-col cols="12" md="4" lg="3" v-if="$vuetify.breakpoint.mdAndUp">
         <p class="mt-2 mb-5 subtitle-1">Others</p>
@@ -86,16 +91,16 @@
 </template>
 
 <script>
-// import TrendDetailNews from './TrendDetailNews.vue'
-// import TrendDetailSns from './TrendDetailSns.vue'
-// import TrendDetailAgora from './TrendDetailAgora.vue'
+import TrendDetailNews from './TrendDetailNews.vue'
+import TrendDetailSns from './TrendDetailSns.vue'
+import TrendDetailAgora from './TrendDetailAgora.vue'
 
 
 export default {
   components: {
-    // TrendDetailNews,
-    // TrendDetailSns,
-    // TrendDetailAgora
+    TrendDetailNews,
+    TrendDetailSns,
+    TrendDetailAgora
   },
   data () {
       return {
@@ -134,6 +139,9 @@ export default {
       ],
       }
     },
+    created() {
+      console.log(1)
+    }
 
 }
 </script>

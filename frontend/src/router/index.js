@@ -10,6 +10,7 @@ import TrendDetailSns from '../views/trends/TrendDetailSns.vue'
 import TrendDetailAgora from '../views/trends/TrendDetailAgora.vue'
 
 // user
+import UserProfileLayout from '../views/users/UserProfileLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
 import UserProfileUpdate from '../views/users/UserProfileUpdate.vue'
 
@@ -63,8 +64,13 @@ const routes = [
   },
   {
     path: '/mypage',
-    component: UserProfile,
+    component: UserProfileLayout,
     children: [
+      {
+        path: 'username',
+        name: 'UserProfile',
+        component: UserProfile,
+      },
       {
         path: 'update',
         name: 'UserProfileUpdate',
