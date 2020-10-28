@@ -16,5 +16,11 @@
 			WHERE email = #{email}
 	)
 	</insert >
-
+	
+	<!-- 카카오 이메일을 통한 유저정보 받아오기 -->
+	<select id="userDetail" resultType="User">
+		select id , email, nickname, profile
+		from user
+		where email = #{email}
+	</select>
 </mapper>

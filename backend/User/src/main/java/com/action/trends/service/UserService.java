@@ -1,5 +1,7 @@
 package com.action.trends.service;
 
+import java.util.List;
+
 import com.action.trends.dto.User;
 
 public interface UserService {
@@ -10,4 +12,11 @@ public interface UserService {
 	int update(User user) throws Exception;
 	
 	int delete(int userId) throws Exception;
+	
+	
+	//////////////////////////////////////////////////
+	
+	List<Integer> userCategoryList(int userId) throws Exception;
+	
+	int updateUserCategory(List<Integer> previusUserCategoryList, List<Integer> newUserCategoryList, int userId) throws Exception;
 }
