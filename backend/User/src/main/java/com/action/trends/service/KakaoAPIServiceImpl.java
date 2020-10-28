@@ -45,7 +45,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=80cd070cb08cc0e6318122f78e29d26b");
-            sb.append("&redirect_uri=http://localhost:8880/login/kakao");
+            sb.append("&redirect_uri=http://localhost:3000/oauth/kakao");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
