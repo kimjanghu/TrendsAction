@@ -55,7 +55,7 @@ public class UserController {
 				map.put("status", false);
 				map.put("message", "중복되는 닉네임이 존재합니다");
 				
-				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			}else {
 				map.put("status", true);
 				map.put("message", "사용 가능한 닉네임 입니다");
