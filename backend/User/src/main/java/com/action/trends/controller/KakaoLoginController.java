@@ -38,7 +38,7 @@ public class KakaoLoginController {
 	KakaoAPIService kakaoAPIService;
 	
 	@ApiOperation(value = "카카오 로그인 후 토큰 response", response = Map.class)
-	@GetMapping("{code}")
+	@GetMapping("/kakao/{code}")
 	public ResponseEntity<Map<String, Object>> login(@RequestParam("code") String code) throws Exception {
 
 		logger.debug("카카오 로그인 후 토큰 response - 호출");
