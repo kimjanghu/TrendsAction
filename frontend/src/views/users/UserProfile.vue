@@ -23,12 +23,14 @@
           <span>관심카테고리</span>
           
         </v-sheet>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" >내 프로필 관리</v-btn>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" >내 보드 관리</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfileUpdate' }">내 프로필 관리</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드 관리</v-btn>
       </v-col>
+      
       <v-col cols="12" md="8" lg="9" >
-        <BoardList />
+        <router-view></router-view>
       </v-col>
+    
     </v-row>
   </v-container>
   </div>
@@ -36,11 +38,8 @@
 </template>
 
 <script>
-import BoardList from '../boards/BoardList.vue'
-
 export default {
   components: {
-    BoardList,
   },
   data() { 
     return {

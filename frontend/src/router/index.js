@@ -4,7 +4,9 @@ import constants from '@/lib/constants'
 import Home from '../views/Home.vue'
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
+import BoardList from '../views/boards/BoardList.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
+import UserProfileUpdate from '../views/users/UserProfileUpdate.vue'
 
 Vue.use(VueRouter)
 
@@ -30,13 +32,24 @@ const routes = [
   },
   {
     path: '/mypage',
-    name: 'UserProfile',
-    component: UserProfile
-  },
-  {
-    path: '/board-detail',
-    name: 'BoardDetail',
-    component: BoardDetail
+    component: UserProfile,
+    children: [
+      {
+        path: 'update',
+        name: 'UserProfileUpdate',
+        component: UserProfileUpdate,
+      },
+      {
+        path: 'board',
+        name: 'BoardList',
+        component: BoardList
+      },
+      {
+        path: 'board-detail',
+        name: 'BoardDetail',
+        component: BoardDetail
+      },
+    ]
   },
   {
     path: '/trend',
