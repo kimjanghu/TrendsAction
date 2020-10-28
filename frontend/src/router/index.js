@@ -24,6 +24,11 @@ const routes = [
     component: () => import('@/views/About.vue')
   },
   {
+    path: '/oauth/kakao',
+    name: constants.URL_TYPE.USER.LOGIN,
+    component: loadView('oauth/OauthLogin')
+  },
+  {
     path: '/trend-detail',
     name: 'TrendDetailLayout',
     component: TrendDetailLayout
