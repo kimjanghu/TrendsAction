@@ -54,15 +54,19 @@ public class KakaoLoginController {
 
 			new JWTUtil();
 			JWT_token = JWTUtil.createJWTToken(userInfo.get("email").toString());
+
+			
 			
 			int firstLogin = kakaoAPIService.isUserInfoExist(userInfo.get("email").toString());
+			
 			
 			userData = kakaoAPIService.userDetail(userInfo.get("email").toString());
 
 			map.put("token", JWT_token);
+			map.put("userId", userData.getId());
 			map.put("nickname", userData.getNickname());
 			map.put("success", SUCCESS);
-			
+
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			
 		} catch (Exception e) {

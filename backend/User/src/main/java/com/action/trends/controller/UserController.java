@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.User;
 import com.action.trends.service.UserService;
+import com.action.trends.util.JWTUtil;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -72,9 +73,23 @@ public class UserController {
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 반환한다.", response = Map.class)
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> userInfo(int userId) throws Exception{
+	public ResponseEntity<Map<String, Object>> userInfo(int userId, @RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 반환 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
+
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
+		
 		
 		try{
 			User userData = userService.detail(userId);
@@ -96,9 +111,22 @@ public class UserController {
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 수정한다.", response = Map.class)
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody User user) throws Exception{
+	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody User user, @RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 수정 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(user.getId()).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
 		
 		try {
 			int updateSuccess = userService.update(user);
@@ -123,9 +151,22 @@ public class UserController {
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 정보를 삭제한다.", response = Map.class)
 	@DeleteMapping("{userId}")
-	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId) throws Exception{
+	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId, @RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 삭제 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
 		
 		try {
 			int deleteSuccess = userService.delete(userId);
@@ -158,9 +199,23 @@ public class UserController {
 	
 	@ApiOperation(value = "유저 개인의 관심 카테고리를 조회힌다.", response = Map.class)
 	@GetMapping("/category/{userId}")
-	public ResponseEntity<Map<String, Object>> userCategoryInfo(@PathVariable int userId) throws Exception {
+	public ResponseEntity<Map<String, Object>> userCategoryInfo(@PathVariable int userId, @RequestHeader("token") String token) throws Exception {
 		logger.debug("유저 개인의 관심 카테고리를 조회 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
+		
 		try {
 			
 			List<Integer> userCategoryList = userService.userCategoryList(userId);
@@ -183,9 +238,22 @@ public class UserController {
 	
 	@ApiOperation(value = "유저 개인의 관심 카테고리를 등록 및 삭제힌다.", response = Map.class)
 	@PostMapping("/category")
-	public ResponseEntity<Map<String, Object>> writeUserCategory(@RequestBody List<Integer> categoryIdList, int userId) throws Exception {
+	public ResponseEntity<Map<String, Object>> writeUserCategory(@RequestBody List<Integer> categoryIdList, int userId, @RequestHeader("token") String token) throws Exception {
 		logger.debug("유저 개인의 관심 카테고리를 등록 및 삭제 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
 		
 		try {
 		
