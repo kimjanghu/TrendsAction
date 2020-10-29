@@ -12,6 +12,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.action.trends.dto.User;
 import com.action.trends.repository.KakaoAPIRepository;
 import com.action.trends.repository.UserRepository;
 import com.google.gson.JsonElement;
@@ -44,7 +45,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=80cd070cb08cc0e6318122f78e29d26b");
-            sb.append("&redirect_uri=http://localhost:8880/api/login/kakao");
+            sb.append("&redirect_uri=http://localhost:3000/oauth/kakao");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -134,5 +135,12 @@ public class KakaoAPIServiceImpl implements KakaoAPIService{
     	int result = repo.isUserInfoExist(email);
 
 		return result;
+    }
+    
+    @Override
+    public User userDetail(String email) throws Exception{
+    	User result = repo.userDetail(email);
+    	
+    	return result;
     }
 }

@@ -33,4 +33,29 @@
 		 where id = #{userId}
 	</delete>
 	
+	
+	
+	<!-- 유저 개인의 카테고리 정보 확인 -->
+	<select id="userCategoryList" resultType="Integer">
+		select category_id
+		from user_category
+		where user_id = #{userId}
+	</select>
+	
+	
+	<!-- 유저 개인의 카테고리 정보 삽입 -->
+	
+	<insert id="insertUserCategory">
+	    INSERT INTO user_category (user_id, category_id) 
+	    VALUES (#{userId} , #{categoryId})
+	</insert>
+
+
+	<!-- 유저 개인의 카테고리 정보 삭제 -->
+	<delete id="deleteUserCategory">
+		 delete 
+		 from user_category
+		 where user_id = #{userId} and category_id = #{categoryId} 
+	</delete>
+	
 </mapper>
