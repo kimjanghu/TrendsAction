@@ -66,24 +66,29 @@
           <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
             <div>
               <p class="my-2 subtitle-1">BEST NEWS</p>
-              <ol style="border: 2px solid #999999">
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-              </ol>
+              <v-card outlined>
+                <v-list two-line>
+                  <v-list-item
+                    class="px-3 py-0"
+                    v-for="(news, i) in bestNews"
+                    :key="i"
+                  >
+                    <v-list-item-content class="py-0">
+                      <v-row>
+                        <v-col cols="1">
+                          {{ i+1 }}
+                        </v-col>
+                        <v-col cols="10">
+                          <v-list-item-subtitle v-text="news.press"></v-list-item-subtitle>
+                          <v-list-item-title v-text="news.title"></v-list-item-title>
+                        </v-col>
+                      </v-row>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-card>
             </div>
-            <div class="mt-7">
-              <p class="my-2 subtitle-1">BEST SNS</p>
-              <ol style="border: 2px solid #999999">
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-                <li style="padding-top: 3px; padding-bottom: 3px;">안녕</li>
-              </ol>
-            </div>
+            
             
           </v-col>
         </v-row>
@@ -91,7 +96,7 @@
       <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp" style="position: relative">
         <div class="set-sticky">
         <p class="mt-2 mb-3 subtitle-1">OTHERS</p>
-          <v-list three-line class="pt-0">
+          <v-list two-line class="pt-0">
             <v-list-item
               class="pl-0"
               v-for="(keyword, i) in otherkeywords"
@@ -109,12 +114,8 @@
               ></v-img>
 
               <v-list-item-content class="py-0">
-                <span
-                  class="font-weight-regular caption"
-                  style="margin-bottom:-15px"
-                  v-text="keyword.category"
-                ></span>
-                <span v-text="keyword.title" class="mt-0"></span>
+                <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
+                <v-list-item-title v-text="keyword.title"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -128,6 +129,8 @@
 import TrendDetailNews from './TrendDetailNews.vue'
 import TrendDetailSns from './TrendDetailSns.vue'
 import TrendDetailAgora from './TrendDetailAgora.vue'
+import axios from 'axios'
+import SERVER from '@/lib/api'
 
 
 export default {
@@ -138,6 +141,34 @@ export default {
   },
   data () {
       return {
+        files: [
+        {
+          color: 'blue',
+          icon: 'mdi-clipboard-text',
+          subtitle: 'Jan 20, 2014',
+          title: 'Vacation itinerary',
+        },
+        {
+          color: 'amber',
+          icon: 'mdi-gesture-tap-button',
+          subtitle: 'Jan 10, 2014',
+          title: 'Kitchen remodel',
+        },
+      ],
+      folders: [
+        {
+          subtitle: 'Jan 9, 2014',
+          title: 'Photos',
+        },
+        {
+          subtitle: 'Jan 17, 2014',
+          title: 'Recipes',
+        },
+        {
+          subtitle: 'Jan 28, 2014',
+          title: 'Work',
+        },
+      ],
         tab: null,
         items: [ 
           {id: 1, name:'News', link: 'TrendDetailNews'},
@@ -171,12 +202,24 @@ export default {
           category: 'Travel',
         },
       ],
+      bestNews: [],
       }
     },
     created() {
-      console.log(1)
+      this.getBestNews()
+    },
+    methods: {
+      getBestNews() {
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1)
+          .then((res) => {
+            this.bestNews = res.data.data;
+          })
+          .catch((err) => {
+            console.log(err)
+          } )
+      }
     }
-
 }
 </script>
 

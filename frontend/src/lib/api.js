@@ -1,6 +1,5 @@
 export default {
   URL: 'http://k3a408.p.ssafy.io:9090',
-  // BOARD: '8882',
   ROUTES: {
     accounts: {
       kakaoLogin: '/users/login/kakao',
@@ -18,5 +17,8 @@ export default {
       rdComment: '/trends/comment/', // GET / 해당 트렌드의 댓글 목록 조회, DELETE / 해당 트렌드 댓글 삭제
       cuComment: '/trends/comment', // POST / 해당 트렌드에 댓글 생성, PUT / 해당 트렌드 댓글 수정
     },
+    boards: {
+      getBestNews: '/boards/board/news/scrapcount/'
+    }
   }
 }
