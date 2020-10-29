@@ -1,5 +1,6 @@
 package com.action.trends.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.action.trends.dto.Category;
@@ -17,4 +18,6 @@ public interface TrendService {
 	List<Twitter> readTwitterByTrendId(int trendId);
 	
 	List<Trend> readPredictedTrend();
+	
+	List<HashMap<String, Object>> readAllTrendsWhetherSelfMadeIs(int selfMade);
 }

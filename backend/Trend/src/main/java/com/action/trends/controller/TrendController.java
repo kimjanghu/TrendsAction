@@ -1,5 +1,6 @@
 package com.action.trends.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -65,6 +66,13 @@ public class TrendController {
 	public ResponseEntity<List<Trend>> readPredictedTrend() {
 		logger.debug("예측 트렌드 키워드 목록 조회");
 		return new ResponseEntity<List<Trend>>(service.readPredictedTrend(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "예측 / 기존 카테고리 여부에 따른 카테고리의 모든 트렌드 목록 조회")
+	@GetMapping("allTrendsList/{selfMade}")
+	public ResponseEntity<List<HashMap<String, Object>>> readAllTrendsWhetherSelfMadeIs(@PathVariable int selfMade) {
+		logger.debug("예측 / 기존 카테고리 여부에 따른 카테고리의 모든 트렌드 목록 조회");
+		return new ResponseEntity<>(service.readAllTrendsWhetherSelfMadeIs(selfMade), HttpStatus.OK);
 	}
 
 }
