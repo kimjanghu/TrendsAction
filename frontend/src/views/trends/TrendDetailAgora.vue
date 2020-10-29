@@ -1,10 +1,9 @@
 <template>
-  <v-container style="max-width: 600px;" class="ml-0">
+  <v-container class="ml-0">
     <v-timeline
       dense
       clipped
     >
-      
       <div class="font-weight-bold ml-8 mb-2">
         Today
       </div>
@@ -27,25 +26,24 @@
               >
             </v-avatar>
           </template>
-          <v-text-field
+          <v-card>
+            <v-card-text>
+            <v-textarea 
             v-model="input"
             hide-details
-            flat
-            label="어떻게 생각하세요?"
-            solo
+            filled
             @keydown.enter="addComment"
-          >
-            <template v-slot:append>
+            label="어떻게 생각하세요?"></v-textarea>
+            </v-card-text>
+            <v-card-actions class="pt-0">
+              <v-spacer></v-spacer>
               <v-btn
-                class="mx-0"
-                depressed
                 @click="addComment"
               >
                 댓글작성
               </v-btn>
-
-            </template>
-          </v-text-field>
+            </v-card-actions>
+          </v-card>
         </v-timeline-item>
         <v-timeline-item
           fill-dot
