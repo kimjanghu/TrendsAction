@@ -34,7 +34,7 @@ public class JWTUtil {
 		if (token == null) return "error";
 		try {
 			String result = JWT.require(Algorithm.HMAC256(tokenSecret.getBytes())).build()
-					.verify(token.replace("Bearer", "")).getClaim("email").asString();
+					.verify(token.replaceFirst("Bearer", "").replaceFirst(" ", "")).getClaim("email").asString();
 			return result;
 		} catch (Exception e) { return "error"; }
 	}
