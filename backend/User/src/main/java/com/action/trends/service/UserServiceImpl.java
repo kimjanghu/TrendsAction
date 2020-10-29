@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserService {
 	public User detail(int userId) throws Exception{
 		User result = repo.detail(userId);
 		
+		List<Integer> list = repo.userCategoryList(userId);
+		result.setCategoryList(list);
+		
 		return result;
 	}
 	
@@ -44,8 +47,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int delete(int userId) throws Exception{
+
 		int deleteSuccess = repo.delete(userId);
-		
+
 		return deleteSuccess;
 	}
 	
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int updateUserCategory(List<Integer> previusUserCategoryList, List<Integer> newUserCategoryList, int userId) throws Exception{
+	public int[] updateUserCategory(List<Integer> previusUserCategoryList, List<Integer> newUserCategoryList, int userId) throws Exception{
 		Collections.sort(previusUserCategoryList);
 		Collections.sort(newUserCategoryList);
 		
@@ -78,13 +82,17 @@ public class UserServiceImpl implements UserService {
 			}		
 		}
 		
-		int result = 0;
+		int[] result = new int[2];
+
 		for (int i = 0; i < newUserCategoryList.size(); i++) {
-			System.out.println(newUserCategoryList.get(i) + " " + userId);
-			result += repo.insertUserCategory(newUserCategoryList.get(i), userId);
+			if(repo.insertUserCategory(newUserCategoryList.get(i), userId) == 1) {
+				result[0] = 1;
+			}
 		}
 		for (int i = 0; i < previusUserCategoryList.size(); i++) {
-			result += repo.deleteUserCategory(previusUserCategoryList.get(i), userId);
+			if(repo.deleteUserCategory(previusUserCategoryList.get(i), userId) == 1) {
+				result[1] = 1;
+			}
 		}
 
 		return result;
