@@ -3,15 +3,19 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="500px"
+      max-width="400px"
     >
       <v-card>
         <v-card-title>
-          <span class="headline">Login</span>
+          <span class="text-center mx-auto mt-7">TrendsAction에 오신것을 환영합니다.</span>
+          
         </v-card-title>
         <v-card-text>
+          <p class="text-center">소셜로그인으로 로그인하기</p>
           <a :href="kakaoLoginLink" alt="kakao-login">
-            <img alt="kakao logo" src="@/assets/kakao/kakao_login_medium_wide.png" />
+            <div>
+              <img class="kakao-login-img" alt="kakao logo" src="@/assets/kakao/kakao_login_large_wide.png" />
+            </div>
           </a>
         </v-card-text>
         <v-card-actions>
@@ -22,13 +26,6 @@
             @click="changeDialog"
           >
             Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="changeDialog"
-          >
-            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -44,7 +41,7 @@ export default {
   data() {
     return {
       client_id: process.env.VUE_APP_KAKAO_KEY,
-      redirect_uri: 'http://localhost:3000/oauth/kakao',
+      redirect_uri: 'http://localhost:3000/oauth/kakao'
     }
   },
   props: {
@@ -68,3 +65,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.kakao-login-img {
+  width: 100%;
+  height: 50px;
+}
+</style>
