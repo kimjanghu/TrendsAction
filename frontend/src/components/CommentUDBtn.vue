@@ -2,7 +2,7 @@
 
   <div>
     <div class="font-weight-normal d-flex justify-space-between">
-      <div><strong>{{ comment.user_id }}</strong> @{{ comment.date }}</div>
+      <div><strong>{{ comment.nickname }}</strong> <span class="ml-1">@{{ comment.date }}</span></div>
       <div class="mb-3">
         <v-btn
           small
@@ -27,7 +27,7 @@
 
 
         <v-dialog
-          v-model="dialog2"
+          v-model="dialog"
           persistent
           max-width="290"
         >
@@ -42,24 +42,33 @@
               삭제
             </v-btn>
           </template>
-          <v-card>
-            <v-card-text>정말 삭제하시겠습니까?</v-card-text>
-            <v-card-actions>
-              <v-btn
-                color="green darken-1"
-                text
-                @click="dialog2 = false"
-              >
-                아니오
-              </v-btn>
-              <v-btn
-                color="green darken-1"
-                text
-                @click="dialog2 = false"
-              >
-                네
-              </v-btn>
-            </v-card-actions>
+          <v-card class="custom-rounded">
+            <v-card-title>
+              <v-spacer></v-spacer>
+              <i class="fas fa-times" @click="dialog = false" style="cursor:pointer;"></i>
+            </v-card-title>
+            <v-card-text class="text-center">
+              <div><strong>🚨경고🚨</strong><br />정말 삭제하시겠습니까?</div>
+              <div class="mt-3">
+                <v-btn
+                  small
+                  dark
+                  color="primary"
+                  @click="dialog = false"
+                >
+                  네
+                </v-btn>
+                <v-btn
+                  class="ml-2"
+                  small
+                  dark
+                  color="primary"
+                  @click="dialog = false"
+                >
+                  아니오
+                </v-btn>
+              </div>
+            </v-card-text>
           </v-card>
         </v-dialog>
       </div>
@@ -85,8 +94,7 @@ export default {
   data() {
     return {
       isEdit: false,
-      dialog1: false,
-      dialog2: false,
+      dialog: false,
     }
   },
   methods: {
@@ -96,6 +104,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.custom-rounded {
+  border-radius: 4px;
+}
 
 </style>
