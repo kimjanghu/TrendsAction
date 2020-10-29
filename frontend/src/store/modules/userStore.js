@@ -22,6 +22,7 @@ const userStore = {
   actions: {
     login({ commit }, code) {
       console.log(code)
+      // Bearer
       axios.get(`http://k3a408.p.ssafy.io:9090/users/login/kakao`, {
         params: {
           code: code
@@ -29,14 +30,17 @@ const userStore = {
       })
         .then(res => {
           commit('SET_TOKEN', res.data.token)
+          return res.data
         })
         .then(data => {
+          console.log(data)
           window.localStorage.setItem('userId', data.userId)
           if (data.nickname) {
             router.push('/')
             return
           }
-          router.push({ name: 'UserProfile', params: { id: data.userId }})
+          router.push({ name: 'UserProfile', params: { id: 1 }})
+          alert('Nickname을 설정해주세요.')
         })
         .catch(err => {
           console.log(err)
@@ -50,6 +54,12 @@ const userStore = {
         cookies.remove('auth-token')
         window.localStorage.removeItem('userId')
         router.push('/')
+          .catch(err => {
+            if(err.name != "NavigationDuplicated" ){
+              throw err
+            }
+          })
+
         alert('로그아웃 되었습니다.')
       } else {
         router.go(-1)

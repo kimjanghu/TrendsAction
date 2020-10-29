@@ -44,6 +44,21 @@ export default {
   data() { 
     return {
     }
+  },
+  created() {
+    const config = {
+      headers: {
+        token: `Bearer ${this.$cookies.get('auth-token')}`
+      }
+    }
+
+    this.$http.get(this.$api.URL + this.$api.ROUTES.accounts.user + '?userId=7', config)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 </script>

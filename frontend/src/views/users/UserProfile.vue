@@ -20,6 +20,7 @@
 
 <script>
 import UserProfileUpdate from './UserProfileUpdate.vue'
+
 export default {
   components: { UserProfileUpdate }
 }
