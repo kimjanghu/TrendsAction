@@ -34,7 +34,7 @@ const routes = [
     component: TrendDetailLayout
   },
   {
-    path: '/mypage',
+    path: '/mypage/:id',
     name: 'UserProfile',
     component: UserProfile
   },

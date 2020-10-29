@@ -32,7 +32,7 @@
         </v-tab>
         <v-tab
           class="navbar-link"
-          @click="dialog = true" 
+          @click="logout()" 
           v-if="isLogin"
         >
           Logout
@@ -64,35 +64,26 @@
       right
       temporary
     >
-      <!-- 로그인 false -->
       <v-list-item v-if="!isLogin" class="avatar-info">
-        <!-- 익명 이미지 -->
         <v-list-item-avatar>
           <v-img src="mdi-account"></v-img>
         </v-list-item-avatar>
-        <!-- 비로그인 유저 안내 -->
         <v-list-item-content>
           <v-list-item-title>로그인이 필요합니다.</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <!-- 로그인 true -->
       <v-list-item v-if="isLogin" class="avatar-info">
-        <!-- 유저 프로필 이미지 -->
         <v-list-item-avatar>
           <v-icon>mdi-menu-down</v-icon>
         </v-list-item-avatar>
-
-        <!-- 유저 닉네임 -->
         <v-list-item-content>
           <v-list-item-title>메뉴 리스트</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <!-- 하단 구분선 -->
       <v-divider></v-divider>
 
-      <!-- 사이드바 메뉴 리스트 -->
       <v-list
         nav
         dense
@@ -138,7 +129,7 @@
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -161,6 +152,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('userStore', ['logout']),
     changeDialog(dialog) {
       this.dialog = dialog
     }
