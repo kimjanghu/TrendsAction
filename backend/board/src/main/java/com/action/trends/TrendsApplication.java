@@ -9,11 +9,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @ServletComponentScan
 public class TrendsApplication {
-	private static final String PROPERTIES = "classpath:/mysql.yml" + ",classpath:/aws.yml" + 
-					",classpath:/application.properties";
+//	private static final String PROPERTIES = "classpath:/mysql.yml" + ",classpath:/aws.yml" + 
+//					",classpath:/application.properties";
 	
 	public static void main(String[] args) {
-		System.setProperty("spring.config.location", PROPERTIES);
+//		System.setProperty("spring.config.location", PROPERTIES);
 		SpringApplication.run(TrendsApplication.class, args);
 	}
 
