@@ -1,14 +1,14 @@
 import urllib.request
 import pandas as pd
-import os
+import sys
 import re
 import requests
 
-def crawling():
+def crawling(keyword):
     client_id = "c1qLOQri0J79gp9juouv"
     client_secret = "06vcHY0hfX"
 
-    search_word = '멀티 페르소나'
+    search_word = keyword
     max_display = 100  # 출력 뉴스 수
     sort = 'sim'  # 결과값의 정렬기준 시간순 date, 관련도 순 sim
     start = 1
@@ -26,7 +26,7 @@ def crawling():
 
     print(df)
 
-    df.to_json(f'news_search_result_{search_word}.json', force_ascii=False)
+    df.to_json(f'/Users/donghwi/Desktop/Trend/python/news_search_result_{search_word}.json', force_ascii=False)
 
 
 
@@ -36,8 +36,7 @@ def clean_html(x):
     return x
 
 
-
 if __name__ == '__main__':
-    crawling()
+    crawling(sys.argv[1])
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

@@ -24,14 +24,15 @@ public class CrawlingController {
 		
 		try {
 			System.out.println("Executing python code");
-			String pythonScriptPath = "main.py";
+			// 경로는 서버에서 다시 잘~~ 설정해야함. 잊지 말길!
+			String pythonScriptPath = "/Users/donghwi/Desktop/Trend/python/main.py";
 			String[] cmd = new String[3];
 			cmd[0] = "python3";
 			cmd[1] = pythonScriptPath;
 			cmd[2] = keyword;
+			
 			Runtime rt = Runtime.getRuntime();
-			Process process = rt.exec("python3 main.py " + keyword);
-			//Process process = Runtime.getRuntime().exec("python3 main.py " + keyword);
+			Process process = rt.exec(cmd);
 			
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
