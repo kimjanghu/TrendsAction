@@ -20,7 +20,12 @@
           large
         >
           <template v-slot:icon>
-            <span>박싸피</span>
+            <v-avatar>
+              <img
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                alt="John"
+              >
+            </v-avatar>
           </template>
           <v-text-field
             v-model="input"
@@ -43,11 +48,26 @@
           </v-text-field>
         </v-timeline-item>
         <v-timeline-item
-          v-for="(comment, i) in messages"
+          fill-dot
+          v-for="(comment, i) in comments"
           :key="i"
-          small
+          large
         >
-         <CommentUDBtn :comment="comment"/> 
+          <template v-slot:icon>
+            <v-avatar>
+              <img
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                alt="John"
+              >
+            </v-avatar>
+          </template>
+          
+          <v-card>
+            <v-container>
+              <CommentUDBtn :comment="comment"/> 
+            </v-container>
+          </v-card>
+         
           
         </v-timeline-item>
         
