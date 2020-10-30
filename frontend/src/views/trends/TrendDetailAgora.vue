@@ -28,21 +28,31 @@
           </template>
           <v-card>
             <v-card-text>
-            <v-textarea 
-            v-model="input"
-            hide-details
-            filled
-            @keydown.enter="addComment"
-            label="어떻게 생각하세요?"></v-textarea>
-            </v-card-text>
-            <v-card-actions class="pt-0">
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="addComment"
-              >
-                댓글작성
-              </v-btn>
-            </v-card-actions>
+              <v-textarea
+                v-model="input"
+                hide-details
+                filled
+                @keydown.enter="addComment"
+                :disabled="!isLogin"
+                :label="this.isLogin ? '어떻게 생각하세요?' : '로그인하고 자유롭게 의견을 나눠봐요!'"></v-textarea>
+              </v-card-text>
+              <v-card-actions class="pt-0">
+                <v-spacer></v-spacer>
+                <v-btn
+                  v-if="isLogin"
+                  @click="addComment"
+                >
+                  댓글작성
+                </v-btn>
+
+                <v-btn
+                  @click="dialog = true" 
+                  v-else>
+                  로그인
+                  <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
+                </v-btn>
+                
+              </v-card-actions>
           </v-card>
         </v-timeline-item>
         <v-timeline-item
@@ -79,10 +89,13 @@
 import axios from 'axios'
 import SERVER from '@/lib/api'
 import CommentUDBtn from '@/components/CommentUDBtn.vue'
+import UsersLoginForm from '@/components/users/UsersLoginForm'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    CommentUDBtn
+    CommentUDBtn,
+    UsersLoginForm,
   },
   data: () => ({
     dialog: false,
@@ -90,35 +103,10 @@ export default {
     events: [],
     input: null,
     nonce: 0,
-    messages: [
-      {
-        id: 1,
-        from: '영등포솜주먹',
-        content: `'multi-persona' 멀티 페르소나 : 가면이라 칭해져야 하는가.`,
-        time: '10:42am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        id: 2,
-        from: '백엔드마스터',
-        content: '이러한 멀티 페르소나에는 단점 또한 존재한다. 멀티 페르소나가 지속된다면 정체성이 불안정해질 수 있다. 정체성의 불안정이 지속되면 혼란이 올 수 있고, 결과적으로는 실제 자신의 정체성이 무엇인지 인식하기 어려워질 수 있다.',
-        time: '10:37am',
-        color: 'green',
-      },
-      {
-        id: 3,
-        from: '도봉산나와바리',
-        content: '멀티 페르소나, 나를 나라고 말할 수 있는 것은 누구인가?',
-        time: '9:47am',
-        color: 'deep-purple lighten-1',
-      },
-    ],
+    
   }),
-
   computed: {
-    timeline () {
-      return this.events.slice().reverse()
-    },
+    ...mapGetters('userStore', ['isLogin']),
   },
   created() {
     this.getComments()
@@ -159,6 +147,9 @@ export default {
 
       this.input = null
     },
+    changeDialog(dialog) {
+      this.dialog = dialog
+    }
   },
 }
 
