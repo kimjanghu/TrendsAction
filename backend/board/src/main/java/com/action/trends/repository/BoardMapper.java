@@ -26,7 +26,7 @@ public interface BoardMapper {
 	public String getTrendName(int trendid);
 	public int selectLast();
 	public User searchUser(String email);
-	public int checkBoardName(int userId, String name);
+	public String checkBoardName(int userId, String name);
 	public int createBoard(Board board);
 	public int connectUserBoard(int userId, int boardId);
 	public int addTwitt(TwittBoard twittBoard);
