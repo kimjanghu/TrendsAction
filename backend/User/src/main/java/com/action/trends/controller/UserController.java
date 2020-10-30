@@ -77,27 +77,24 @@ public class UserController {
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 반환한다.", response = Map.class)
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> userInfo(int userId, @RequestHeader("token") String token) throws Exception{
+	public ResponseEntity<Map<String, Object>> userInfo(@RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 반환 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		
+		String decodeEmail = null;
+		User userData = null;
 		new JWTUtil();
-		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
-			
-			System.out.println("토큰인증 실패");
-			
+		try {
+			decodeEmail = JWTUtil.verifyToken(token);
+			userData = userService.detailByEmail(decodeEmail);
+		} catch (Exception e) {
 			map.put("status", false);
-			map.put("message", "토큰 인증 실패했습니다..");
-			
+			map.put("message", "토큰 디코딩 및 인증에 실패했습니다.");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
-		}else {
-			System.out.println("토큰 인증 성공");
 		}
 		
-		
 		try{
-			User userData = userService.detail(userId);
-			
+
 			if(userData != null) {
 				map.put("status", true);
 				map.put("message", "유저정보 조회 성공하였습니다");
@@ -106,6 +103,7 @@ public class UserController {
 				map.put("status", false);
 				map.put("message", "유저정보 조회 실패하였습니다");
 			}
+			System.out.println("flag3");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}catch(Exception e){
 			StringWriter error = new StringWriter();

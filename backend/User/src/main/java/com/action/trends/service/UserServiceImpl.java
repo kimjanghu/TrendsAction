@@ -39,6 +39,16 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User detailByEmail(String email) throws Exception{
+		User result = repo.detailByEmail(email);
+		
+		List<Integer> list = repo.userCategoryList(result.getId());
+		result.setCategoryList(list);
+		
+		return result;
+	}
+	
+	@Override
 	public int update(User user) throws Exception{
 		int updateSuccess = repo.update(user);
 		

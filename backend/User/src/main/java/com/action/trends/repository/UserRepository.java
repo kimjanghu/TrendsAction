@@ -14,6 +14,8 @@ public interface UserRepository {
 	
 	User detail(int userId) throws Exception;
 	
+	User detailByEmail(String detailByEmail) throws Exception;
+	
 	int update(User user) throws Exception;
 	
 	int delete(int userId) throws Exception;
