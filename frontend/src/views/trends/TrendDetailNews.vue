@@ -1,11 +1,16 @@
 <template>
   <v-container>
-    <v-card
+    <!-- <v-card
       class="mx-auto my-5"
       v-for="news in newsList"
       :key="news.id"
       :href="'//' + news.pressLink"
       target="_blank"
+    > -->
+    <v-card
+      class="mx-auto my-5"
+      v-for="news in newsList"
+      :key="news.id"
     >
       <v-img
         class="white--text align-end"
@@ -16,9 +21,8 @@
       <v-card-title>{{ news.title }}</v-card-title>
       <v-card-subtitle class="pb-0">
         {{ news.press }} / {{ news.pubDate }}
-      </v-card-subtitle>
-
-      <AddBoardBtn />
+      </v-card-subtitle>      
+      <AddBoardBtn :my-board-list="myBoardList"/>
     </v-card>
 
     <div class="text-center">
@@ -43,12 +47,13 @@ export default {
   data() {
     return {
       page: 1,
-      newsList: []
+      newsList: [],
+      myBoardList: [],
     }
   },
   created() {
     this.getNews()
-
+    this.getBoardList()
   },
   methods: {
     getNews() {
@@ -57,6 +62,12 @@ export default {
         .then((res) => 
           { console.log(res);
             this.newsList = res.data })
+        .catch((err) => { console.log(err)})
+    },
+    getBoardList() {
+      axios
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + 8)
+        .then((res) => { this.myBoardList = res.data.data })
         .catch((err) => { console.log(err)})
     }
   }
