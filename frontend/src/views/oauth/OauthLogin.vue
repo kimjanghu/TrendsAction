@@ -18,10 +18,10 @@ export default {
     // http://k3a408.p.ssafy.io:9090/users
     // const config = {
     //   headers: {
-    //     token: this.$cookies.get('auth-token')
+    //     token: Bearer this.$cookies.get('auth-token')
     //   }
     // }
-    // this.$http.get(`http://k3a408.p.ssafy.io:9090/users/login/kakao`, {
+    // this.$http.get(`http://k3a408.p.ssafy.io:9090/users/login/kakao`, config, {
     //   params: {
     //     code: this.$route.query.code
     //   }
