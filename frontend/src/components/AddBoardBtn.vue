@@ -30,10 +30,10 @@
               <v-container>
                 <v-list shaped>
                   <v-list-item-group
-                    v-model="model"
+                    v-model="groupSelect"
                     multiple
                   >
-                    <template v-for="(item, i) in myboards">
+                    <template v-for="(item, i) in myBoardList">
                       <v-divider
                         v-if="!item"
                         :key="`divider-${i}`"
@@ -47,7 +47,7 @@
                       >
                         <template v-slot:default="{ active }">
                           <v-list-item-content>
-                            <v-list-item-title v-text="item"></v-list-item-title>
+                            <v-list-item-title v-text="item.name"></v-list-item-title>
                           </v-list-item-content>
 
                           <v-list-item-action>
@@ -106,7 +106,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="dialog = false"
+                @click="addMyBoard"
               >
                 Action
               </v-btn>
@@ -119,22 +119,40 @@
 </template>
 
 <script>
+import axios from 'axios'
+import SERVER from '@/lib/api'
+
 export default {
+  props: ['myBoardList'],
   data () {
       return {
         dialogm1: '',
         dialog: false,
         dialog2: false,
         newBoard: '',
-        model: [],
-        myboards: ['news', 'project', 'favorite', '꼴라쥬']
+        groupSelect: [],
       }
     },
+  create() {
+  },
   methods: {
     addNewBoard() {
-      this.myboards.push(this.newBoard);
-      this.dialog2 = false;
-      this.newBoard = '';
+      let body = { 'userId': 8, 'name': this.newBoard }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body)
+        .then((res) => {
+          alert('보드 등록에 성공하셨습니다.')
+          this.dialog2 = false;
+          this.newBoard = '';
+          console.log(res)
+        })
+        .catch((err) => {
+          alert('등록에 실패했습니다.')
+          console.log(err)
+        })
+    },
+    addMyBoard() {
+
     }
   }
 

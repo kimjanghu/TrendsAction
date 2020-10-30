@@ -131,6 +131,8 @@ import TrendDetailSns from './TrendDetailSns.vue'
 import TrendDetailAgora from './TrendDetailAgora.vue'
 import axios from 'axios'
 import SERVER from '@/lib/api'
+import { mapState, mapGetters } from 'vuex'
+
 
 
 export default {
@@ -141,34 +143,6 @@ export default {
   },
   data () {
       return {
-        files: [
-        {
-          color: 'blue',
-          icon: 'mdi-clipboard-text',
-          subtitle: 'Jan 20, 2014',
-          title: 'Vacation itinerary',
-        },
-        {
-          color: 'amber',
-          icon: 'mdi-gesture-tap-button',
-          subtitle: 'Jan 10, 2014',
-          title: 'Kitchen remodel',
-        },
-      ],
-      folders: [
-        {
-          subtitle: 'Jan 9, 2014',
-          title: 'Photos',
-        },
-        {
-          subtitle: 'Jan 17, 2014',
-          title: 'Recipes',
-        },
-        {
-          subtitle: 'Jan 28, 2014',
-          title: 'Work',
-        },
-      ],
         tab: null,
         items: [ 
           {id: 1, name:'News', link: 'TrendDetailNews'},
@@ -205,6 +179,10 @@ export default {
       bestNews: [],
       }
     },
+    computed: {
+      ...mapState('userStore', ['userInfo']),
+      ...mapGetters('userStore', ['config']),
+    },
     created() {
       this.getBestNews()
     },
@@ -218,7 +196,7 @@ export default {
           .catch((err) => {
             console.log(err)
           } )
-      }
+      },
     }
 }
 </script>

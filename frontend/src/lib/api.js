@@ -18,7 +18,9 @@ export default {
       cuComment: '/trends/comment', // POST / 해당 트렌드에 댓글 생성, PUT / 해당 트렌드 댓글 수정
     },
     boards: {
-      getBestNews: '/boards/board/news/scrapcount/'
+      getBestNews: '/boards/board/news/scrapcount/',
+      getBoardList: '/boards/board/',
+      addNewBoard: '/boards/board'
     }
   }
 }
