@@ -11,11 +11,18 @@
 		select EXISTS (select * from user where nickname=#{nickname})
 	</select>
 	
-	<!-- 유저정보 확인 -->
+	<!-- 유저정보(id로 확인) 확인 -->
 	<select id="detail" resultType="User">
 		select *
 		from user
 		where id = #{userId}
+	</select>
+	
+	<!-- 유저정보(이메일로 확인) 확인 -->
+	<select id="detailByEmail" resultType="User">
+		select *
+		from user
+		where email = #{email}
 	</select>
 	
 	<!-- 유저정보 수정 -->
@@ -27,7 +34,7 @@
 	</update>
 	
 	<!-- 유저정보 삭제 -->
-	<delete id="delete">
+	<delete id="delete" parameterType="int">
 		delete 
 		  from user 
 		 where id = #{userId}

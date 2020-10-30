@@ -5,7 +5,7 @@ export default {
       kakaoLogin: '/users/login/kakao',
       user: '/users/user', // GET / 유저 정보 받아오기, PUT / 유저 생성
       deleteUser: '/users/user/', // DELETE / 유저 정보 삭제
-      checkNickname: '/users/user/checknickname/', // GET / 닉네임 중복 체크
+      checkNickname: '/users/user/checknickname', // POST / 닉네임 중복 체크
     },
     trends: {
       trendCategories: '/trends/trend/', // GET / 카테고리별 트렌드 목록 조회

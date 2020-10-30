@@ -1,5 +1,7 @@
 package com.action.trends.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.User;
 import com.action.trends.service.UserService;
+import com.action.trends.util.JWTUtil;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -65,19 +68,33 @@ public class UserController {
 			
 			
 		}catch(Exception e) {
-			map.put("Error", ERROR);
+			StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 반환한다.", response = Map.class)
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> userInfo(int userId) throws Exception{
+	public ResponseEntity<Map<String, Object>> userInfo(@RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 반환 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		String decodeEmail = null;
+		User userData = null;
+		new JWTUtil();
+		try {
+			decodeEmail = JWTUtil.verifyToken(token);
+			userData = userService.detailByEmail(decodeEmail);
+		} catch (Exception e) {
+			map.put("status", false);
+			map.put("message", "토큰 디코딩 및 인증에 실패했습니다.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
 		try{
-			User userData = userService.detail(userId);
+
 			if(userData != null) {
 				map.put("status", true);
 				map.put("message", "유저정보 조회 성공하였습니다");
@@ -86,50 +103,98 @@ public class UserController {
 				map.put("status", false);
 				map.put("message", "유저정보 조회 실패하였습니다");
 			}
+			System.out.println("flag3");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}catch(Exception e){
-			map.put("Error", ERROR);
+			StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		
 	}
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 수정한다.", response = Map.class)
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody User user) throws Exception{
+	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody User user, @RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 수정 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(user.getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
+		
 		try {
-			int updateSuccess = userService.update(user);
-			if(updateSuccess == 1) {
+			int updateUserdataSuccess = userService.update(user);
+			if(updateUserdataSuccess == 1) {
 				map.put("status", true);
-				map.put("message", "유저정보 수정 성공했습니다");
+				map.put("message", "유저정보 수정(카테고리 제외) 성공했습니다");
 				
-				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+				
 			}else {
 				map.put("status", false);
-				map.put("message", "유저정보 수정 실패했습니다");
+				map.put("message", "유저정보 수정(카테고리 제외)에서 실패했습니다");
 				
 				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
+			List<Integer> previusUserCategoryList = userService.userCategoryList(user.getId());
+			List<Integer> newUserCategoryList = user.getCategoryList();
+			
+			int[] updateCategoryListSuccess = new int[2];
+			updateCategoryListSuccess = userService.updateUserCategory(previusUserCategoryList, newUserCategoryList, user.getId());
+			
+			if(updateCategoryListSuccess[0] == 1 || updateCategoryListSuccess[1] == 1) {
+				map.put("status", true);
+				map.put("message", "유저정보 수정(카테고리 포함) 성공했습니다");
+			}else {
+				map.put("status", true);
+				map.put("message", "유저정보 수정(카테고리 포함) 성공했으나 수정한 것은 없습니다");
+			}
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			
 		}catch(Exception e) {
-			map.put("Error", ERROR);
+			StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@ApiOperation(value = "해당 유저아이디에 대한 정보를 삭제한다.", response = Map.class)
 	@DeleteMapping("{userId}")
-	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId) throws Exception{
+	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId, @RequestHeader("token") String token) throws Exception{
 		logger.debug("해당 유저 정보 삭제 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		new JWTUtil();
+		if(!JWTUtil.verifyToken(token).equals(userService.detail(userId).getEmail())) {
+			
+			System.out.println("토큰인증 실패");
+			
+			map.put("status", false);
+			map.put("message", "토큰 인증 실패했습니다..");
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.BAD_REQUEST);
+		}else {
+			System.out.println("토큰 인증 성공");
+		}
+		
 		try {
+			System.out.println("진입");
 			int deleteSuccess = userService.delete(userId);
-
+			System.out.println(deleteSuccess);
 			if(deleteSuccess == 1) {
 				map.put("status", true);
 				map.put("message", "유저정보 삭제 성공했습니다");
@@ -145,66 +210,10 @@ public class UserController {
 			
 			
 		}catch(Exception e) {
-			map.put("Error", ERROR);
+			StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	/////////////////////////////////////////////////////////////////////////////////
-	
-						/*여기부턴 유저 개인의 관심카테고리 CURD 작성*/
-	
-	/////////////////////////////////////////////////////////////////////////////////
-	
-	@ApiOperation(value = "유저 개인의 관심 카테고리를 조회힌다.", response = Map.class)
-	@GetMapping("/category/{userId}")
-	public ResponseEntity<Map<String, Object>> userCategoryInfo(@PathVariable int userId) throws Exception {
-		logger.debug("유저 개인의 관심 카테고리를 조회 - 호출");
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			
-			List<Integer> userCategoryList = userService.userCategoryList(userId);
-			
-			map.put("data", userCategoryList);
-			map.put("status", true);
-			map.put("message", "유저 개인의 관심 카테고리 목록 조회 성공했습니다.");
-			
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-			
-		}catch(Exception e) {
-			
-			map.put("Error", ERROR);
-			map.put("status", false);
-			map.put("message", "유저 개인의 관심 카테고리 목록 조회 실패했습니다.");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-			
-		}
-	}
-	
-	@ApiOperation(value = "유저 개인의 관심 카테고리를 등록 및 삭제힌다.", response = Map.class)
-	@PostMapping("/category")
-	public ResponseEntity<Map<String, Object>> writeUserCategory(@RequestBody List<Integer> categoryIdList, int userId) throws Exception {
-		logger.debug("유저 개인의 관심 카테고리를 등록 및 삭제 - 호출");
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		try {
-		
-			List<Integer> previusUserCategoryList = userService.userCategoryList(userId);
-			List<Integer> newUserCategoryList = categoryIdList;
-			
-			userService.updateUserCategory(previusUserCategoryList, newUserCategoryList, userId);
-		
-			map.put("status", true);
-			map.put("message", "유저 개인의 관심 카테고리를 등록 및 삭제 성공했습니다.");
-			
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			map.put("status", false);
-			map.put("message", "유저 개인의 관심 카테고리를 등록 및 삭제 실패했습니다.");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-			
 		}
 	}
 	

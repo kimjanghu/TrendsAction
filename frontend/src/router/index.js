@@ -63,11 +63,11 @@ const routes = [
   },
   {
     path: '/mypage/:id',
-    name: 'UserProfile',
+    name: 'UserProfileLayout',
     component: UserProfileLayout,
     children: [
       {
-        path: 'username',
+        path: 'profile',
         name: 'UserProfile',
         component: UserProfile,
       },

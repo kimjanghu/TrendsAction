@@ -35,8 +35,8 @@ const userStore = {
       //     token: `Bearer ${this.$cookies.get('auth-token')}`
       //   }
       // }
-      const userId = window.localStorage.getItem('userId')
-      axios.get(SERVER.URL + SERVER.ROUTES.accounts.user + `?userId=${userId}`, getters.config)
+      // const userId = window.localStorage.getItem('userId')
+      axios.get(SERVER.URL + SERVER.ROUTES.accounts.user, getters.config)
         .then(res => {
           commit('SET_USERINFO', res.data.data)
           console.log(res.data.data)

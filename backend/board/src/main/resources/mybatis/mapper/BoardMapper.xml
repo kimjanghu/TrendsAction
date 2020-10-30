@@ -64,8 +64,8 @@
 		limit 5;
 	</select>
 	
-	<select id="checkBoardName" parameterType="map" resultType="int">
-		SELECT * FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId} and b.name=#{name}
+	<select id="checkBoardName" parameterType="map" resultType="String">
+		SELECT b.name FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId} and b.name=#{name}
 	</select>
 	
 	<insert id="createBoard" parameterType="Board">
