@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin(origins = "{*}", maxAge = 3600)
+@CrossOrigin(origins = "{*}", maxAge = 6000)
 @RestController
 public class CrawlingController {
 	
