@@ -38,27 +38,27 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   components: {
   },
   data() { 
     return {
+
     }
   },
-  created() {
-    const config = {
-      headers: {
-        token: `Bearer ${this.$cookies.get('auth-token')}`
-      }
-    }
+  computed: {
 
-    this.$http.get(this.$api.URL + this.$api.ROUTES.accounts.user + '?userId=7', config)
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  },
+  methods: {
+    ...mapActions('userStore', ['getUserInfo']),
+  },
+  created() {
+    this.getUserInfo()
+  },
+  mounted() {
+    
   }
 }
 </script>
