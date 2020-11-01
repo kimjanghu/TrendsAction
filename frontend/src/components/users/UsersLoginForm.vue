@@ -14,7 +14,7 @@
           <p class="text-center">소셜로그인으로 로그인하기</p>
           <a :href="kakaoLoginLink" alt="kakao-login">
             <div>
-              <img class="kakao-login-img" alt="kakao logo" src="@/assets/kakao/kakao_login_large_wide.png" />
+              <img @click="changeDialog" class="kakao-login-img" alt="kakao logo" src="@/assets/kakao/kakao_login_large_wide.png" />
             </div>
           </a>
         </v-card-text>
@@ -61,7 +61,6 @@ export default {
     changeDialog() {
       this.$emit('change-dialog', false)
     },
-    
   }
 }
 </script>
