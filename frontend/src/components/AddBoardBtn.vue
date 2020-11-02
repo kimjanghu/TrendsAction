@@ -163,9 +163,9 @@ export default {
     },
     addNewInfo() {
       let body = {
-        'boardId' : this.groupSelect.boardId,
-        'userId' : this.userInfo.id,
-        'newsId' : this.newsId
+        boardId : this.groupSelect.boardId,
+        scarpUser : this.userInfo.id,
+        newsId : this.newsId
       }
       axios
         .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)

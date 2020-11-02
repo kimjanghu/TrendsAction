@@ -137,20 +137,6 @@ export default {
           { console.log(res); this.input = ''; this.getComments()})
         .catch((err) => { console.log(err)})
     },
-    comment () {
-      const time = (new Date()).toTimeString()
-      this.messages.push({
-        id: this.nonce++,
-        from: "박싸피",
-        message: this.input,
-        color: 'green',
-        time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, ) => {
-          return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
-        }),
-      })
-
-      this.input = null
-    },
     changeDialog(dialog) {
       this.dialog = dialog
     }

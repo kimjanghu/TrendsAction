@@ -103,8 +103,9 @@ export default {
     editComment(commentId) {
       let body = {
         content: this.comment.content,
-        date: '2020-10-21',
-        commentId: commentId,
+        userId: this.userInfo.id,
+        trendId: 1,
+        id: commentId,
       }
       axios
         .put(SERVER.URL + SERVER.ROUTES.comments.cuComment, body)
