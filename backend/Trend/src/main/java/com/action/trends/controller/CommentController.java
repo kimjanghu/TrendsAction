@@ -1,4 +1,5 @@
 package com.action.trends.controller;
+import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,8 @@ public class CommentController {
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Comment comment) {
 		logger.debug("해당 트렌드에 댓글 삽입");
+		String date = LocalDateTime.now() + "";
+		comment.setDate(date);
 		service.insert(comment);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -51,6 +54,8 @@ public class CommentController {
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Comment comment) {
 		logger.debug("해당 트렌드의 댓글 수정");
+		String date = LocalDateTime.now() + "";
+		comment.setDate(date);
 		service.update(comment);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

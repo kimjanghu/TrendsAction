@@ -8,6 +8,7 @@
 		from comment, user
 		where comment.user_id = user.id
 		and trend_id=#{trendId}
+		order by date DESC;
 	</select>
 	
 	<!-- 해당 트렌드에 댓글 삽입 -->
