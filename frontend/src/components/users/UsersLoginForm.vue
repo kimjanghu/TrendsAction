@@ -14,7 +14,7 @@
           <p class="text-center">소셜로그인으로 로그인하기</p>
           <a :href="kakaoLoginLink" alt="kakao-login">
             <div>
-              <img class="kakao-login-img" alt="kakao logo" src="@/assets/kakao/kakao_login_large_wide.png" />
+              <img @click="changeDialog" class="kakao-login-img" alt="kakao logo" src="@/assets/kakao/kakao_login_large_wide.png" />
             </div>
           </a>
         </v-card-text>
@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       client_id: process.env.VUE_APP_KAKAO_KEY,
-      redirect_uri: 'http://localhost:3000/oauth/kakao'
+      // 'http://localhost:3000/oauth/kakao'
+      redirect_uri: process.env.VUE_APP_PAGE_URL + '/oauth/kakao'
     }
   },
   props: {
@@ -61,7 +62,6 @@ export default {
     changeDialog() {
       this.$emit('change-dialog', false)
     },
-    
   }
 }
 </script>

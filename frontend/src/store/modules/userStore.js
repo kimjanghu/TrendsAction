@@ -30,20 +30,16 @@ const userStore = {
   },
   actions: {
     getUserInfo({ commit, getters }) {
-      // const config = {
-      //   headers: {
-      //     token: `Bearer ${this.$cookies.get('auth-token')}`
-      //   }
-      // }
-      // const userId = window.localStorage.getItem('userId')
-      axios.get(SERVER.URL + SERVER.ROUTES.accounts.user, getters.config)
+      return new Promise(function(resolve) {
+        axios.get(SERVER.URL + SERVER.ROUTES.accounts.user, getters.config)
         .then(res => {
           commit('SET_USERINFO', res.data.data)
-          console.log(res.data.data)
+          resolve(res.data.data)
         })
         .catch(err => {
           console.log(err)
-        })
+        })  
+      }) 
     },
     login({ commit }, code) {
       // Bearer
@@ -62,7 +58,8 @@ const userStore = {
           window.localStorage.setItem('userId', data.userId)
           window.localStorage.setItem('nickname', data.nickname)
           if (data.nickname) {
-            router.push('/')
+            // router.push('/')
+            window.location.href = process.env.VUE_APP_PAGE_URL + '/'
             return
           }
           router.push({ name: 'UserProfile', params: { id: data.userId }})
