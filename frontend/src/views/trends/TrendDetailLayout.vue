@@ -56,9 +56,9 @@
                 :key="item.id"
               >
                 
-                <trend-detail-news v-if="item.id==1"/>
-                <trend-detail-sns v-if="item.id==2" />
-                <trend-detail-agora v-if="item.id==3" />
+                <trend-detail-news v-if="item.id==1" :userInfo="userInfo"/>
+                <trend-detail-sns v-if="item.id==2" :userInfo="userInfo"/>
+                <trend-detail-agora v-if="item.id==3" :userInfo="userInfo"/>
 
               </v-tab-item>
             </v-tabs-items>
@@ -131,7 +131,7 @@ import TrendDetailSns from './TrendDetailSns.vue'
 import TrendDetailAgora from './TrendDetailAgora.vue'
 import axios from 'axios'
 import SERVER from '@/lib/api'
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 
 
@@ -177,14 +177,15 @@ export default {
         },
       ],
       bestNews: [],
+      userInfo: {},
       }
     },
     computed: {
-      ...mapState('userStore', ['userInfo']),
       ...mapGetters('userStore', ['config']),
     },
     created() {
       this.getBestNews()
+      this.getUserInfo()
     },
     methods: {
       getBestNews() {
@@ -197,6 +198,15 @@ export default {
             console.log(err)
           } )
       },
+      getUserInfo() {
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.accounts.user, this.config)
+          .then((res) => { 
+            console.log(res.data.data);
+            this.userInfo = res.data.data
+          })
+          .catch((err) => { console.log(err)})
+      }
     }
 }
 </script>
