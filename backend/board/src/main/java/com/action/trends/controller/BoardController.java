@@ -250,7 +250,7 @@ public class BoardController {
 		} catch (RuntimeException e) {
 			if (e.getMessage().contains("Duplicate")) {
 				resultMap.put("status", false);
-				resultMap.put("message",  "이미 담은 트윗입니다.");
+				resultMap.put("message", "이미 담은 트윗입니다.");
 				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 			} else {
 				entity = handleException(e);

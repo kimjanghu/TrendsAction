@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.action.trends.service.S3Service;
 
-@CrossOrigin(origins = "{*}", maxAge = 6000)
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 public class UploadController {
 	@Autowired
