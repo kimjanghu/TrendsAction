@@ -22,7 +22,7 @@
       <v-card-subtitle class="pb-0">
         {{ news.press }} / {{ news.pubDate }}
       </v-card-subtitle>      
-      <AddBoardBtn :my-board-list="myBoardList"/>
+      <AddBoardBtn />
     </v-card>
 
     <div class="text-center">
@@ -48,12 +48,12 @@ export default {
     return {
       page: 1,
       newsList: [],
-      myBoardList: [],
+      // myBoardList: [],
     }
   },
   created() {
     this.getNews()
-    this.getBoardList()
+    // this.getBoardList()
   },
   methods: {
     getNews() {
@@ -64,12 +64,12 @@ export default {
             this.newsList = res.data })
         .catch((err) => { console.log(err)})
     },
-    getBoardList() {
-      axios
-        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + 8)
-        .then((res) => { this.myBoardList = res.data.data })
-        .catch((err) => { console.log(err)})
-    }
+    // getBoardList() {
+    //   axios
+    //     .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + 8)
+    //     .then((res) => { this.myBoardList = res.data.data })
+    //     .catch((err) => { console.log(err)})
+    // }
   }
 
 }

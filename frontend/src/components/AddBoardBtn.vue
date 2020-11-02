@@ -106,7 +106,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="addMyBoard"
+              
               >
                 Action
               </v-btn>
@@ -123,7 +123,7 @@ import axios from 'axios'
 import SERVER from '@/lib/api'
 
 export default {
-  props: ['myBoardList'],
+  // props: ['myBoardList'],
   data () {
       return {
         dialogm1: '',
@@ -131,9 +131,11 @@ export default {
         dialog2: false,
         newBoard: '',
         groupSelect: [],
+        myBoardList: [],
       }
     },
-  create() {
+  created() {
+    this.getBoardList()
   },
   methods: {
     addNewBoard() {
@@ -142,6 +144,7 @@ export default {
         .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body)
         .then((res) => {
           alert('보드 등록에 성공하셨습니다.')
+          this.getBoardList()
           this.dialog2 = false;
           this.newBoard = '';
           console.log(res)
@@ -151,11 +154,13 @@ export default {
           console.log(err)
         })
     },
-    addMyBoard() {
-
+    getBoardList() {
+      axios
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + 8)
+        .then((res) => { this.myBoardList = res.data.data })
+        .catch((err) => { console.log(err)})
     }
   }
-
 }
 </script>
 
