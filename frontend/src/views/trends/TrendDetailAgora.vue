@@ -72,7 +72,7 @@
           
           <v-card>
             <v-container>
-              <CommentUDBtn :comment="comment"/> 
+              <CommentUDBtn :comment="comment" :userInfo="userInfo" @deleteComment="deleteComment"/> 
             </v-container>
           </v-card>
          
@@ -114,6 +114,9 @@ export default {
   },
 
   methods: {
+    deleteComment() {
+      this.getComments()
+    },
     getComments() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1)
@@ -124,7 +127,7 @@ export default {
     },
     addComment() {
       let body = {
-        content : this.input,
+        content: this.input,
         trendId: 1,
         userId: this.userInfo.id
       }

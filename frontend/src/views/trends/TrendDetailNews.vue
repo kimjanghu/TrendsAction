@@ -22,7 +22,7 @@
       <v-card-subtitle class="pb-0">
         {{ news.press }} / {{ news.pubDate }}
       </v-card-subtitle>      
-      <AddBoardBtn :userInfo="userInfo"/>
+      <AddBoardBtn :userInfo="userInfo" :newsId="newsId"/>
     </v-card>
 
     <div class="text-center">
