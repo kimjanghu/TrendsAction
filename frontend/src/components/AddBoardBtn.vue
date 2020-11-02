@@ -164,12 +164,19 @@ export default {
     addNewInfo() {
       let body = {
         boardId : this.groupSelect.boardId,
-        scarpUser : this.userInfo.id,
+        scrapUser : this.userInfo.id,
         newsId : this.newsId
       }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
-        .then((res) => { console.log(res)})
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body)
+        .then((res) => { 
+          if (res.data.message != "이미 담은 뉴스입니다.") {
+            alert("트렌드보드에 등록되었습니다")
+            this.groupSelect = []
+          } else {
+            alert(res.data.message)
+          }
+          console.log(res)})
         .catch((err) => { console.log(err)})
     }
   }
