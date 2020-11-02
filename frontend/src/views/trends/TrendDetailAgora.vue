@@ -72,7 +72,7 @@
           
           <v-card>
             <v-container>
-              <CommentUDBtn :comment="comment"/> 
+              <CommentUDBtn :comment="comment" :userInfo="userInfo" @deleteComment="deleteComment"/> 
             </v-container>
           </v-card>
          
@@ -114,6 +114,9 @@ export default {
   },
 
   methods: {
+    deleteComment() {
+      this.getComments()
+    },
     getComments() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1)
@@ -124,7 +127,7 @@ export default {
     },
     addComment() {
       let body = {
-        content : this.input,
+        content: this.input,
         trendId: 1,
         userId: this.userInfo.id
       }
@@ -133,20 +136,6 @@ export default {
         .then((res) => 
           { console.log(res); this.input = ''; this.getComments()})
         .catch((err) => { console.log(err)})
-    },
-    comment () {
-      const time = (new Date()).toTimeString()
-      this.messages.push({
-        id: this.nonce++,
-        from: "박싸피",
-        message: this.input,
-        color: 'green',
-        time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, ) => {
-          return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
-        }),
-      })
-
-      this.input = null
     },
     changeDialog(dialog) {
       this.dialog = dialog

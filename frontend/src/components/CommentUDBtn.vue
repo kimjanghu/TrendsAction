@@ -3,7 +3,7 @@
   <div>
     <div class="font-weight-normal d-flex justify-space-between">
       <div><strong>{{ comment.nickname }}</strong> <span class="ml-1">@{{ comment.date }}</span></div>
-      <div class="mb-3">
+      <div class="mb-3" v-if="userInfo.nickname == comment.nickname" >
         <v-btn
           small
           color="primary"
@@ -20,7 +20,7 @@
           dark
           class="mr-2"
           v-else
-          @click="isEdit = false"
+          @click="editComment(comment.id)"
         >
           저장
         </v-btn>
@@ -54,7 +54,7 @@
                   small
                   dark
                   color="primary"
-                  @click="dialog = false"
+                  @click="deleteComment(comment.id)"
                 >
                   네
                 </v-btn>
@@ -86,9 +86,11 @@
 </template>
 
 <script>
+import axios from 'axios'
+import SERVER from '@/lib/api'
 
 export default {
-  props: ['comment'],
+  props: ['comment', 'userInfo'],
   components: {
   },
   data() {
@@ -98,9 +100,32 @@ export default {
     }
   },
   methods: {
+    editComment(commentId) {
+      let body = {
+        content: this.comment.content,
+        userId: this.userInfo.id,
+        trendId: 1,
+        id: commentId,
+      }
+      axios
+        .put(SERVER.URL + SERVER.ROUTES.comments.cuComment, body)
+        .then((res) => { 
+          console.log(res);
+          this.isEdit = false
+          })
+        .catch((err) => { console.log(err)})
+    },
+    deleteComment(commentId) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.comments.rdComment + '/' + commentId)
+        .then((res) => { 
+          console.log(res)
+          this.$emit('deleteComment')
+          this.dialog = false
+          })
+        .catch((err) => console.log(err))
+    }
   }
-  
-
 }
 </script>
 
