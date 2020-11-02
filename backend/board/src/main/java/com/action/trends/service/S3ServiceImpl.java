@@ -58,14 +58,14 @@ public class S3ServiceImpl implements S3Service {
 	}
 
 	private void uploadFileToS3Bucket(final String bucketName, final File file, int userId) {
-		String uniqueFileName = LocalDateTime.now() + "_" + file.getName();
+		String uniqueFileName = LocalDateTime.now() + "_" + Integer.toString(userId);
 		LOGGER.info("Uploading file with name= " + uniqueFileName);
-		
-		
-		s3UploadMapper.uploadProfileImage(userId, uniqueFileName);
-		
-		
+
 		final PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, uniqueFileName, file);
 		amazonS3.putObject(putObjectRequest);
+
+		String url = "https://trendsaction.s3.ap-northeast-2.amazonaws.com/" + uniqueFileName;
+		s3UploadMapper.uploadProfileImage(userId, url);
+		
 	}
 }
