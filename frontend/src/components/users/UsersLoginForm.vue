@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       client_id: process.env.VUE_APP_KAKAO_KEY,
-      redirect_uri: 'http://localhost:3000/oauth/kakao'
+      // 'http://localhost:3000/oauth/kakao'
+      redirect_uri: process.env.VUE_APP_PAGE_URL + '/oauth/kakao'
     }
   },
   props: {

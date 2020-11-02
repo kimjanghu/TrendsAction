@@ -6,8 +6,10 @@ export default {
       user: '/users/user', // GET / 유저 정보 받아오기, PUT / 유저 생성
       deleteUser: '/users/user/', // DELETE / 유저 정보 삭제
       checkNickname: '/users/user/checknickname', // POST / 닉네임 중복 체크
+      uploadProfilePicture: '/boards/upload' // ?
     },
     trends: {
+      trendList: '/trends/trend/allTrendsList',
       trendCategories: '/trends/trend/', // GET / 카테고리별 트렌드 목록 조회
       trendNews: '/trends/trend/news/', // GET / 트렌드에 맞는 뉴스 목록 조회
       trendSns: '/trends/trend/twitter/', // GET / 트렌드에 맞는 트위터 목록 조회

@@ -3,7 +3,7 @@
     <div class="web-title">
       <h2
         class="navbar-link"
-        @click="$router.push('/')"
+        @click="goToHome"
       >
         TrendsAction
       </h2>
@@ -32,7 +32,7 @@
         </v-tab>
         <v-tab
           class="navbar-link"
-          @click="logout()" 
+          @click="$router.push('/logout')"
           v-if="isLogin"
         >
           Logout
@@ -41,7 +41,7 @@
           <router-link
             tag="button"
             class="router-btn"
-            :to="{ name: 'UserProfile' }"
+            :to="{ name: 'UserProfileLayout', params: { id: userId }}"
           >
             <v-icon class="mr-3">
               mdi-account-circle
@@ -129,7 +129,7 @@
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -137,6 +137,7 @@ export default {
     return {
       dialog: false,
       drawer: false,
+      userId: null,
       group: null
     }
   },
@@ -144,6 +145,7 @@ export default {
     UsersLoginForm
   },
   computed: {
+    ...mapState('userStore', ['userInfo']),
     ...mapGetters('userStore', ['isLogin'])
   },
   watch: { 
@@ -152,9 +154,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions('userStore', ['logout']),
+    ...mapActions('userStore', ['logout', 'getUserInfo']),
     changeDialog(dialog) {
       this.dialog = dialog
+    },
+    goToHome() {
+      this.$router.push('/')
+        .catch(err => {
+          if(err.name != "NavigationDuplicated" ){
+            throw err
+          }
+        })
+    },
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.getUserInfo()
+        .then(data => {
+          this.userId = data.id
+          console.log(data)
+        })
     }
   }
 }
