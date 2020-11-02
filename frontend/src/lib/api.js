@@ -22,6 +22,7 @@ export default {
       getBoardList: '/boards/board/',
       addNewBoard: '/boards/board',
       addNews: '/boards/board/news',
+      addTwitter: '/boards/board/twitter'
     }
   }
 }
