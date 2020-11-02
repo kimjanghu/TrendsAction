@@ -4,6 +4,7 @@ public class TwittBoard {
 	private int boardId;
 	private int twitterId;
 	private int scrapUser;
+	
 	public int getBoardId() {
 		return boardId;
 	}
@@ -23,9 +24,4 @@ public class TwittBoard {
 		this.scrapUser = scrapUser;
 	}
 	
-	public TwittBoard(int boardId, int twitterId, int userId) {
-		this.boardId = boardId;
-		this.twitterId = twitterId;
-		this.scrapUser = userId;
-	}
 }
