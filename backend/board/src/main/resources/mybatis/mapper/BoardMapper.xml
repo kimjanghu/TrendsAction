@@ -68,6 +68,14 @@
 		SELECT b.name FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId} and b.name=#{name}
 	</select>
 	
+	<select id="checkScrappedTwittAlready" parameterType="TwittBoard" resultType="int">
+		SELECT count(*) FROM board_twitter WHERE board_id=#{boardId} and twitter_id=#{twitterId}
+	</select>
+	
+	<select id="checkScrappedNewsAlready" parameterType="NewsBoard" resultType="int">
+		SELECT count(*) FROM board_news WHERE board_id=#{boardId} and news_id=#{newsId}
+	</select>
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>

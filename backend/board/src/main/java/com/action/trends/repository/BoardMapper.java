@@ -27,6 +27,8 @@ public interface BoardMapper {
 	public int selectLast();
 	public User searchUser(String email);
 	public String checkBoardName(int userId, String name);
+	public int checkScrappedTwittAlready(TwittBoard twittBoard);
+	public int checkScrappedNewsAlready(NewsBoard newsBoard);
 	public int createBoard(Board board);
 	public int connectUserBoard(int userId, int boardId);
 	public int addTwitt(TwittBoard twittBoard);

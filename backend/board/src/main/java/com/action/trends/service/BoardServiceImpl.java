@@ -77,6 +77,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int addTwitt(TwittBoard twittBoard) {
+		if (boardMapper.checkScrappedTwittAlready(twittBoard) >= 1) {
+			return -1;
+		}
 		boardMapper.plusCountOfTwitt(twittBoard.getTwitterId());
 		int result = boardMapper.addTwitt(twittBoard);
 		return result;
@@ -84,6 +87,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int addNews(NewsBoard newsBoard) {
+		if (boardMapper.checkScrappedNewsAlready(newsBoard) >= 1) {
+			return -1;
+		}
 		boardMapper.plusCountOfNews(newsBoard.getNewsId());
 		int result = boardMapper.addNews(newsBoard);
 		return result;
