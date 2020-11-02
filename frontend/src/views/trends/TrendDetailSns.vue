@@ -23,7 +23,7 @@
         {{ sns.content }}
       </v-card-text>
 
-      <AddBoardBtn/>
+      <AddBoardBtn :userInfo="userInfo" :snsId="sns.id"/>
     </v-card>
 
     <div class="text-center">
@@ -41,6 +41,7 @@ import axios from 'axios'
 import SERVER from '@/lib/api'
 
 export default {
+  props: ['userInfo'],
   components: {
     AddBoardBtn
   },

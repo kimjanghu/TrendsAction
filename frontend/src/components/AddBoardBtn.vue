@@ -104,9 +104,18 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="addNewInfo"
+                v-if="newsId"
+                @click="addNewsInfo"
               >
-                트렌즈액션!
+                트렌즈액션_뉴스!
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                v-else
+                @click="addTwittInfo"
+              >
+                트렌즈액션_트윗!
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -122,7 +131,7 @@ import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['userInfo', 'newsId'],
+  props: ['userInfo', 'newsId', 'snsId'],
   data () {
       return {
         dialogm1: '',
@@ -161,15 +170,40 @@ export default {
         .then((res) => { this.myBoardList = res.data.data })
         .catch((err) => { console.log(err)})
     },
-    addNewInfo() {
+    addNewsInfo() {
       let body = {
         boardId : this.groupSelect.boardId,
-        scarpUser : this.userInfo.id,
+        scrapUser : this.userInfo.id,
         newsId : this.newsId
       }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
-        .then((res) => { console.log(res)})
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body)
+        .then((res) => { 
+          if (res.data.message != "이미 담은 뉴스입니다.") {
+            alert("트렌드보드에 등록되었습니다")
+            this.groupSelect = []
+          } else {
+            alert(res.data.message)
+          }
+          console.log(res)})
+        .catch((err) => { console.log(err)})
+    },
+    addTwittInfo() {
+      let body = {
+        boardId : this.groupSelect.boardId,
+        scrapUser : this.userInfo.id,
+        twitterId : this.snsId
+      }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addTwitter, body)
+        .then((res) => { 
+          if (res.data.message != "이미 담은 트윗입니다.") {
+            alert("트렌드보드에 등록되었습니다")
+            this.groupSelect = []
+          } else {
+            alert(res.data.message)
+          }
+          console.log(res)})
         .catch((err) => { console.log(err)})
     }
   }
