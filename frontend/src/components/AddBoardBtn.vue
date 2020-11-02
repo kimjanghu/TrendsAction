@@ -31,14 +31,12 @@
                 <v-list shaped>
                   <v-list-item-group
                     v-model="groupSelect"
-                    multiple
                   >
                     <template v-for="(item, i) in myBoardList">
                       <v-divider
                         v-if="!item"
                         :key="`divider-${i}`"
                       ></v-divider>
-
                       <v-list-item
                         v-else
                         :key="`item-${i}`"
@@ -106,9 +104,9 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="addMyBoard"
+                @click="addNewInfo"
               >
-                Action
+                트렌즈액션!
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -121,9 +119,10 @@
 <script>
 import axios from 'axios'
 import SERVER from '@/lib/api'
+import { mapGetters } from 'vuex'
 
 export default {
-  props: ['myBoardList'],
+  props: ['userInfo', 'newsId'],
   data () {
       return {
         dialogm1: '',
@@ -131,31 +130,49 @@ export default {
         dialog2: false,
         newBoard: '',
         groupSelect: [],
+        myBoardList: [],
       }
     },
-  create() {
+  computed: {
+    ...mapGetters('userStore', ['config']),
+  },
+  created() {
+    this.getBoardList()
   },
   methods: {
     addNewBoard() {
-      let body = { 'userId': 8, 'name': this.newBoard }
+      let body = { 'userId': this.userInfo.id, 'name': this.newBoard }
       axios
         .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body)
         .then((res) => {
-          alert('보드 등록에 성공하셨습니다.')
+          alert(res.data.message)
+          this.getBoardList()
           this.dialog2 = false;
           this.newBoard = '';
-          console.log(res)
         })
         .catch((err) => {
           alert('등록에 실패했습니다.')
           console.log(err)
         })
     },
-    addMyBoard() {
-
+    getBoardList() {
+      axios
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + this.userInfo.id)
+        .then((res) => { this.myBoardList = res.data.data })
+        .catch((err) => { console.log(err)})
+    },
+    addNewInfo() {
+      let body = {
+        'boardId' : this.groupSelect.boardId,
+        'userId' : this.userInfo.id,
+        'newsId' : this.newsId
+      }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
+        .then((res) => { console.log(res)})
+        .catch((err) => { console.log(err)})
     }
   }
-
 }
 </script>
 

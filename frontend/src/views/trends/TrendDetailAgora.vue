@@ -93,6 +93,7 @@ import UsersLoginForm from '@/components/users/UsersLoginForm'
 import { mapGetters } from 'vuex'
 
 export default {
+  props: ['userInfo'],
   components: {
     CommentUDBtn,
     UsersLoginForm,
@@ -125,12 +126,12 @@ export default {
       let body = {
         content : this.input,
         trendId: 1,
-        userId: 1
+        userId: this.userInfo.id
       }
       axios
-        .post(SERVER.ROUTES.comments.URL + SERVER.ROUTES.comments.cuComment + body )
+        .post(SERVER.URL + SERVER.ROUTES.comments.cuComment, body )
         .then((res) => 
-          { console.log(res)})
+          { console.log(res); this.input = ''; this.getComments()})
         .catch((err) => { console.log(err)})
     },
     comment () {

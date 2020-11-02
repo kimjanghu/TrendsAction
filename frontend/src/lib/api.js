@@ -20,7 +20,8 @@ export default {
     boards: {
       getBestNews: '/boards/board/news/scrapcount/',
       getBoardList: '/boards/board/',
-      addNewBoard: '/boards/board'
+      addNewBoard: '/boards/board',
+      addNews: '/boards/board/news',
     }
   }
 }
