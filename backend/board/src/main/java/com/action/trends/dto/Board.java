@@ -1,13 +1,31 @@
 package com.action.trends.dto;
 
+import java.util.List;
+
 public class Board {
 	private int boardId;
 	private String name;
 	private String thumbnail;
-	
-	public Board(String name, String thumbnail) {
-		this.name = name;
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	private List<News> newsList;
+	
+	public List<News> getNewsList() {
+		return newsList;
+	}
+
+	public void setNewsList(List<News> newsList) {
+		this.newsList = newsList;
+	}
+
+	public Board(String name) {
+		this.name = name;
 	}
 
 	public int getBoardId() {
@@ -24,14 +42,6 @@ public class Board {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
 	}
 	
 }

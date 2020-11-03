@@ -1,12 +1,15 @@
 package com.action.trends.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Contents;
 import com.action.trends.dto.Message;
+import com.action.trends.dto.News;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
 import com.action.trends.dto.Sharer;
@@ -23,7 +26,22 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<Board> getBoardList(int userId) {
-		return boardMapper.getBoardList(userId);
+		List<Board> list = boardMapper.getBoardList(userId);
+		for (int i = 0; i < list.size(); i++) {
+			Board temp = list.get(i);
+			List<NewsList> tempList = getNewsList(temp.getBoardId());
+			List<News> tempNewsList = new ArrayList<News>();
+			for (int k = 0; k < tempList.size(); k++) {
+				News tempNews = new News();
+				tempNews.setNewsId(tempList.get(k).getNewsId());
+				tempNews.setThumbnail(tempList.get(k).getThumbnail());
+				tempNewsList.add(tempNews);
+			}
+			temp.setNewsList(tempNewsList);
+			list.set(i, temp);
+		}
+		
+		return list;
 	}
 	
 	@Override
@@ -39,6 +57,19 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<TwittList> getTwitterList(int boardId) {
 		return boardMapper.getTwitterList(boardId);
+	}
+	
+	@Override
+	public Contents getContents(int boardId) {
+		Contents contents = new Contents();
+		Board board = boardMapper.getBoardInfo(boardId);
+		contents.setBoardId(boardId);
+		contents.setName(board.getName());
+		contents.setThumbnail(board.getThumbnail());
+		contents.setNewsList(boardMapper.getNewsList(boardId));
+		contents.setTwittList(boardMapper.getTwitterList(boardId));
+		
+		return contents;
 	}
 	
 	@Override

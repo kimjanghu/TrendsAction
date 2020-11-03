@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Contents;
 import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
@@ -46,6 +47,7 @@ public class BoardController {
 		
 		try {
 			list = boardService.getBoardList(userId);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + list.size());
 			resultMap.put("status", true);
 			if (list.size() == 0) {
 				resultMap.put("message", "생성된 보드가 없습니다.");
@@ -73,6 +75,25 @@ public class BoardController {
 			resultMap.put("status", true);
 			resultMap.put("message", "보드원 조회에 성공했습니다.");
 			resultMap.put("data", list);
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 내 컨텐츠 조회", response = String.class)
+	@GetMapping("/board/contents/{boardId}")
+	public ResponseEntity<Map<String, Object>> getContentsList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			Contents contents = boardService.getContents(boardId);
+			resultMap.put("status", true);
+			resultMap.put("message", "컨텐츠 조회에 성공했습니다.");
+			resultMap.put("data", contents);
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
@@ -212,10 +233,10 @@ public class BoardController {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int userId = (int) data.get("userId");
 		String name = (String) data.get("name");
-		String thumbnail = (String) data.get("thumbnail");
+//		String thumbnail = (String) data.get("thumbnail");
 		
 		try {
-			Board board = new Board(name, thumbnail);
+			Board board = new Board(name);
 			if (boardService.createBoard(userId, board) == -1) {
 				entity = handleSuccess("같은 보드명이 존재합니다.");
 			} else {
