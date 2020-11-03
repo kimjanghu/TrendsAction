@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Contents;
 import com.action.trends.dto.Message;
 import com.action.trends.dto.News;
 import com.action.trends.dto.NewsBoard;
@@ -56,6 +57,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<TwittList> getTwitterList(int boardId) {
 		return boardMapper.getTwitterList(boardId);
+	}
+	
+	@Override
+	public Contents getContents(int boardId) {
+		Contents contents = new Contents();
+		contents.setNewsList(boardMapper.getNewsList(boardId));
+		contents.setTwittList(boardMapper.getTwitterList(boardId));
+		
+		return contents;
 	}
 	
 	@Override

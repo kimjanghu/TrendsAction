@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Contents;
 import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
@@ -74,6 +75,25 @@ public class BoardController {
 			resultMap.put("status", true);
 			resultMap.put("message", "보드원 조회에 성공했습니다.");
 			resultMap.put("data", list);
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
+	@ApiOperation(value="보드 내 컨텐츠 조회", response = String.class)
+	@GetMapping("/board/contents/{boardId}")
+	public ResponseEntity<Map<String, Object>> getContentsList(@PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			Contents contents = boardService.getContents(boardId);
+			resultMap.put("status", true);
+			resultMap.put("message", "컨텐츠 조회에 성공했습니다.");
+			resultMap.put("data", contents);
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		} catch (RuntimeException e) {
 			entity = handleException(e);

@@ -3,6 +3,7 @@ package com.action.trends.service;
 import java.util.List;
 
 import com.action.trends.dto.Board;
+import com.action.trends.dto.Contents;
 import com.action.trends.dto.Message;
 import com.action.trends.dto.NewsBoard;
 import com.action.trends.dto.NewsList;
@@ -16,6 +17,7 @@ public interface BoardService {
 	public List<Sharer> getSharerList(int boardId);
 	public List<NewsList> getNewsList(int boardId);
 	public List<TwittList> getTwitterList(int boardId);
+	public Contents getContents(int boardId);
 	public List<NewsList> getMostScrappedNewsList(int trendId);
 	public List<TwittList> getMostScrappedTwittList(int trendId);
 	public List<Message> getMessageList(int userId);
