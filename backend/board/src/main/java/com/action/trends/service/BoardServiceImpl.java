@@ -62,6 +62,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Contents getContents(int boardId) {
 		Contents contents = new Contents();
+		Board board = boardMapper.getBoardInfo(boardId);
+		contents.setBoardId(boardId);
+		contents.setName(board.getName());
+		contents.setThumbnail(board.getThumbnail());
 		contents.setNewsList(boardMapper.getNewsList(boardId));
 		contents.setTwittList(boardMapper.getTwitterList(boardId));
 		

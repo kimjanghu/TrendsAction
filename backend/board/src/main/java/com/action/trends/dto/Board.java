@@ -5,6 +5,15 @@ import java.util.List;
 public class Board {
 	private int boardId;
 	private String name;
+	private String thumbnail;
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
 	private List<News> newsList;
 	
 	public List<News> getNewsList() {

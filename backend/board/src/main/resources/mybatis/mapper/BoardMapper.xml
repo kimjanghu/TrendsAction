@@ -76,6 +76,10 @@
 		SELECT count(*) FROM board_news WHERE board_id=#{boardId} and news_id=#{newsId}
 	</select>
 	
+	<select id="getBoardInfo" parameterType="int" resultType="Board">
+		SELECT id as boardId, name, thumbnail FROM board WHERE id=#{boardId}
+	</select>
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>
