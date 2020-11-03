@@ -10,18 +10,20 @@
         >
           <v-avatar
             color="#efefef"
-            size="92"
+            size="100"
           >
             <img
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-            alt="John"
-          >
+              :src="profile"
+            >
           </v-avatar>
           
-          <span class="mt-3">박싸피</span>
-          <span>abcd@naver.com</span>
-          <span>관심카테고리</span>
-          
+          <span class="mt-3">{{ nickname }}님의 마이페이지</span>
+          <span>{{ email }}</span>
+          <div v-if="categoryList.length">
+            <div v-for="category in categoryList" :key="category">
+              <span>{{ category }}</span>
+            </div>
+          </div>
         </v-sheet>
         <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필</v-btn>
         <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드</v-btn>
@@ -41,11 +43,16 @@
 import { mapActions } from 'vuex'
 
 export default {
+  name: 'UserProfileLayout',
   components: {
+
   },
   data() { 
     return {
-
+      email: '',
+      nickname: '',
+      profile: '',
+      categoryList: []
     }
   },
   computed: {
@@ -56,6 +63,16 @@ export default {
   },
   created() {
     this.getUserInfo()
+      .then(data => {
+        this.email = data.email
+        this.nickname = data.nickname
+        this.categoryList = data.categoryList
+        if (data.profile) {
+          this.profile = data.profile
+        } else {
+          this.profile = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light'
+        }
+      })
   },
   mounted() {
     

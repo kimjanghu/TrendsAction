@@ -1,8 +1,18 @@
 <template>
   <div style="background-color: gray;">
 
-    <div class="trend-area">
+    <div v-for="keyword in keywordList" :key="keyword.categoryName" class="trend-area">
       <v-container class="trend-container">
+        <p class="trend-category">#{{ keyword.categoryName }}</p>
+        <v-row justify="center">
+          <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="6" xl="3">
+            <div class="text-center trend-keyword">
+              {{ trend.trendName }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+      <!-- <v-container class="trend-container">
         <p class="trend-category">#culture code</p>
         <v-row justify="center">
           <v-col v-for="(keyword, idx) in keywordArr" :key="idx" cols="12" lg="6" xl="3">
@@ -33,7 +43,7 @@
             </div>
           </v-col>
         </v-row>
-      </v-container>
+      </v-container> -->
     </div>
 
   </div>
@@ -44,19 +54,22 @@ export default {
   name: 'TrendList',
   data() {
     return {
-      keywordArr: [
-        '브이노믹스', 
-        '레이어드 홈', 
-        '자본주의 키즈', 
-        '거침없이 피보팅',
-        '롤코라이프',
-        '#오하운, 오늘하루운동',
-        'N차 신상',
-        'CX 유니버스',
-        '레이블링 게임',
-        '휴먼터치'
-      ],
+      keywordList: []
     }
+  },
+  methods: {
+    getBookTrends() {
+      this.$http.get(this.$api.URL + this.$api.ROUTES.trends.trendList + '/0')
+        .then(res => {
+          this.keywordList = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created() {
+    this.getBookTrends()
   }
 }
 </script>
@@ -65,7 +78,7 @@ export default {
 .trend-area {
   width: 75%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 
   .trend-container {
     background-color: #fff;

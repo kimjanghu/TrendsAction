@@ -1,9 +1,10 @@
+<<<<<<< frontend/src/components/common/Navbar.vue
 <template>  
   <div>
   <header>
     <h2
       class="logo"
-      @click="$router.push('/')"
+      @click="goToHome"
     >
       TrendsAction
     </h2>
@@ -138,7 +139,7 @@
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -146,6 +147,7 @@ export default {
     return {
       dialog: false,
       drawer: false,
+      userId: null,
       group: null
     }
   },
@@ -153,6 +155,7 @@ export default {
     UsersLoginForm
   },
   computed: {
+    ...mapState('userStore', ['userInfo']),
     ...mapGetters('userStore', ['isLogin'])
   },
   watch: { 
@@ -167,7 +170,7 @@ export default {
     window.addEventListener('scroll', this.handleScroll)
   },
   methods: {
-    ...mapActions('userStore', ['logout']),
+    ...mapActions('userStore', ['logout', 'getUserInfo']),
     changeDialog(dialog) {
       this.dialog = dialog
     },
@@ -175,6 +178,23 @@ export default {
       let header = document.querySelector('header');
       header.classList.toggle('sticky', window.scrollY > 800)
     },
+    goToHome() {
+      this.$router.push('/')
+        .catch(err => {
+          if(err.name != "NavigationDuplicated" ){
+            throw err
+          }
+        })
+    },
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.getUserInfo()
+        .then(data => {
+          this.userId = data.id
+          console.log(data)
+        })
+    }
 
   }
 }

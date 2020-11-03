@@ -31,14 +31,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/views/About.vue')
-  },
-  {
     path: '/oauth/kakao',
     name: constants.URL_TYPE.USER.LOGIN,
     component: loadView('oauth/OauthLogin')
+  },
+  {
+    path: '/logout',
+    name: constants.URL_TYPE.USER.LOGOUT,
+    component: loadView('users/UserLogout')
   },
   {
     path: '/trend-detail',
