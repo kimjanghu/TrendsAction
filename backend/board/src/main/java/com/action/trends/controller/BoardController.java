@@ -46,6 +46,7 @@ public class BoardController {
 		
 		try {
 			list = boardService.getBoardList(userId);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + list.size());
 			resultMap.put("status", true);
 			if (list.size() == 0) {
 				resultMap.put("message", "생성된 보드가 없습니다.");
@@ -212,10 +213,10 @@ public class BoardController {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int userId = (int) data.get("userId");
 		String name = (String) data.get("name");
-		String thumbnail = (String) data.get("thumbnail");
+//		String thumbnail = (String) data.get("thumbnail");
 		
 		try {
-			Board board = new Board(name, thumbnail);
+			Board board = new Board(name);
 			if (boardService.createBoard(userId, board) == -1) {
 				entity = handleSuccess("같은 보드명이 존재합니다.");
 			} else {
