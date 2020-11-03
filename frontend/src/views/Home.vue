@@ -1,10 +1,6 @@
 <template>
-  <div>
+  <div class="wrapper">
     <Header />
-    <!-- <div class="main-area d-flex">
-      <Carousel />
-      <MainList />
-    </div> -->
     <v-container class="main-area" id="first-section">
       <v-row justify="center">
         <v-col class="text-center trend-area" cols="12" lg="10" xl="8">
@@ -50,6 +46,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  position: relative;
+}
 .main-area {
   margin: 0 auto;
   padding: 0;

@@ -1,62 +1,70 @@
-<template>
-  <div class="navbar transparent">
-    <div class="web-title">
-      <h2
-        class="navbar-link"
-        @click="$router.push('/')"
-      >
-        TrendsAction
-      </h2>
-    </div>
-    <div class="router-area" v-if="$vuetify.breakpoint.mdAndUp">
-      <v-tabs align-with-title>
-        <v-tab
-          class="navbar-link"
-          @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })"
-        >
-          Trend
-        </v-tab>
-        <v-tab
-          class="navbar-link"
-          @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })"
-        >
-          Predict
-        </v-tab>
-        <v-tab 
-          class="navbar-link"
-          @click="dialog = true" 
-          v-if="!isLogin"
-        >
+<template>  
+  <div>
+  <header>
+    <h2
+      class="logo"
+      @click="$router.push('/')"
+    >
+      TrendsAction
+    </h2>
+    <div class="router-area" v-if="$vuetify.breakpoint.lgAndUp">
+      <ul class="navbar-list">
+        <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
+        <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
+        <li class="navbar-list-item" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
-        </v-tab>
-        <v-tab
-          class="navbar-link"
-          @click="logout()" 
-          v-if="isLogin"
-        >
-          Logout
-        </v-tab>
-        <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
-          <router-link
-            tag="button"
-            class="router-btn"
-            :to="{ name: 'UserProfile' }"
-          >
-            <v-icon class="mr-3">
-              mdi-account-circle
-            </v-icon>
-          </router-link>
-          <v-icon>
-            mdi-bell
-          </v-icon>
+        </li>
+        <li class="navbar-list-item" @click="logout()" v-if="isLogin">Logout</li>
+      </ul>
+    </div>
+    <div v-else>
+      <span @click.stop="drawer = !drawer" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+        <i class="fas fa-bars"></i>
+      </span>
+    </div>
+    </header>
+    <!-- <div class="sidebar">
+      <ul>
+        <li @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
+        <li @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
+        <li @click="dialog = true" v-if="!isLogin">
+          Login
+          <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
+        </li>
+        <div v-else>
+          <li @click="logout()">Logout</li>
+          <div style="cursor:pointer; display:flex; justify-content:center">
+            <v-icon class="mr-3">mdi-account-circle</v-icon>
+            <v-icon>mdi-bell</v-icon>
+          </div>
         </div>
-      </v-tabs>
-    </div>
-    <div v-if="$vuetify.breakpoint.smAndDown">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    </div>
+      </ul>
+    </div> -->
 
+      
+    <!-- <v-tab
+      class="navbar-link"
+      @click="logout()" 
+      v-if="isLogin"
+    >
+      Logout
+    </v-tab>
+    <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
+      <router-link
+        tag="button"
+        class="router-btn"
+        :to="{ name: 'UserProfile' }"
+      >
+        <v-icon class="mr-3">
+          mdi-account-circle
+        </v-icon>
+      </router-link>
+      <v-icon>
+        mdi-bell
+      </v-icon>
+    </div> -->
+  
     <!-- Side bar -->
     <v-navigation-drawer
       v-model="drawer"
@@ -155,18 +163,79 @@ export default {
     ...mapActions('userStore', ['logout']),
     changeDialog(dialog) {
       this.dialog = dialog
+    },
+    toggleSideBar() {
+      let sidebar = document.querySelector('sidebar');
+      sidebar.classList.toggle('active');
     }
+
   }
 }
 </script>
 
 <style lang="scss" scoped>
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  padding: 40px 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .logo {
+  letter-spacing: 1px;
+  font-size: 24px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+header .toggle {
+  position: relative;
+  z-index: 3;
+}
+
+.navbar-list {
+  list-style: none;
+  display: flex;
+  color: #ffffff;
+} 
+
+.navbar-list-item {
+  margin: 0 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  right: -40%;
+  width: 40%;
+  height: 100%;
+  background-color: #999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  font-size: 1.5rem;
+  margin: 30px 0;
+}
+
 .navbar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
   height: 100px;
   width: 85%;
   margin: 0 auto;
