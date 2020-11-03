@@ -22,6 +22,7 @@ export default {
     boards: {
       getBestNews: '/boards/board/news/scrapcount/',
       getBoardList: '/boards/board/',
+      getBoardContent: '/boards/board/contents',
       addNewBoard: '/boards/board',
       addNews: '/boards/board/news',
       addTwitter: '/boards/board/twitter'

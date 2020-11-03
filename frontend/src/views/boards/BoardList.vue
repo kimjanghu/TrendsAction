@@ -4,11 +4,33 @@
     color="grey lighten-3"
   >
     <v-row>
-      <v-col cols="12" md="4" v-for="(card,n) in cards" :key="n">
-        <v-card 
+      <v-col cols="12" md="6" lg="4" v-for="(board, idx) in boards" :key="idx">
+        <v-card class="user-board-card" :to="{ name: 'BoardDetail', params: { id: $route.params.id, boardId: board.boardId } }">
+          <p class="board-title">{{ board.name }}</p>
+          <v-responsive :aspect-ratio="4/3">
+            <v-row class="board-row">
+              <v-col cols="6" class="inner-img">
+
+              </v-col>
+              <v-col cols="6" class="inner-img">
+
+              </v-col>
+            </v-row>
+            <v-row class="board-row">
+              <v-col cols="6" class="inner-img">
+
+              </v-col>
+              <v-col cols="6" class="inner-img">
+
+              </v-col>
+            </v-row>
+          </v-responsive>
+        </v-card>
+        <!-- <v-card 
           color="white" 
-          :height="$vuetify.breakpoint.smAndDown? 250:200" 
+          :height="$vuetify.breakpoint.smAndDown? 250:300"
           :to="{name: 'BoardDetail',}">
+          
           <v-img
             :src="card.src"
             class="white--text align-end"
@@ -17,28 +39,85 @@
           >
             <v-card-title v-text="card.title"></v-card-title>
           </v-img>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
   </v-sheet>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data: () => ({
-    cards: [
-      { title: '자율프로젝트', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg' },
-      { title: '꼴라쥬', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg' },
-      { title: 'WEB', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg' },
-      { title: '반응형 웹페이지', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg' },
-      { title: '애니메이션', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg' },
-      { title: '히어로', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg' },
+    boards: [
+      { 
+        boardId: 1,
+        name: '자율프로젝트', 
+        contents: [
+          {
+            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+          },
+          {
+            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+          },
+          {
+            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+          },
+          {
+            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+          }
+        ]
+      },
     ],
   }),
-
+  computed: {
+    ...mapGetters('userStore', ['config'])
+  },
+  methods: {
+    getUserBoards() {
+      const userId = this.$route.params.id
+      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardList + `${userId}`, this.config)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created() {
+    this.getUserBoards()
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.user-board-card {
+  position: relative;
+  background-color: #fff;
 
+  .board-title {
+    position: absolute;
+    top: 0
+  }
+
+  .board-row {
+    height: 50%
+  }
+
+  .board-box {
+    background-color: #000;
+    width: 100px;
+  }
+
+  .inner-img {
+    // position: absolute;
+    // margin: 0;
+    padding: 0;
+    background-image: url('https://cdn.vuetifyjs.com/images/cards/road.jpg');
+    background-size: cover;
+    height: 100%;
+  }
+}
 </style>
