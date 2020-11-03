@@ -5,7 +5,7 @@
       <Carousel />
       <MainList />
     </div> -->
-    <v-container class="main-area">
+    <v-container class="main-area" id="first-section">
       <v-row justify="center">
         <v-col class="text-center trend-area" cols="12" lg="10" xl="8">
           <p @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">트렌드 리스트</p>

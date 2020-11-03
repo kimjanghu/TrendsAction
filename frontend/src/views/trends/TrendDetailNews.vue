@@ -21,8 +21,9 @@
       <v-card-title>{{ news.title }}</v-card-title>
       <v-card-subtitle class="pb-0">
         {{ news.press }} / {{ news.pubDate }}
-      </v-card-subtitle>      
-      <AddBoardBtn :userInfo="userInfo" :newsId="news.id"/>
+      </v-card-subtitle>     
+      <AddBoardBtn v-if="isLogin" :userInfo="userInfo" :newsId="news.id"/>
+      <v-card-actions v-else></v-card-actions> 
     </v-card>
 
     <div class="text-center">
@@ -39,11 +40,15 @@
 import AddBoardBtn from '@/components/AddBoardBtn.vue'
 import axios from 'axios'
 import SERVER from "@/lib/api";
+import { mapGetters } from 'vuex';
 
 export default {
   props: ['userInfo'],
   components: {
     AddBoardBtn
+  },
+  computed: {
+    ...mapGetters('userStore', 'isLogin')
   },
   data() {
     return {

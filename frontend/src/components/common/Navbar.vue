@@ -162,13 +162,17 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
   height: 100px;
   width: 85%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.5);
   
   .router-area {
     display: flex;
