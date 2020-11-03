@@ -20,7 +20,7 @@
     </div>
     <div v-else>
       <span @click.stop="drawer = !drawer" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-bars navbar-icon"></i>
       </span>
     </div>
     </header>
@@ -159,16 +159,21 @@ export default {
       this.drawer = false
     },
   },
+  created() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
   methods: {
     ...mapActions('userStore', ['logout']),
     changeDialog(dialog) {
       this.dialog = dialog
     },
-    toggleSideBar() {
-      let sidebar = document.querySelector('sidebar');
-      sidebar.classList.toggle('active');
+    handleScroll() {
+      let header = document.querySelector('header');
+      header.classList.toggle('sticky', window.scrollY > 800)
     }
-
   }
 }
 </script>
@@ -180,7 +185,7 @@ header {
   left: 0;
   width: 100%;
   z-index: 2;
-  padding: 40px 100px;
+  padding: 20px 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -195,6 +200,26 @@ header .logo {
 header .toggle {
   position: relative;
   z-index: 3;
+}
+
+header.sticky {
+  background: #ffffff;
+  transition: 0.3s;
+}
+
+header.sticky h2{
+  color: #111111;
+  transition: 0.3s;
+}
+
+header.sticky .navbar-list-item{
+  color: #111111;
+  transition: 0.3s;
+}
+
+header.sticky .navbar-icon{
+  color: #111111;
+  transition: 0.3s;
 }
 
 .navbar-list {
