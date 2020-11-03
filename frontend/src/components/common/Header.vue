@@ -1,34 +1,69 @@
 <template>
+<div>
   <div class="header-area">
-    <img src="https://source.unsplash.com/random" alt="">
+    <img class="header-img" src="https://source.unsplash.com/random" alt="header-image">
+    <div class="content" 
+      data-sal="slide-up"
+      data-sal-duration="800"
+      >
+      <h2>Trends Action!</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
+    </div>
+    <div class="arrow" @click="$vuetify.goTo('#first-section')"><span style="color:white; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
   </div>
+</div>
 </template>
 
 <script>
+import sal from "sal.js";
 export default {
-  name: 'Header'
+  name: 'Header',
+  mounted() {
+    sal();
+  }
 }
 </script>
 
 <style>
+
 .header-area {
-  display: block;
   position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-area img {
-  width: 100%;
-  height: 550px;
-  background-size: cover;
-}
-
-/* .header-area::after {
-  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 550px;
-  background-color: rgba(0, 0, 0, 0.5);
-} */
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-area .content {
+  position: relative;
+  text-align: center;
+  max-width: 750px;
+  color: white;
+}
+
+.header-area .content h2 {
+  font-size: 60px;
+}
+
+.header-area .content p {
+  font-size: 18px;
+}
+.header-area .arrow {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  cursor: pointer;
+}
 </style>
