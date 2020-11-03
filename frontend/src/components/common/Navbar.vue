@@ -23,7 +23,7 @@
         <i class="fas fa-bars navbar-icon"></i>
       </span>
     </div>
-    </header>
+    
     <!-- <div class="sidebar">
       <ul>
         <li @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
@@ -64,7 +64,7 @@
         mdi-bell
       </v-icon>
     </div> -->
-  
+  </header>
     <!-- Side bar -->
     <v-navigation-drawer
       v-model="drawer"
@@ -133,6 +133,7 @@
     </v-navigation-drawer>
 
   </div>
+  
 </template>
 
 <script>
@@ -173,7 +174,8 @@ export default {
     handleScroll() {
       let header = document.querySelector('header');
       header.classList.toggle('sticky', window.scrollY > 800)
-    }
+    },
+
   }
 }
 </script>

@@ -2,7 +2,10 @@
 <div>
   <div class="header-area">
     <img class="header-img" src="https://source.unsplash.com/random" alt="header-image">
-    <div class="content">
+    <div class="content" 
+      data-sal="slide-up"
+      data-sal-duration="800"
+      >
       <h2>Trends Action!</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
     </div>
@@ -12,12 +15,17 @@
 </template>
 
 <script>
+import sal from "sal.js";
 export default {
-  name: 'Header'
+  name: 'Header',
+  mounted() {
+    sal();
+  }
 }
 </script>
 
-<style scoped>
+<style>
+
 .header-area {
   position: relative;
   width: 100%;

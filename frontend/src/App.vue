@@ -18,12 +18,10 @@ import Footer from '@/components/common/Footer'
 
 export default {
   name: 'App',
-
   components: {
     Navbar,
     Footer
   },
-
   data: () => ({
     //
   }),
