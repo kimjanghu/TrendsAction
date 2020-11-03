@@ -1,4 +1,3 @@
-<<<<<<< frontend/src/components/common/Navbar.vue
 <template>  
   <div>
   <header>
