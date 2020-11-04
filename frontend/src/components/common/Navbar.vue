@@ -15,17 +15,38 @@
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
         </li>
-        <li class="navbar-list-item" @click="logout()" v-if="isLogin">Logout</li>
+        <div v-else style="display:flex;">
+          <li class="navbar-list-item" @click="logout()">Logout</li>
+          
+            <router-link
+              tag="button"
+              :to="{ name: 'UserProfile' }"
+            >
+              <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
+                <i class="fas fa-user-circle navbar-icon"></i>
+              </span>
+            </router-link>
+            <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+              <i class="fas fa-bell navbar-icon"></i>
+            </span>
+         
+        </div>
       </ul>
     </div>
     <div v-else>
-      <span @click.stop="drawer = !drawer" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+      <!-- <span @click.stop="drawer = !drawer" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
         <i class="fas fa-bars navbar-icon"></i>
+      </span> -->
+      <span @click="toggleClassName" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+        <i class="fas fa-bars navbar-icon toggle-icon"></i>
       </span>
     </div>
     
-    <!-- <div class="sidebar">
-      <ul>
+    <div class="sidebar">
+      <div style="position:absolute; top:50px; left: 50px; font-size: 1.5rem; cursor:pointer;">
+        <i class="fas fa-times" @click="toggleClassName"></i>
+      </div>
+      <ul style="text-align:center">
         <li @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
         <li @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
         <li @click="dialog = true" v-if="!isLogin">
@@ -40,33 +61,10 @@
           </div>
         </div>
       </ul>
-    </div> -->
-
-      
-    <!-- <v-tab
-      class="navbar-link"
-      @click="logout()" 
-      v-if="isLogin"
-    >
-      Logout
-    </v-tab>
-    <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
-      <router-link
-        tag="button"
-        class="router-btn"
-        :to="{ name: 'UserProfile' }"
-      >
-        <v-icon class="mr-3">
-          mdi-account-circle
-        </v-icon>
-      </router-link>
-      <v-icon>
-        mdi-bell
-      </v-icon>
-    </div> -->
+    </div>
   </header>
     <!-- Side bar -->
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       absolute
       right
@@ -130,7 +128,7 @@
 
         </v-list-item-group>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
   </div>
   
@@ -185,6 +183,10 @@ export default {
           }
         })
     },
+    toggleClassName() {
+      let sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('active')
+    }
   },
   mounted() {
     if (this.isLogin) {
@@ -195,7 +197,7 @@ export default {
         })
     }
 
-  }
+  },
 }
 </script>
 
@@ -206,14 +208,14 @@ header {
   left: 0;
   width: 100%;
   z-index: 2;
-  padding: 20px 100px;
+  padding: 20px 8%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 header .logo {
   letter-spacing: 1px;
-  font-size: 24px;
+  font-size: 1.5rem;
   color: #ffffff;
   cursor: pointer;
 }
@@ -257,61 +259,34 @@ header.sticky .navbar-icon{
 
 .sidebar {
   position: fixed;
-  z-index: 3;
+  // z-index: 3;
   top: 0;
-  right: -40%;
-  width: 40%;
+  right: -60%;
+  width: 60%;
   height: 100%;
-  background-color: #999999;
+  background-color: #efefef;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.5s;
+}
+
+.sidebar.active {
+  right: 0;
 }
 
 .sidebar ul {
   list-style: none;
 }
 
-.sidebar li {
+.sidebar ul li {
   font-size: 1.5rem;
+  font-weight: 500;
   margin: 30px 0;
 }
 
-.navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  width: 85%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  
-  .router-area {
-    display: flex;
-    align-items: center;
-
-    .router-name {
-      cursor: pointer;
-      color: #01579b;
-      margin: 0 20px;
-    }
-
-    .router-name:hover {
-      font-weight: bold;
-    }
-
-    .navbar-icon {
-      display: flex;
-      align-items: center;
-
-      .router-btn:focus {
-        outline: none;
-      }
-    }
-  }
+.sidebar ul li:hover {
+  color: #ffffff;
 }
 
 .navbar-link {

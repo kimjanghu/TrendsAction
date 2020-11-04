@@ -15,7 +15,7 @@ Vue.use(VueCookies)
 Vue.prototype.$http = axios
 Vue.prototype.$constants = constants
 Vue.prototype.$api = SERVER
-Vue.config.productionTip = false
+Vue.config.productionTip = false 
 
 new Vue({
   created() {
