@@ -8,4 +8,9 @@
 	<update id="uploadProfileImage" parameterType="map">
 		UPDATE user SET profile=#{uniqueFileName} WHERE id=#{userId}
 	</update>
+	
+	<!-- 보드 프로파일 사진 업로드 -->
+	<update id="uploadBoardProfileImage" parameterType="map">
+		UPDATE board SET thumbnail=#{uniqueFileName} WHERE id=#{boardId}
+	</update>
 </mapper>
