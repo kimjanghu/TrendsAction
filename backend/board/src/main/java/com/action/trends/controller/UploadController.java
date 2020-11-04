@@ -24,7 +24,18 @@ public class UploadController {
 	public ResponseEntity<String> uploadFile(@PathVariable int userId,
 			@RequestPart(value = "file") final MultipartFile multipartFile) {
 		
-		s3Service.uploadFile(multipartFile, userId);
+		s3Service.uploadFile(multipartFile, userId, 0);
+		final String response = "[" + multipartFile.getOriginalFilename() + "] uploaded successfully.";
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	// 보드 사진 업로드
+	@PostMapping("/upload/board/{boardId}")
+	public ResponseEntity<String> uploadBoardFile(@PathVariable int boardId,
+			@RequestPart(value = "file") final MultipartFile multipartFile) {
+		
+		s3Service.uploadFile(multipartFile, boardId, 1);
 		final String response = "[" + multipartFile.getOriginalFilename() + "] uploaded successfully.";
 		
 		return new ResponseEntity<>(response, HttpStatus.OK);
