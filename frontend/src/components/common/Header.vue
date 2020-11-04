@@ -5,6 +5,7 @@
     <div class="content" 
       data-sal="slide-up"
       data-sal-duration="800"
+      data-sal-repeat
       >
       <h2>Trends Action!</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
