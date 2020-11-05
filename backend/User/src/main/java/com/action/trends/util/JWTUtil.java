@@ -2,11 +2,12 @@ package com.action.trends.util;
 
 import java.util.Date;
 
-import com.action.trends.dto.User;
+import org.springframework.stereotype.Component;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 
+@Component
 public class JWTUtil {
 	static final String tokenSecret = "HS256"; // 암호화 방식
 	
