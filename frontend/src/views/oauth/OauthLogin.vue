@@ -1,6 +1,13 @@
 <template>
-  <div>
-    로그인 중입니다.
+  <div class="login-area">
+    <v-progress-circular
+      :size="70"
+      :width="7"
+      color="#2c3e50"
+      class="loading"
+      indeterminate
+    ></v-progress-circular>
+    <p class="loading-title">로그인 중입니다...</p>
   </div>
 </template>
 
@@ -38,6 +45,24 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.login-area {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.loading-title {
+  margin-top: 20px;
+  font-weight: bold;
+}
+/* .loading {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
 </style>

@@ -280,7 +280,8 @@ export default {
     },
     getUserBoard() {
       const boardId = this.$route.params.boardId
-      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardContent + `/${boardId}`)
+      console.log(this.config)
+      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardContent + `/${boardId}`, this.config)
         .then(res => {
           let arr = []
           if (res.data.data.newsList) {
