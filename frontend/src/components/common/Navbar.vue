@@ -226,7 +226,7 @@ header .toggle {
 }
 
 header.sticky {
-  background: #ffffff;
+  background: #F5F5F6;
   transition: 0.3s;
 }
 
