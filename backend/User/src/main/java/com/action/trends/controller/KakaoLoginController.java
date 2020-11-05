@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.action.trends.dto.User;
 import com.action.trends.service.KakaoAPIService;
 import com.action.trends.util.JWTUtil;
@@ -43,26 +45,19 @@ public class KakaoLoginController {
 		HashMap<String, Object> userInfo = null;
 		User userData = null;
 		
-//		System.out.println("code :" + " " +  code);
-//		
-//		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		try {
-
 			String access_Token = kakaoAPIService.getAccessToken(code);	
-
 			userInfo = kakaoAPIService.getUserInfo(access_Token);
 
 			new JWTUtil();
 			JWT_token = JWTUtil.createJWTToken(userInfo.get("email").toString());
 
-			
-			
 			int firstLogin = kakaoAPIService.isUserInfoExist(userInfo.get("email").toString());
-			
 			
 			userData = kakaoAPIService.userDetail(userInfo.get("email").toString());
 
 			map.put("token", JWT_token);
+			map.put("email", userData.getEmail());
 			map.put("userId", userData.getId());
 			map.put("nickname", userData.getNickname());
 			map.put("success", SUCCESS);
