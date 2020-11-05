@@ -76,12 +76,12 @@ const routes = [
         name: 'BoardList',
         component: BoardList
       },
-      {
-        path: 'board-detail',
-        name: 'BoardDetail',
-        component: BoardDetail
-      },
     ]
+  },
+  {
+    path: '/mypage/:id/board/:boardId',
+    name: 'BoardDetail',
+    component: BoardDetail
   },
   {
     path: '/trend',

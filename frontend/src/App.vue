@@ -4,9 +4,7 @@
       <Navbar />
     </div>
     <v-main class="main-area">
-      <router-view 
-        :key="$route.fullPath"
-      ></router-view>
+      <router-view></router-view>
     </v-main>
     <Footer />
   </v-app>
