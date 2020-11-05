@@ -27,7 +27,7 @@
           <div class="trend-card"
             data-sal="slide-up"
             data-sal-duration="800"
-            data-sal-delay="300"
+            data-sal-delay="500"
             data-sal-repeat>
               <v-img
               src="../assets/images/share.jpg"
@@ -43,7 +43,7 @@
           <div class="trend-card"
             data-sal="slide-up"
             data-sal-duration="800"
-            data-sal-delay="600"
+            data-sal-delay="800"
             data-sal-repeat>
             <v-img
               src="../assets/images/step3.jpg"
@@ -60,25 +60,27 @@
     <div class="arrow" @click="$vuetify.goTo('#second-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
     </section>
 
-    <section id="second-section" class="section-area second-part">
-      <div class="trendBx">
-        <div>
-          <h2>트렌드 키워드</h2>
-          <input class="trendBx-btn" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })" type="button" value="Learn more">
+    <section id="second-section" class="section-area">
+      <div class="second-part">
+        <div class="trendBx">
+          <div>
+            <h2>트렌드 키워드</h2>
+            <input class="trendBx-btn" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })" type="button" value="Learn more">
+          </div>
+        </div>
+      
+        <div class="predictBx">
+          <div>
+            <h2>예측 트렌드 키워드</h2>
+            <input class="trendBx-btn" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })" type="button" value="Learn more">
+          </div>     
         </div>
       </div>
-    
-      <div class="predictBx">
-        <div>
-          <h2>예측 트렌드 키워드</h2>
-          <input class="trendBx-btn" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })" type="button" value="Learn more">
-        </div>     
-      </div>
+      <!-- <div class="arrow" @click="$vuetify.goTo('#third-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div> -->
     </section>
 
-    <section id="third-section" class="section-area">
-
-    </section>
+    <!-- <section id="third-section" style="height:300px;">
+    </section> -->
 
 
       <!-- <v-row class="pt-0">
@@ -210,7 +212,8 @@ export default {
   width: 100%;
   height: 600px;
   text-align: center;
-  margin-top: 7%;
+  display: flex;
+  align-items: center;
 }
 
 .second-part .trendBx {
