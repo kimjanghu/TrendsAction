@@ -14,6 +14,7 @@ const userStore = {
   getters: {
     isLogin: state => !!state.authToken,
     config: state => ({
+      // AUTHORIZATION
       headers: {
         token: `Bearer ${state.authToken}`
       }

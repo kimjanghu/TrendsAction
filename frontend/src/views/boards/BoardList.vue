@@ -6,7 +6,9 @@
     <v-row>
       <v-col cols="12" md="6" lg="4" v-for="(board, idx) in boards" :key="idx">
         <v-card class="user-board-card" :to="{ name: 'BoardDetail', params: { id: $route.params.id, boardId: board.boardId } }">
-          <p class="board-title">{{ board.name }}</p>
+          <div class="board-title-area">
+            <p class="board-title">{{ board.name }}</p>
+          </div>
           <v-responsive :aspect-ratio="4/3">
             <v-row class="board-row">
               <v-col cols="6" class="inner-img">
@@ -26,6 +28,7 @@
             </v-row>
           </v-responsive>
         </v-card>
+        
         <!-- <v-card 
           color="white" 
           :height="$vuetify.breakpoint.smAndDown? 250:300"
@@ -95,11 +98,17 @@ export default {
 <style lang="scss" scoped>
 .user-board-card {
   position: relative;
-  background-color: #fff;
+  background-color: gray;
 
   .board-title {
+    z-index: 10;
+    color: white;
     position: absolute;
-    top: 0
+    padding: 10px;
+    top: 0;
+    width: 100%;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.5) 100%);
   }
 
   .board-row {
@@ -119,5 +128,11 @@ export default {
     background-size: cover;
     height: 100%;
   }
+}
+
+.user-board-card::after {
+  z-index: 10;
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(255,255,255,1) 100%);
 }
 </style>
