@@ -67,7 +67,7 @@ public class UserController {
 
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 반환한다.", response = Map.class)
 	@GetMapping("/{userId}")
-	public ResponseEntity<Map<String, Object>> userInfo(int userId) throws Exception {
+	public ResponseEntity<Map<String, Object>> userInfo(@PathVariable int userId) throws Exception {
 		logger.debug("해당 유저 정보 반환 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		User userData = userService.detail(userId);
