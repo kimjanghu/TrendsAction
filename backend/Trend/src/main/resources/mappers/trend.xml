@@ -11,7 +11,7 @@
 	</select>
 	
 	<!-- 트렌드 ID로 트렌드 조회 -->
-	<select id="readTrendByTrendId">
+	<select id="readTrendByTrendId" resultType="Trend">
 		select *
 		from trend
 		where id=#{trendId}
