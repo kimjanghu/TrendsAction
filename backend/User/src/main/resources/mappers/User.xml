@@ -65,4 +65,11 @@
 		 where user_id = #{userId} and category_id = #{categoryId} 
 	</delete>
 	
+	<!-- 유저 개인의 카테고리 정보 확인 return 카테고리이름 버전-->
+	<select id="userCategoryListAsString" resultType="String">
+		select name
+		from user_category as us, category as ca
+		where us.category_id = ca.id and user_id = #{userId}
+	</select>
+	
 </mapper>
