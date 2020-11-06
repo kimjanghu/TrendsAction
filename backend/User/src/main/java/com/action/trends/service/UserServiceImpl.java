@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.User;
+import com.action.trends.dto.UserStringCategory;
 import com.action.trends.repository.UserRepository;
 
 @Service
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int update(User user) throws Exception {
+	public int update(UserStringCategory user) throws Exception {
 		int updateSuccess = repo.update(user);
 
 		return updateSuccess;
@@ -70,16 +71,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int[] updateUserCategory(List<Integer> previusUserCategoryList, List<Integer> newUserCategoryList,
+	public int[] updateUserCategory(List<String> previusUserCategoryList, List<String> newUserCategoryList,
 			int userId) throws Exception {
 		Collections.sort(previusUserCategoryList);
 		Collections.sort(newUserCategoryList);
 
+
+		
 		for (int i = 0, size = newUserCategoryList.size(); i < size; i++) {
 			if (previusUserCategoryList.contains(newUserCategoryList.get(i))) {
-				for (int j = 0; j < previusUserCategoryList.size(); j++) {
-					if (previusUserCategoryList.get(j) == newUserCategoryList.get(i)) {
+				for (int j = 0, jsize = previusUserCategoryList.size(); j < jsize; j++) {
+					if (previusUserCategoryList.get(j).equals(newUserCategoryList.get(i))) {
+						
 						previusUserCategoryList.remove(j);
+						j--;
+						jsize--;
+						
 					}
 				}
 				newUserCategoryList.remove(i);
@@ -87,7 +94,7 @@ public class UserServiceImpl implements UserService {
 				size--;
 			}
 		}
-
+		
 		int[] result = new int[2];
 
 		for (int i = 0; i < newUserCategoryList.size(); i++) {

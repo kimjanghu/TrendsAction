@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.User;
+import com.action.trends.dto.UserStringCategory;
 import com.action.trends.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -108,7 +109,7 @@ public class UserController {
 
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 수정한다.", response = Map.class)
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody User user, @RequestHeader("token") String token)
+	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody UserStringCategory user, @RequestHeader("token") String token)
 			throws Exception {
 		logger.debug("해당 유저 정보 수정 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -125,10 +126,11 @@ public class UserController {
 				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 
-			List<Integer> previusUserCategoryList = userService.userCategoryList(user.getId());
-			List<Integer> newUserCategoryList = user.getCategoryList();
+			List<String> previusUserCategoryList = userService.userCategoryListAsString(user.getId());
+			List<String> newUserCategoryList = user.getCategoryList();
 
 			int[] updateCategoryListSuccess = new int[2];
+
 			updateCategoryListSuccess = userService.updateUserCategory(previusUserCategoryList, newUserCategoryList,
 					user.getId());
 
