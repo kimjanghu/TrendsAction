@@ -54,15 +54,21 @@
 	
 	<insert id="insertUserCategory">
 	    INSERT INTO user_category (user_id, category_id) 
-	    VALUES (#{userId} , #{categoryId})
+	    select #{userId}, ca.id
+	    from category as ca
+	    where ca.name = #{categoryName};
 	</insert>
-
 
 	<!-- 유저 개인의 카테고리 정보 삭제 -->
 	<delete id="deleteUserCategory">
-		 delete 
-		 from user_category
-		 where user_id = #{userId} and category_id = #{categoryId} 
+		delete 
+		from user_category
+		where user_id = #{userId} and category_id IN 
+					(select * from (
+						select id
+						from category
+                    	where name = #{categoryName}) as result
+					); 
 	</delete>
 	
 	<!-- 유저 개인의 카테고리 정보 확인 return 카테고리이름 버전-->
