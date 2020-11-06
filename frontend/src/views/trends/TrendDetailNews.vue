@@ -7,30 +7,37 @@
       :href="'//' + news.pressLink"
       target="_blank"
     > -->
-    <v-card
-      class="mx-auto my-5"
-      v-for="news in newsList"
-      :key="news.id"
-    >
-      <v-img
-        class="white--text align-end"
-        height="200px"
-        :src="news.thumbnail"
+    <div v-if="newsList.length !== 0">
+      <v-card
+        class="mx-auto my-5"
+        v-for="news in newsList"
+        :key="news.id"
       >
-      </v-img>
-      <v-card-title>{{ news.title }}</v-card-title>
-      <v-card-subtitle class="pb-0">
-        {{ news.press }} / {{ news.pubDate }}
-      </v-card-subtitle>     
-      <AddBoardBtn v-if="isLogin" :userInfo="userInfo" :newsId="news.id"/>
-      <v-card-actions v-else></v-card-actions> 
-    </v-card>
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          :src="news.thumbnail"
+        >
+        </v-img>
+        <v-card-title>{{ news.title }}</v-card-title>
+        <v-card-subtitle class="pb-0">
+          {{ news.press }} / {{ news.pubDate }}
+        </v-card-subtitle>     
+        <AddBoardBtn v-if="isLogin" :userInfo="userInfo" :newsId="news.id"/>
+        <v-card-actions v-else></v-card-actions> 
+      </v-card>
 
-    <div class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="3"
-      ></v-pagination>
+      <div class="text-center">
+        <v-pagination
+          v-model="page"
+          :length="3"
+        ></v-pagination>
+      </div>
+    </div>
+    <div v-else class="text-center my-10 mx-10">
+      관련된 뉴스가 없습니다.
+      
+      <v-btn @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })" color="primary" style="display:block; margin: 10px auto;">다른 키워드 보러가기</v-btn>
     </div>
 
   </v-container>
@@ -43,7 +50,7 @@ import SERVER from "@/lib/api";
 import { mapGetters } from 'vuex';
 
 export default {
-  props: ['userInfo'],
+  props: ['userInfo', 'trendId'],
   components: {
     AddBoardBtn
   },
@@ -62,7 +69,7 @@ export default {
   methods: {
     getNews() {
       axios
-        .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + 1)
+        .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
         .then((res) => 
           { console.log(res);
             this.newsList = res.data })

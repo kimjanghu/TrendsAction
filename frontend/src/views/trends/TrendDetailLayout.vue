@@ -21,11 +21,13 @@
                     label
                     small
                   >
-                    사회문화
+                    <span v-if="trendInfo.categoryId == 1">비즈니스/소비</span>
+                    <span v-else-if="trendInfo.categoryId == 2">일상</span>
+                    <span v-else>문화</span>
                   </v-chip>
                   <div style="color:white;">
-                    <p class="text-h6">멀티 페르소나</p>
-                    <span>'멀티 페르소나'의 의미를 직역하면 '여러 개의 가면'이라는 뜻이 됩니다. 페르소나는 고대 그리스에서 배우들이 쓰던 가면을 일컫는 단어인데요. 심리학에서는 타인에게 비치는 외적 성격을 나타내는 용어로 쓰입니다.</span>
+                    <p class="text-h6">{{ trendInfo.name }}</p>
+                    <span>{{ trendInfo.description }}</span>
                   </div>
                 </div>
               </v-img>
@@ -33,9 +35,9 @@
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="12" md="9">
+          <v-col cols="12" md="12">
             <v-tabs
-              class="neumor-design"
+              class="neumor-design mb-5"
               v-model="tab"
               background-color="transparent"
               color="black"
@@ -60,14 +62,14 @@
                 :key="item.id"
               >
                 
-                <trend-detail-news v-if="item.id==1" :userInfo="userInfo"/>
-                <trend-detail-sns v-if="item.id==2" :userInfo="userInfo"/>
-                <trend-detail-agora v-if="item.id==3" :userInfo="userInfo"/>
+                <trend-detail-news v-if="item.id==1" :userInfo="userInfo" :trendId="trendId"/>
+                <trend-detail-sns v-if="item.id==2" :userInfo="userInfo" :trendId="trendId"/>
+                <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>
 
               </v-tab-item>
             </v-tabs-items>
           </v-col>
-          <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
+          <!-- <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
             <div>
               <p class="my-2 subtitle-1 neumor-design">BEST NEWS</p>
               <v-card outlined class="neumor-design">
@@ -94,7 +96,7 @@
             </div>
             
             
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-col>
       <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp" style="position: relative">
@@ -139,16 +141,17 @@ import axios from 'axios'
 import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
-
-
 export default {
   components: {
     TrendDetailNews,
     TrendDetailSns,
     TrendDetailAgora
   },
+  props: ['trendId'],
   data () {
       return {
+        trendInfo: {},
+        category: { 1: '비즈니스/소비', 2: '일상', 3: '문화' },
         tab: null,
         items: [ 
           {id: 1, name:'News', link: 'TrendDetailNews'},
@@ -189,21 +192,24 @@ export default {
     computed: {
       ...mapGetters('userStore', ['config']),
     },
+    mounted() {
+    },
     created() {
-      this.getBestNews()
+      // this.getBestNews()
       this.getUserInfo()
+      this.getTrendInfo()
     },
     methods: {
-      getBestNews() {
-        axios
-          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1, this.config)
-          .then((res) => {
-            this.bestNews = res.data.data;
-          })
-          .catch((err) => {
-            console.log(err)
-          } )
-      },
+      // getBestNews() {
+      //   axios
+      //     .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1, this.config)
+      //     .then((res) => {
+      //       this.bestNews = res.data.data;
+      //     })
+      //     .catch((err) => {
+      //       console.log(err)
+      //     } )
+      // },
       getUserInfo() {
         const userId = window.localStorage.getItem('userId')
         axios
@@ -213,6 +219,13 @@ export default {
             this.userInfo = res.data.data
           })
           .catch((err) => { console.log(err)})
+      },
+      getTrendInfo() {
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
+          .then((res) => { console.log(res.data); this.trendInfo = res.data})
+          .catch((err) => {console.log(err)})
+
       }
     }
 }

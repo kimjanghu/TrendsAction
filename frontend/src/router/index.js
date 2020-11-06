@@ -41,8 +41,9 @@ const routes = [
     component: loadView('users/UserLogout')
   },
   {
-    path: '/trend-detail',
+    path: '/trend-detail/:trendId',
     component: TrendDetailLayout,
+    props: true,
     children: [
       {
         path: 'news',

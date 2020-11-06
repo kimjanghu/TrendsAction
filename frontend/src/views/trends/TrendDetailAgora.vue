@@ -55,6 +55,7 @@
               </v-card-actions>
           </v-card>
         </v-timeline-item>
+        <div v-if="comments.length !== 0">
         <v-timeline-item
           fill-dot
           v-for="(comment, i) in comments"
@@ -78,7 +79,11 @@
          
           
         </v-timeline-item>
+        </div>
         
+        <div v-else class="text-center my-10 mx-10">
+          관련 댓글이 없습니다.<br/>제일 먼저 댓글을 남겨보세요!
+        </div>
       </v-timeline>
       
     </v-timeline>
@@ -93,7 +98,7 @@ import UsersLoginForm from '@/components/users/UsersLoginForm'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['userInfo'],
+  props: ['userInfo', 'trendId'],
   components: {
     CommentUDBtn,
     UsersLoginForm,
@@ -119,7 +124,7 @@ export default {
     },
     getComments() {
       axios
-        .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1, this.config)
+        .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + this.trendId)
         .then((res) => 
           { console.log(res);
             this.comments = res.data })
