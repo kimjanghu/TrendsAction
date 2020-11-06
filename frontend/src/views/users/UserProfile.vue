@@ -107,8 +107,8 @@ export default {
       fileData.append('file', this.file)
 
       this.$http.post(this.$api.URL + this.$api.ROUTES.accounts.uploadProfilePicture + `/${this.userId}`, fileData, this.config)
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          window.location.reload()
         })
         .catch(err => {
           console.log(err)
@@ -140,6 +140,7 @@ export default {
       this.$http.put(this.$api.URL + this.$api.ROUTES.accounts.user, userInfo, this.config)
         .then(res => {
           console.log(res)
+          window.location.reload()
         })
         .catch(err => {
           console.log(err.response)
