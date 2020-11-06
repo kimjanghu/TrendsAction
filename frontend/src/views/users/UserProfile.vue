@@ -134,12 +134,9 @@ export default {
         id: this.userInfo.id,
         nickname: this.nickname,
         profile: this.userInfo.profile
-        // profile: 'https://trendsaction.s3.ap-northeast-2.amazonaws.com/2020-11-02T06%3A32%3A23.313_Male-Avatar.jpg'
       }
-      console.log(userInfo)
       this.$http.put(this.$api.URL + this.$api.ROUTES.accounts.user, userInfo, this.config)
-        .then(res => {
-          console.log(res)
+        .then(() => {
           window.location.reload()
         })
         .catch(err => {
