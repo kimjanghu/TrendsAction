@@ -9,7 +9,6 @@ import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.action.trends.util.JWTUtil;
 import com.google.common.net.HttpHeaders;
@@ -17,7 +16,6 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @Configuration
 public class AuthConfiguration extends ZuulFilter {
 
