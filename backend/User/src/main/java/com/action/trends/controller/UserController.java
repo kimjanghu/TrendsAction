@@ -109,8 +109,7 @@ public class UserController {
 
 	@ApiOperation(value = "해당 유저아이디에 대한 유저정보를 수정한다.", response = Map.class)
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody UserStringCategory user, @RequestHeader("token") String token)
-			throws Exception {
+	public ResponseEntity<Map<String, Object>> userUpdate(@RequestBody UserStringCategory user) throws Exception {
 		logger.debug("해당 유저 정보 수정 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -154,8 +153,7 @@ public class UserController {
 
 	@ApiOperation(value = "해당 유저아이디에 대한 정보를 삭제한다.", response = Map.class)
 	@DeleteMapping("{userId}")
-	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId,
-			@RequestHeader("token") String token) throws Exception {
+	public ResponseEntity<Map<String, Object>> userDelete(@PathVariable int userId) throws Exception {
 		logger.debug("해당 유저 정보 삭제 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 
