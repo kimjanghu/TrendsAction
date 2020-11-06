@@ -71,24 +71,38 @@ public class UserController {
 		logger.debug("해당 유저 정보 반환 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		User userData = userService.detail(userId);
-
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		
 		try {
-			if (userData != null) {
-				map.put("status", true);
-				map.put("message", "유저정보 조회 성공하였습니다");
-				map.put("data", userData);
-			} else {
-				map.put("status", false);
-				map.put("message", "유저정보 조회 실패하였습니다");
-			}
-			System.out.println("flag3");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			dataMap.put("id", userData.getId());
+			dataMap.put("email", userData.getEmail());
+			dataMap.put("nickname", userData.getNickname());
+			dataMap.put("profile", userData.getProfile());
 		} catch (Exception e) {
+			map.put("status", false);
+			map.put("message", "유저정보 조회 실패하였습니다");
 			StringWriter error = new StringWriter();
 			e.printStackTrace(new PrintWriter(error));
 			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		try {
+			dataMap.put("categoryName", userService.userCategoryListAsString(userId));
+		} catch (Exception e) {
+			map.put("status", false);
+			map.put("message", "userId로 개인카테고리 목록 이름들을 가져오는데 실패했습니다.");
+			StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			map.put("error", error.toString());
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		map.put("status", true);
+		map.put("message", "유저정보 조회 성공하였습니다");
+		map.put("data", dataMap);
+
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		
 
 	}
 

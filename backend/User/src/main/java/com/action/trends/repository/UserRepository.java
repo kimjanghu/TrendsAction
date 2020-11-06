@@ -27,4 +27,6 @@ public interface UserRepository {
 	int insertUserCategory(int categoryId, int userId) throws Exception;
 	
 	int deleteUserCategory(int categoryId, int userId) throws Exception;
+	
+	List<String> userCategoryListAsString(int userId) throws Exception;
 }

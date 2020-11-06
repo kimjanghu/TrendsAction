@@ -21,4 +21,6 @@ public interface UserService {
 	List<Integer> userCategoryList(int userId) throws Exception;
 	
 	int[] updateUserCategory(List<Integer> previusUserCategoryList, List<Integer> newUserCategoryList, int userId) throws Exception;
+	
+	List<String> userCategoryListAsString(int userId) throws Exception;
 }

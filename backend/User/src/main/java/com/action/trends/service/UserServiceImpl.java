@@ -103,4 +103,12 @@ public class UserServiceImpl implements UserService {
 
 		return result;
 	}
+	
+	@Override
+	public List<String> userCategoryListAsString(int userId) throws Exception {
+
+		List<String> list = repo.userCategoryListAsString(userId);
+
+		return list;
+	}
 }
