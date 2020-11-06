@@ -288,10 +288,10 @@ public class BoardController {
 	
 	@ApiOperation(value="유저 검색(이메일)")
 	@PostMapping("/board/searchuser")
-	public ResponseEntity<Map<String, Object>> searchUser(@RequestBody String email) {
+	public ResponseEntity<Map<String, Object>> searchUser(@RequestBody Map<String, String> data) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		Map<String, Object> resultMap = new HashMap<>();
-		
+		String email = data.get("email");
 		try {
 			User user = boardService.searchUser(email);
 			if (user != null) {
