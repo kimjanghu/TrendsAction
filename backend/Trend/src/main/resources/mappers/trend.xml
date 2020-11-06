@@ -10,6 +10,13 @@
 		and self_made=#{selfMade};
 	</select>
 	
+	<!-- 트렌드 ID로 트렌드 조회 -->
+	<select id="readTrendByTrendId">
+		select *
+		from trend
+		where id=#{trendId}
+	</select>
+	
 	<!-- 카테고리 목록 조회 -->
 	<select id="readCategoryBySelfMade" resultType="Category">
 		select *

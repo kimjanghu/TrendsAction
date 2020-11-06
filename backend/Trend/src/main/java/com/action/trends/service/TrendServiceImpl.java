@@ -23,6 +23,11 @@ public class TrendServiceImpl implements TrendService {
 	public List<Category> readCategoryBySelfMade(int selfMade) {
 		return repository.readCategoryBySelfMade(selfMade);
 	}
+	
+	@Override
+	public Trend readTrendByTrendId(int trendId) {
+		return repository.readTrendByTrendId(trendId);
+	}
 
 	@Override
 	public List<Trend> readBycategoryId(int categoryId) {

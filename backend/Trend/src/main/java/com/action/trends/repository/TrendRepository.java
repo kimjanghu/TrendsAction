@@ -13,6 +13,8 @@ import com.action.trends.dto.Twitter;
 @Repository
 public interface TrendRepository {
 	List<Category> readCategoryBySelfMade(int selfMade);
+	
+	Trend readTrendByTrendId(int trendId);
 
 	List<Trend> readBycategoryId(int categoryId);
 
