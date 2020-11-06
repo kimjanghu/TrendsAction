@@ -152,7 +152,7 @@ export default {
     addNewBoard() {
       let body = { 'userId': this.userInfo.id, 'name': this.newBoard }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body)
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body, this.config)
         .then((res) => {
           alert(res.data.message)
           this.getBoardList()
@@ -166,7 +166,7 @@ export default {
     },
     getBoardList() {
       axios
-        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + this.userInfo.id)
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + this.userInfo.id, this.config)
         .then((res) => { this.myBoardList = res.data.data })
         .catch((err) => { console.log(err)})
     },
@@ -177,16 +177,19 @@ export default {
         newsId : this.newsId
       }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body)
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
         .then((res) => { 
-          if (res.data.message != "이미 담은 뉴스입니다.") {
-            alert("트렌드보드에 등록되었습니다")
+          if (res.data.message != '이미 담은 뉴스입니다.') {
+            alert('트렌드보드에 등록되었습니다.')
             this.groupSelect = []
+            this.dialog = false
           } else {
             alert(res.data.message)
           }
           console.log(res)})
-        .catch((err) => { console.log(err)})
+        .catch((err) => {
+          alert('트렌드보드에 뉴스를 저장하지 못했습니다.') 
+          console.log(err)})
     },
     addTwittInfo() {
       let body = {
@@ -195,16 +198,19 @@ export default {
         twitterId : this.snsId
       }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.boards.addTwitter, body)
+        .post(SERVER.URL + SERVER.ROUTES.boards.addTwitter, body, this.config)
         .then((res) => { 
-          if (res.data.message != "이미 담은 트윗입니다.") {
-            alert("트렌드보드에 등록되었습니다")
+          if (res.data.message != '이미 담은 트윗입니다.') {
+            alert('트렌드보드에 등록되었습니다.')
             this.groupSelect = []
+            this.dialog = false
           } else {
             alert(res.data.message)
           }
           console.log(res)})
-        .catch((err) => { console.log(err)})
+        .catch((err) => { 
+          alert('트렌드보드에 트윗을 저장하지 못했습니다.')
+          console.log(err)})
     }
   }
 }

@@ -196,7 +196,7 @@ export default {
     methods: {
       getBestNews() {
         axios
-          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1)
+          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1, this.config)
           .then((res) => {
             this.bestNews = res.data.data;
           })
@@ -205,8 +205,9 @@ export default {
           } )
       },
       getUserInfo() {
+        const userId = window.localStorage.getItem('userId')
         axios
-          .get(SERVER.URL + SERVER.ROUTES.accounts.user, this.config)
+          .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
             console.log(res.data.data);
             this.userInfo = res.data.data

@@ -19,8 +19,9 @@
           <li class="navbar-list-item" @click="logout()">Logout</li>
           
             <router-link
+              class="navbar-icon"
               tag="button"
-              :to="{ name: 'UserProfile' }"
+              :to="{ name: 'UserProfile', params: { id: userId }}"
             >
               <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
                 <i class="fas fa-user-circle navbar-icon"></i>
@@ -291,5 +292,9 @@ header.sticky .navbar-icon{
 
 .navbar-link {
   cursor: pointer;
+}
+
+.navbar-icon:focus {
+  outline: none;
 }
 </style>

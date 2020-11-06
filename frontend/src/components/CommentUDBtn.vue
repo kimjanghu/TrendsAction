@@ -88,6 +88,7 @@
 <script>
 import axios from 'axios'
 import SERVER from '@/lib/api'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['comment', 'userInfo'],
@@ -99,6 +100,9 @@ export default {
       dialog: false,
     }
   },
+  computed: { 
+    ...mapGetters('userStore', ['config'])
+  },
   methods: {
     editComment(commentId) {
       let body = {
@@ -108,7 +112,7 @@ export default {
         id: commentId,
       }
       axios
-        .put(SERVER.URL + SERVER.ROUTES.comments.cuComment, body)
+        .put(SERVER.URL + SERVER.ROUTES.comments.cuComment, body, this.config)
         .then((res) => { 
           console.log(res);
           this.isEdit = false
@@ -117,7 +121,7 @@ export default {
     },
     deleteComment(commentId) {
       axios
-        .delete(SERVER.URL + SERVER.ROUTES.comments.rdComment + '/' + commentId)
+        .delete(SERVER.URL + SERVER.ROUTES.comments.rdComment + '/' + commentId, this.config)
         .then((res) => { 
           console.log(res)
           this.$emit('deleteComment')

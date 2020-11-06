@@ -57,7 +57,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <div class="arrow" @click="$vuetify.goTo('#second-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
+    <!-- <div class="arrow" @click="$vuetify.goTo('#second-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div> -->
     </section>
 
     <section id="second-section" class="section-area">
@@ -115,6 +115,7 @@
 // import MainList from '@/components/common/MainList'
 import Header from '@/components/common/Header'
 import sal from "sal.js";
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -129,10 +130,17 @@ export default {
     }
   },
   created() {
+    this.getUserInfo()
+  },
+  computed: {
+    ...mapGetters('userStore', ['isLogin', 'config'])
   },
   mounted() {
     sal();
-  }
+  },
+  methods: {
+  },
+  
 }
 </script>
 
@@ -191,7 +199,7 @@ export default {
 .section-area {
   position: relative;
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -275,4 +283,5 @@ export default {
   background-color: #ffffff;
   transition: .4s;
 }
+
 </style>

@@ -48,7 +48,7 @@ export default {
     AddBoardBtn
   },
   computed: {
-    ...mapGetters('userStore', 'isLogin')
+    ...mapGetters('userStore', ['isLogin'])
   },
   data() {
     return {

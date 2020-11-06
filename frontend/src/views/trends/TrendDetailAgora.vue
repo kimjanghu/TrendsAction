@@ -107,7 +107,7 @@ export default {
     
   }),
   computed: {
-    ...mapGetters('userStore', ['isLogin']),
+    ...mapGetters('userStore', ['isLogin', 'config']),
   },
   created() {
     this.getComments()
@@ -119,7 +119,7 @@ export default {
     },
     getComments() {
       axios
-        .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1)
+        .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + 1, this.config)
         .then((res) => 
           { console.log(res);
             this.comments = res.data })
@@ -132,7 +132,7 @@ export default {
         userId: this.userInfo.id
       }
       axios
-        .post(SERVER.URL + SERVER.ROUTES.comments.cuComment, body )
+        .post(SERVER.URL + SERVER.ROUTES.comments.cuComment, body, this.config )
         .then((res) => 
           { console.log(res); this.input = ''; this.getComments()})
         .catch((err) => { console.log(err)})
