@@ -24,6 +24,7 @@ export default {
       getBoardList: '/boards/board/',
       getBoardContent: '/boards/board/contents',
       getBoardMember: '/boards/board/sharer',
+      setBoardCover: '/boards/upload/board',
       searchUser: '/boards/board/searchuser',
       addNewBoard: '/boards/board',
       addNews: '/boards/board/news',

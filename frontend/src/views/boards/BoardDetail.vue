@@ -13,8 +13,7 @@
         </v-avatar>
         <div class="user-info">
           <h1>{{ boardName }}</h1>
-          <p>Host</p>
-          <p>Guest</p>
+          <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
           <v-row justify="center">
             <v-dialog
               v-model="dialog"
@@ -33,12 +32,21 @@
               </template>
               <v-card>
                 <v-card-title>
-                  <span class="headline">보드 편집하기</span>
+                  <span class="edit-board-title">Edit Board</span>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    @click="dialog = false; closeModal();"
+                  >
+                    <v-icon>
+                      mdi-close
+                    </v-icon>
+                  </v-btn>
                 </v-card-title>
+
                 <v-card-text>
                   <v-container>
                     <v-row>
-                      <v-col cols="12">
+                      <v-col cols="12" class="d-flex">
                         <v-text-field
                           label="보드 이름 수정"
                           v-model="editName"
@@ -48,12 +56,12 @@
                           class="ma-2 white--text teal lighten-2"
                           @click="changeBoardName"
                         >
-                          변경하기
+                          변경
                         </v-btn>
                       </v-col>
-                      <v-col cols="12">
+                      <v-col cols="12" class="d-flex">
                         <v-text-field
-                          label="사용자 이름 검색"
+                          label="사용자 이메일 검색"
                           v-model="email"
                           required
                         ></v-text-field>
@@ -61,33 +69,38 @@
                           class="ma-2 white--text teal lighten-2"
                           @click="searchUser"
                         >
-                          변경하기
+                          검색
                         </v-btn>
+                      </v-col>
+                      <v-col cols="12" class="d-flex justify-center align-center">
+                        <div v-if="isLoading">
+                          <Loading />
+                        </div>
+                        <div v-if="!isResult && !isLoading">
+                          <p>검색 결과가 없습니다.</p>
+                        </div>
+                        <div v-if="isResult && !isLoading" class="d-flex justify-center flex-column align-center">
+                          <p>닉네임: {{ searchResult.nickname }}</p>
+                          <p>이메일: {{ searchResult.email }}</p>
+                          <button class="add-btn">
+                            <span class="add-name">Host로 추가하기</span>
+                          </button>
+                          <button class="add-btn">
+                            <span class="add-name">Guest로 추가하기</span>
+                          </button>
+                        </div>
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false; closeModal();"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-row>
-          <p class="cover-img-btn">커버이미지 변경</p>
+          <p 
+            class="cover-img-btn"
+            @click="$refs.inputUpload.click()"
+          >커버이미지 변경</p>
+          <input v-show="false" ref="inputUpload" type="file" @change="uploadFile">
         </div>
       </section>
     </div>
@@ -210,6 +223,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Loading from '@/components/common/Loading'
 
 export default {
   name: 'BoardDetail',
@@ -222,8 +236,16 @@ export default {
       boardName: '',
       editName: '',
       coverImage: '',
-      email: ''
+      email: '',
+      isResult: false,
+      searchResult: null,
+      hosts: [],
+      guests: [],
+      isLoading: false
     }
+  },
+  components: {
+    Loading
   },
   computed: {
     ...mapGetters('userStore', ['config'])
@@ -232,14 +254,39 @@ export default {
     ...mapActions('userStore', ['getUserInfo']),
     closeModal() {
       this.editName = this.boardName
+      this.email = ''
+    },
+    uploadFile() {
+      const file = this.$refs.inputUpload.files[0]
+      const fileData = new FormData()
+      fileData.append('file', file)
+      
+      const boardId = this.$route.params.boardId
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.setBoardCover + `/${boardId}`, fileData, this.config)
+        .then(() => {
+          this.getUserBoard()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     searchUser() {
-      // const searchData = {
-      //   email: this.email
-      // }
-      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, this.email)
+      this.isLoading = true
+      const searchData = {
+        email: this.email
+      }
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, searchData, this.config)
         .then(res => {
-          console.log(res)
+          if (res.data.message == '해당하는 유저가 없습니다.') {
+            this.isResult = false
+            this.isLoading = false
+            this.email = ''
+            return
+          }
+          this.isResult = true
+          this.email = ''
+          this.searchResult = res.data.data
+          this.isLoading = false
         })
         .catch(err => {
           console.log(err)
@@ -247,21 +294,28 @@ export default {
     },
     getBoardMember() {
       const boardId = this.$route.params.boardId
-      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardMember + `/${boardId}`)
+      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardMember + `/${boardId}`, this.config)
         .then(res => {
-          console.log(res)
+          const boardMembers = res.data.data
+          boardMembers.forEach(el => {
+            if (el.authority === 'host') {
+              this.hosts.push({
+                nickname: el.nickname,
+                profile: el.profile
+              })
+            } else {
+              this.guests.push({
+                nickname: el.nickname,
+                profile: el.profile
+              })
+            }
+          })
         })
         .catch(err => {
           console.log(err)
         })
     },
     changeBoardName() {
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${state.authToken}`,
-      //     Email: `${userEmail}`
-      //   }
-      // }
       const boardData = {
         boardId: +this.$route.params.boardId,
         name: this.editName
@@ -280,7 +334,6 @@ export default {
     },
     getUserBoard() {
       const boardId = this.$route.params.boardId
-      console.log(this.config)
       this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardContent + `/${boardId}`, this.config)
         .then(res => {
           let arr = []
@@ -311,7 +364,6 @@ export default {
   created() {
     this.getUserInfo()
       .then(data => {
-        console.log(data)
         this.nickname = data.nickname
         this.userEmail = data.email
         if (data.profile) {
@@ -378,6 +430,21 @@ export default {
     margin: 0 10px;
     position: absolute;
     bottom: 0;
+  }
+}
+
+.edit-board-title {
+  font-size: 20px;
+}
+
+.add-btn {
+  margin-top: 10px;
+  padding: 5px;
+  border: 3px solid #000;
+  border-radius: 10px;
+
+  .add-name {
+    font-weight: bold;
   }
 }
 </style>
