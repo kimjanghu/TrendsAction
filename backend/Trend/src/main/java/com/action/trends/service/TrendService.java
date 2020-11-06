@@ -11,6 +11,8 @@ import com.action.trends.dto.Twitter;
 public interface TrendService {
 	List<Category> readCategoryBySelfMade(int selfMade);
 	
+	Trend readTrendByTrendId(int trendId);
+	
 	List<Trend> readBycategoryId(int categoryId);
 	
 	List<News> readNewsByTrendId(int trendId);

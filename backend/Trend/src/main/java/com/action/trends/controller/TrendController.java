@@ -40,8 +40,15 @@ public class TrendController {
 		return new ResponseEntity<List<Category>>(service.readCategoryBySelfMade(selfMade), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "트렌드 ID로 트렌드 조회")
+	@GetMapping("{trendId}")
+	public ResponseEntity<Trend> readTrendByTrendId(@PathVariable int trendId) {
+		logger.debug("트렌드 ID로 트렌드 조회");
+		return new ResponseEntity<Trend>(service.readTrendByTrendId(trendId), HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "카테고리별 트렌드 목록 조회")
-	@GetMapping("{categoryId}")
+	@GetMapping("list/{categoryId}")
 	public ResponseEntity<List<Trend>> readBycategoryId(@PathVariable int categoryId) {
 		logger.debug("카테고리별 트렌드 목록 조회");
 		return new ResponseEntity<List<Trend>>(service.readBycategoryId(categoryId), HttpStatus.OK);
