@@ -130,7 +130,6 @@ export default {
     }
   },
   created() {
-    this.getUserInfo()
   },
   computed: {
     ...mapGetters('userStore', ['isLogin', 'config'])

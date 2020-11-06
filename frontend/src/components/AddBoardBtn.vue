@@ -147,6 +147,7 @@ export default {
   },
   created() {
     this.getBoardList()
+
   },
   methods: {
     addNewBoard() {

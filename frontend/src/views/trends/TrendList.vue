@@ -1,14 +1,15 @@
 <template>
-  <div style="background-color: gray;">
-
-    <div v-for="keyword in keywordList" :key="keyword.categoryName" class="trend-area">
+  <v-container style="background-color: #F5F5F6;" class="mt-10">
+    <v-col cols="12" v-for="keyword in keywordList" :key="keyword.categoryName" class="trend-area">
       <v-container class="trend-container">
         <p class="trend-category">#{{ keyword.categoryName }}</p>
         <v-row justify="center">
-          <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="6" xl="3">
-            <div class="text-center trend-keyword">
-              {{ trend.trendName }}
-            </div>
+          <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="6" xl="3" >
+              <div class="text-center trend-keyword">
+                <router-link :to="{ name: 'TrendDetailLayout', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">
+                  {{ trend.trendName }}
+                </router-link>
+              </div>
           </v-col>
         </v-row>
       </v-container>
@@ -44,9 +45,9 @@
           </v-col>
         </v-row>
       </v-container> -->
-    </div>
+    </v-col>
 
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -76,16 +77,19 @@ export default {
 
 <style lang="scss" scoped>
 .trend-area {
-  width: 75%;
-  margin: 0 auto;
-  padding: 10px;
 
   .trend-container {
-    background-color: #fff;
-    border: 5px solid #000;
+    border: none;
     border-radius: 25px;
-    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.3);
-    margin: 50px 0;
+    background: #F5F5F6;
+    box-shadow:  11px 11px 22px #ebebec, 
+                -11px -11px 22px #ffffff;
+    margin: 20px 0;
+    padding: 30px;
+
+    p {
+      margin-bottom: 20px ;
+    }
 
     .trend-category {
       font-size: 25px;
@@ -95,11 +99,23 @@ export default {
 }
 
 .trend-keyword {
-  border: 1px solid #000;
-  border-radius: 30px;
   padding: 20px;
   width: 70%;
   margin: 0 auto;
+  border: none;
+  border-radius: 25px;
+  background: #F5F5F6;
+  box-shadow:  11px 11px 22px #ebebec, 
+              -11px -11px 22px #ffffff;
+}
+
+.trend-keyword:hover {
+  border: none;
+  border-radius: 25px;
+  background: #F5F5F6;
+  box-shadow: inset 11px 11px 22px #e4e4e5, 
+              inset -11px -11px 22px #ffffff;
+  cursor: pointer;
 }
 
 </style>
