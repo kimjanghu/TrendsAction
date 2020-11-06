@@ -1,37 +1,41 @@
 <template>
-  <v-container>
+  <v-container class="mt-10">
     <v-row>
       <v-col cols="12" md="9">
         <v-row justify="center">
           <v-col cols="12">
-            <v-img
-              width="100%"
-              :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
-              lazy-src="https://picsum.photos/id/11/10/6"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              src="https://picsum.photos/id/11/500/300"
-              class="trend-img"
-            >
-              <div class="trend-desc">
-                <v-chip
-                  class="white--text ml-0 mb-2"
-                  color="purple"
-                  label
-                  small
-                >
-                  사회문화
-                </v-chip>
-                <div style="color:white;">
-                  <p class="text-h6">멀티 페르소나</p>
-                  <span>'멀티 페르소나'의 의미를 직역하면 '여러 개의 가면'이라는 뜻이 됩니다. 페르소나는 고대 그리스에서 배우들이 쓰던 가면을 일컫는 단어인데요. 심리학에서는 타인에게 비치는 외적 성격을 나타내는 용어로 쓰입니다.</span>
+            <div class="neumor-design">
+              <v-img
+                width="100%"
+                :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
+                lazy-src="https://picsum.photos/id/11/10/6"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                src="https://picsum.photos/id/11/500/300"
+                class="trend-img"
+                style="border-radius: 19px;"
+              >
+                <div class="trend-desc">
+                  <v-chip
+                    class="white--text ml-0 mb-2"
+                    color="purple"
+                    label
+                    small
+                  >
+                    사회문화
+                  </v-chip>
+                  <div style="color:white;">
+                    <p class="text-h6">멀티 페르소나</p>
+                    <span>'멀티 페르소나'의 의미를 직역하면 '여러 개의 가면'이라는 뜻이 됩니다. 페르소나는 고대 그리스에서 배우들이 쓰던 가면을 일컫는 단어인데요. 심리학에서는 타인에게 비치는 외적 성격을 나타내는 용어로 쓰입니다.</span>
+                  </div>
                 </div>
-              </div>
-            </v-img>
+              </v-img>
+            </div>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="12" md="9">
             <v-tabs
+              class="neumor-design"
               v-model="tab"
               background-color="transparent"
               color="black"
@@ -50,7 +54,7 @@
               </v-tab>
             </v-tabs>
             <!-- <router-view></router-view> -->
-            <v-tabs-items v-model="tab">
+            <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
               <v-tab-item
                 v-for="item in items"
                 :key="item.id"
@@ -65,8 +69,8 @@
           </v-col>
           <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
             <div>
-              <p class="my-2 subtitle-1">BEST NEWS</p>
-              <v-card outlined>
+              <p class="my-2 subtitle-1 neumor-design">BEST NEWS</p>
+              <v-card outlined class="neumor-design">
                 <v-list two-line>
                   <v-list-item
                     class="px-3 py-0"
@@ -95,8 +99,9 @@
       </v-col>
       <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp" style="position: relative">
         <div class="set-sticky">
-        <p class="mt-2 mb-3 subtitle-1">OTHERS</p>
-          <v-list two-line class="pt-0">
+        <p class="mt-2 mb-3 subtitle-1 neumor-design">OTHERS</p>
+        <div class="neumor-design">
+          <v-list two-line class="pt-0 neumor-design" style="background: #F5F5F6;">
             <v-list-item
               class="pl-0"
               v-for="(keyword, i) in otherkeywords"
@@ -119,6 +124,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
+        </div>
         </div>
       </v-col>
     </v-row>
@@ -190,7 +196,7 @@ export default {
     methods: {
       getBestNews() {
         axios
-          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1)
+          .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1, this.config)
           .then((res) => {
             this.bestNews = res.data.data;
           })
@@ -199,8 +205,9 @@ export default {
           } )
       },
       getUserInfo() {
+        const userId = window.localStorage.getItem('userId')
         axios
-          .get(SERVER.URL + SERVER.ROUTES.accounts.user, this.config)
+          .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
             console.log(res.data.data);
             this.userInfo = res.data.data
@@ -232,6 +239,14 @@ export default {
 .set-sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 20px;
+  top: 80px;
+}
+
+.neumor-design {
+  padding: 2%;
+  border-radius: 19px;
+  background: #F5F5F6;
+  box-shadow:  9px 9px 18px #ebebec, 
+              -9px -9px 18px #ffffff;
 }
 </style>

@@ -9,14 +9,17 @@ const userStore = {
   state: {
     constants,
     authToken: cookies.get('auth-token'),
-    userInfo: null
+    email: window.localStorage.getItem('email'),
+    userInfo: null,
   },
   getters: {
     isLogin: state => !!state.authToken,
     config: state => ({
       // AUTHORIZATION
       headers: {
-        token: `Bearer ${state.authToken}`
+        Authorization: `Bearer ${state.authToken}`,
+        Email: `${state.email}`,
+        // 'Access-Control-Allow-Origin':'*'
       }
     })
   },
@@ -25,14 +28,18 @@ const userStore = {
       state.authToken = token
       cookies.set('auth-token', token)
     },
+    SET_EMAIL(state, email) {
+      state.email = email
+    },
     SET_USERINFO(state, userInfo) {
       state.userInfo = userInfo
     }
   },
   actions: {
     getUserInfo({ commit, getters }) {
-      return new Promise(function(resolve) {
-        axios.get(SERVER.URL + SERVER.ROUTES.accounts.user, getters.config)
+      return new Promise(function (resolve) {
+        const userId = window.localStorage.getItem('userId')
+        axios.get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, getters.config)
         .then(res => {
           commit('SET_USERINFO', res.data.data)
           resolve(res.data.data)
@@ -52,10 +59,12 @@ const userStore = {
       })
         .then(res => {
           commit('SET_TOKEN', res.data.token)
+          commit('SET_EMAIL', res.data.email)
           return res.data
         })
         .then(data => {
           console.log(data)
+          window.localStorage.setItem('email', data.email)
           window.localStorage.setItem('userId', data.userId)
           window.localStorage.setItem('nickname', data.nickname)
           if (data.nickname) {
