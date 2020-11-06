@@ -19,10 +19,11 @@
           
           <span class="mt-3">{{ nickname }}님의 마이페이지</span>
           <span>{{ email }}</span>
-          <div v-if="categoryList.length">
-            <div v-for="category in categoryList" :key="category">
+          <div v-if="categoryName">
+            {{ categoryName }}
+            <!-- <div v-for="category in categoryList" :key="category"  class="d-flex justify-center">
               <span>{{ category }}</span>
-            </div>
+            </div> -->
           </div>
         </v-sheet>
         <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필</v-btn>
@@ -52,7 +53,8 @@ export default {
       email: '',
       nickname: '',
       profile: '',
-      categoryList: []
+      categoryName: '',
+      userId: window.localStorage.getItem('userId'),
     }
   },
   computed: {
@@ -64,9 +66,11 @@ export default {
   created() {
     this.getUserInfo()
       .then(data => {
+        console.log(data)
         this.email = data.email
         this.nickname = data.nickname
-        this.categoryList = data.categoryList
+        const categoryName = data.categoryName.join(', ')
+        this.categoryName = categoryName
         if (data.profile) {
           this.profile = data.profile
         } else {

@@ -1,21 +1,26 @@
 <template>
   <div class="login-area">
-    <v-progress-circular
+    <Loading />
+    <!-- <v-progress-circular
       :size="70"
       :width="7"
       color="#2c3e50"
       class="loading"
       indeterminate
-    ></v-progress-circular>
+    ></v-progress-circular> -->
     <p class="loading-title">로그인 중입니다...</p>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import Loading from '@/components/common/Loading'
 
 export default {
   name: 'OauthLogin',
+  components: {
+    Loading
+  },
   methods: {
     ...mapActions('userStore', ['login']),
   },

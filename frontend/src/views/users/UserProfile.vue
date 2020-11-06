@@ -70,12 +70,16 @@ export default {
       loader: null,
       loading3: false,
       items: [
-        1, 2, 3, 4
+        '비즈니스/소비', 
+        '일상', 
+        '문화'
       ],
+      // categoryItems: {
+      //   '비즈니스/소비': 1,
+      //   '일상': 2, 
+      //   '문화': 3
+      // },
       file: null
-      // items: [
-      //   '비즈니스/소비', '일상', '문화'
-      // ]
     }
   },
   watch: {
@@ -102,12 +106,11 @@ export default {
       const fileData = new FormData()
       fileData.append('file', this.file)
 
-      this.$http.post(this.$api.URL + this.$api.ROUTES.accounts.uploadProfilePicture + `/${this.userId}`, fileData)
+      this.$http.post(this.$api.URL + this.$api.ROUTES.accounts.uploadProfilePicture + `/${this.userId}`, fileData, this.config)
         .then(res => {
           console.log(res)
         })
         .catch(err => {
-          // err.response
           console.log(err)
         })
       this.file = null
@@ -133,12 +136,13 @@ export default {
         profile: this.userInfo.profile
         // profile: 'https://trendsaction.s3.ap-northeast-2.amazonaws.com/2020-11-02T06%3A32%3A23.313_Male-Avatar.jpg'
       }
+      console.log(userInfo)
       this.$http.put(this.$api.URL + this.$api.ROUTES.accounts.user, userInfo, this.config)
         .then(res => {
           console.log(res)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
         })
     },
   },
@@ -147,7 +151,7 @@ export default {
       .then(data => {
         this.userId = data.id
         this.nickname = data.nickname
-        this.select = data.categoryList
+        this.select = data.categoryName
       })
   },
   mounted() { 
