@@ -5,11 +5,11 @@
         <p class="trend-category">#{{ keyword.categoryName }}</p>
         <v-row justify="center">
           <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="6" xl="3" >
+            <router-link :to="{ name: 'TrendDetailNews', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">  
               <div class="text-center trend-keyword">
-                <router-link :to="{ name: 'TrendDetailLayout', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">
-                  {{ trend.trendName }}
-                </router-link>
+                {{ trend.trendName }}
               </div>
+            </router-link>
           </v-col>
         </v-row>
       </v-container>

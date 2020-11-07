@@ -48,9 +48,9 @@
         <i class="fas fa-times" @click="toggleClassName"></i>
       </div>
       <ul style="text-align:center">
-        <li @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
-        <li @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
-        <li @click="dialog = true" v-if="!isLogin">
+        <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
+        <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
+        <li style="cursor:pointer;" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
         </li>
