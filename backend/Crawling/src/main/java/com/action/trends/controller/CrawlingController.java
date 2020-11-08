@@ -11,15 +11,22 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.action.trends.service.CrawlingService;
 
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 public class CrawlingController {
+	
+
+	@Autowired
+	CrawlingService crawlingService;
 	
 	@ApiOperation(value="파이썬 코드 실행")
 	@PostMapping("/python")
@@ -68,12 +75,10 @@ public class CrawlingController {
 		JSONParser parser = new JSONParser();
 		
 		try {
-			Object obj = parser.parse(new FileReader("C:/Users/multicampus/git/s03p31a408/python/" + keyword + ".json"));
-			JSONObject jsonObject = (JSONObject) obj;
-			Object ob = jsonObject.get("description");
+			Object obj = parser.parse(new FileReader("/Users/donghwi/Desktop/" + keyword + ".json"));
+					
 			
-			System.out.println(ob);
-			
+			crawlingService.insertTwitts(obj);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
