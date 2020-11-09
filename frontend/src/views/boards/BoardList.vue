@@ -28,21 +28,6 @@
             </v-row>
           </v-responsive>
         </v-card>
-        
-        <!-- <v-card 
-          color="white" 
-          :height="$vuetify.breakpoint.smAndDown? 250:300"
-          :to="{name: 'BoardDetail',}">
-          
-          <v-img
-            :src="card.src"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="200px"
-          >
-            <v-card-title v-text="card.title"></v-card-title>
-          </v-img>
-        </v-card> -->
       </v-col>
     </v-row>
   </v-sheet>
@@ -54,24 +39,24 @@ import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     boards: [
-      { 
-        boardId: 1,
-        name: '자율프로젝트', 
-        contents: [
-          {
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-          },
-          {
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-          },
-          {
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-          },
-          {
-            thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-          }
-        ]
-      },
+      // { 
+      //   boardId: 17,
+      //   name: '안녕', 
+      //   contents: [
+      //     {
+      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+      //     },
+      //     {
+      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+      //     },
+      //     {
+      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+      //     },
+      //     {
+      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
+      //     }
+      //   ]
+      // },
     ],
   }),
   computed: {
@@ -82,7 +67,8 @@ export default {
       const userId = this.$route.params.id
       this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardList + `${userId}`, this.config)
         .then(res => {
-          console.log(res)
+          console.log(res.data.data)
+          this.boards = res.data.data
         })
         .catch(err => {
           console.log(err)
