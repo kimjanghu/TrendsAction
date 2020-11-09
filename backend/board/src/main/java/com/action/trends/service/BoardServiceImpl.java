@@ -88,6 +88,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public String getBoardAuth(int userId, int boardId) {
+		return boardMapper.getBoardAuth(userId, boardId);
+	}
+	
+	@Override
 	public int createBoard(int userId, Board board) {
 		String check = boardMapper.checkBoardName(userId, board.getName());
 		if (check != null) {
@@ -169,6 +174,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int deleteNews(int boardId, int newsId) {
+		
 		return boardMapper.deleteNews(boardId, newsId);
 	}
 	

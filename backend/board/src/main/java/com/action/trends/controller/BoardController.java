@@ -226,6 +226,31 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="보드 권한 조회", response = String.class)
+	@GetMapping("/board/auth/{userId}/{boardId}")
+	public ResponseEntity<Map<String, Object>> getBoardAuth(@PathVariable int userId, @PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		String authority = "";
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			authority = boardService.getBoardAuth(userId, boardId);
+			resultMap.put("status", true);
+			if (authority != null) {
+				resultMap.put("message", userId + " 사용자의 " + boardId + " 보드에 대한 권한은 " + authority + " 입니다.");
+				resultMap.put("data", authority);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
 	@ApiOperation(value="보드 생성")
 	@PostMapping("/board")
 	public ResponseEntity<Map<String, Object>> createBoard(@RequestBody Map<String, Object> data) {

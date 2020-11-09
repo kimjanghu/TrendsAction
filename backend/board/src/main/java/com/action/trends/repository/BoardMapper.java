@@ -25,6 +25,7 @@ public interface BoardMapper {
 	public String getCategoryName(int categoryId);
 	public String getTrendName(int trendid);
 	public Board getBoardInfo(int boardId);
+	public String getBoardAuth(int userId, int boardId);
 	public int selectLast();
 	public User searchUser(String email);
 	public String checkBoardName(int userId, String name);

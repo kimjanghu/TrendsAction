@@ -80,6 +80,10 @@
 		SELECT id as boardId, name, thumbnail FROM board WHERE id=#{boardId}
 	</select>
 	
+	<select id="getBoardAuth" parameterType="map" resultType="String">
+		SELECT authority FROM user_board WHERE user_id=#{userId} and board_id=#{boardId}
+	</select>
+	
 	<insert id="createBoard" parameterType="Board">
 		INSERT into board (name, thumbnail) values(#{name}, #{thumbnail})
 	</insert>
