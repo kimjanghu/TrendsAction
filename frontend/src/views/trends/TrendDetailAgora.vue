@@ -20,7 +20,7 @@
         >
           <template v-slot:icon>
             <v-avatar>
-              <img v-if="isLogin" src="userInfo.profile" alt="profile">
+              <img v-if="isLogin" :src="userInfo.profile" alt="profile">
               <img
                 v-else
                 src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
@@ -67,7 +67,7 @@
           <template v-slot:icon>
             <v-avatar>
               <img
-                src="comment.profile"
+                :src="comment.profile"
               >
             </v-avatar>
           </template>
