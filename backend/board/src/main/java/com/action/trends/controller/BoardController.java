@@ -47,7 +47,6 @@ public class BoardController {
 		
 		try {
 			list = boardService.getBoardList(userId);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + list.size());
 			resultMap.put("status", true);
 			if (list.size() == 0) {
 				resultMap.put("message", "생성된 보드가 없습니다.");
