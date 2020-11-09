@@ -21,16 +21,15 @@
             <router-link
               class="navbar-icon"
               tag="button"
-              :to="{ name: 'UserProfile', params: { id: userId }}"
+              :to="{ name: 'BoardList', params: { id: userId }}"
             >
               <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
                 <i class="fas fa-user-circle navbar-icon"></i>
               </span>
             </router-link>
-            <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
-              <i class="fas fa-bell navbar-icon"></i>
-            </span>
-         
+          <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+            <i class="fas fa-bell navbar-icon"></i>
+          </span>
         </div>
       </ul>
     </div>
@@ -194,7 +193,6 @@ export default {
       this.getUserInfo()
         .then(data => {
           this.userId = data.id
-          console.log(data)
         })
     }
 

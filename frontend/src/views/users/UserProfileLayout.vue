@@ -19,14 +19,15 @@
           
           <span class="mt-3">{{ nickname }}님의 마이페이지</span>
           <span>{{ email }}</span>
-          <div v-if="categoryList.length">
-            <div v-for="category in categoryList" :key="category">
+          <div v-if="categoryName">
+            {{ categoryName }}
+            <!-- <div v-for="category in categoryList" :key="category"  class="d-flex justify-center">
               <span>{{ category }}</span>
-            </div>
+            </div> -->
           </div>
         </v-sheet>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필</v-btn>
         <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필 수정하기</v-btn>
       </v-col>
       
       <v-col cols="12" md="8" lg="9" >
@@ -52,7 +53,8 @@ export default {
       email: '',
       nickname: '',
       profile: '',
-      categoryList: []
+      categoryName: '',
+      userId: window.localStorage.getItem('userId'),
     }
   },
   computed: {
@@ -66,12 +68,9 @@ export default {
       .then(data => {
         this.email = data.email
         this.nickname = data.nickname
-        this.categoryList = data.categoryList
-        if (data.profile) {
-          this.profile = data.profile
-        } else {
-          this.profile = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light'
-        }
+        const categoryName = data.categoryName.join(', ')
+        this.categoryName = categoryName
+        this.profile = data.profile
       })
   },
   mounted() {

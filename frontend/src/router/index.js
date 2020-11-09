@@ -64,7 +64,6 @@ const routes = [
   },
   {
     path: '/mypage/:id',
-    name: 'UserProfileLayout',
     component: UserProfileLayout,
     children: [
       {

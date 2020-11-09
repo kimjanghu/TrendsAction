@@ -15,11 +15,9 @@ const userStore = {
   getters: {
     isLogin: state => !!state.authToken,
     config: state => ({
-      // AUTHORIZATION
       headers: {
         Authorization: `Bearer ${state.authToken}`,
-        Email: `${state.email}`,
-        // 'Access-Control-Allow-Origin':'*'
+        Email: `${state.email}`
       }
     })
   },
@@ -50,8 +48,6 @@ const userStore = {
       }) 
     },
     login({ commit }, code) {
-      // Bearer
-      // http://k3a408.p.ssafy.io:9090/users/login/kakao
       axios.get(SERVER.URL + SERVER.ROUTES.accounts.kakaoLogin, {
         params: {
           code: code
@@ -68,7 +64,6 @@ const userStore = {
           window.localStorage.setItem('userId', data.userId)
           window.localStorage.setItem('nickname', data.nickname)
           if (data.nickname) {
-            // router.push('/')
             window.location.href = process.env.VUE_APP_PAGE_URL + '/'
             return
           }
@@ -87,6 +82,7 @@ const userStore = {
         cookies.remove('auth-token')
         window.localStorage.removeItem('userId')
         window.localStorage.removeItem('nickname')
+        window.localStorage.removeItem('email')
         router.push('/')
           .catch(err => {
             if(err.name != "NavigationDuplicated" ){

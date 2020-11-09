@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="board-header">
-      <img :src="coverImage" alt="" class="board-header-img">
+      <img v-if="boardInfo" :src="boardInfo.coverImage" alt="" class="board-header-img">
       <section class="board-info">
         <v-avatar
           color="#efefef"
@@ -11,10 +11,9 @@
             :src="profile"
           >
         </v-avatar>
-        <div class="user-info">
-          <h1>{{ boardName }}</h1>
-          <p>Host</p>
-          <p>Guest</p>
+        <div class="user-info" v-if="boardInfo">
+          <h1>{{ boardInfo.boardName }}</h1>
+          <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
           <v-row justify="center">
             <v-dialog
               v-model="dialog"
@@ -22,23 +21,39 @@
               max-width="600px"
             >
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
+                <!-- <v-btn
                   color="primary"
                   dark
                   v-bind="attrs"
                   v-on="on"
                 >
                   보드편집
-                </v-btn>
+                </v-btn> -->
+                <button
+                  v-bind="attrs"
+                  v-on="on"
+                  class="board-btn"
+                >
+                  <p class="board-btn-text">보드편집</p>
+                </button>
               </template>
               <v-card>
                 <v-card-title>
-                  <span class="headline">보드 편집하기</span>
+                  <span class="edit-board-title">Edit Board</span>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    @click="dialog = false; closeModal();"
+                  >
+                    <v-icon>
+                      mdi-close
+                    </v-icon>
+                  </v-btn>
                 </v-card-title>
+
                 <v-card-text>
                   <v-container>
                     <v-row>
-                      <v-col cols="12">
+                      <v-col cols="12" class="d-flex">
                         <v-text-field
                           label="보드 이름 수정"
                           v-model="editName"
@@ -48,12 +63,12 @@
                           class="ma-2 white--text teal lighten-2"
                           @click="changeBoardName"
                         >
-                          변경하기
+                          변경
                         </v-btn>
                       </v-col>
-                      <v-col cols="12">
+                      <v-col cols="12" class="d-flex">
                         <v-text-field
-                          label="사용자 이름 검색"
+                          label="사용자 이메일 검색"
                           v-model="email"
                           required
                         ></v-text-field>
@@ -61,33 +76,44 @@
                           class="ma-2 white--text teal lighten-2"
                           @click="searchUser"
                         >
-                          변경하기
+                          검색
                         </v-btn>
+                      </v-col>
+                      <v-col cols="12" class="d-flex justify-center align-center">
+                        <div v-if="isLoading">
+                          <Loading />
+                        </div>
+                        <div v-if="!isResult && !isLoading">
+                          <p>검색 결과가 없습니다.</p>
+                        </div>
+                        <div v-if="isResult && !isLoading" class="d-flex justify-center flex-column align-center">
+                          <p>닉네임: {{ searchResult.nickname }}</p>
+                          <p>이메일: {{ searchResult.email }}</p>
+                          <!-- <button class="add-btn" @click="sendInvite('host')">
+                            <span class="add-name">Host로 추가하기</span>
+                          </button> -->
+                          <button class="add-btn" @click="sendInvite('guest')">
+                            <span class="add-name">Guest로 추가하기</span>
+                          </button>
+                        </div>
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false; closeModal();"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="dialog = false"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-row>
-          <p class="cover-img-btn">커버이미지 변경</p>
+          <button
+            class="board-btn"
+            @click="deleteBoard"
+          >
+            <p class="board-btn-text">보드삭제</p>
+          </button>
+          <p 
+            class="cover-img-btn"
+            @click="$refs.inputUpload.click()"
+          >커버이미지 변경</p>
+          <input v-show="false" ref="inputUpload" type="file" @change="uploadFile">
         </div>
       </section>
     </div>
@@ -180,26 +206,6 @@
                   </v-card-actions>
                 </v-responsive>
               </v-card>
-
-
-
-
-              <!-- <v-card
-                color="#26c6da"
-              >
-                <v-responsive :aspect-ratio="4/3">
-                  <v-card-title
-                  >
-                    <v-icon
-                      large
-                      left
-                    >
-                      mdi-twitter
-                    </v-icon>
-                    <span class="title font-weight-light">Twitter</span>
-                  </v-card-title>
-                </v-responsive>
-              </v-card> -->
             </div>
           </v-col>
         </v-row>
@@ -209,7 +215,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import Loading from '@/components/common/Loading'
 
 export default {
   name: 'BoardDetail',
@@ -218,50 +225,143 @@ export default {
       nickname: '',
       profile: '',
       dialog: false,
-      contents: null,
-      boardName: '',
-      editName: '',
-      coverImage: '',
-      email: ''
+      email: '',
+      isResult: false,
+      searchResult: null,
+      isLoading: false,
+      editName: ''
+      // contents: null,
+      // boardName: '',
+      // coverImage: '',
+      // hosts: [],
+      // guests: [],
     }
   },
+  components: {
+    Loading
+  },
   computed: {
-    ...mapGetters('userStore', ['config'])
+    ...mapGetters('userStore', ['config']),
+    ...mapState('boardStore', [
+      'boardInfo', 
+      'contents', 
+      'hosts', 
+      'guests'
+    ])
   },
   methods: {
     ...mapActions('userStore', ['getUserInfo']),
+    ...mapActions('boardStore', [
+      'getUserBoard',
+      'getBoardMember'
+    ]),
     closeModal() {
-      this.editName = this.boardName
+      this.editName = this.boardInfo.boardName
+      this.email = ''
+    },
+    deleteNews() {
+
+    },
+    deleteTwitter() {
+
+    },
+    deleteBoard() {
+      const boardId = this.$route.params.boardId
+      const userId = +window.localStorage.getItem('userId')
+      const check = confirm('보드를 삭제하시겠습니까?')
+
+      if (check) {
+        this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addNewBoard + `/${boardId}`, this.config)
+          .then(() => {
+            alert('보드가 삭제되었습니다.')
+            this.$router.push({ name: 'BoardList', params: { id: userId }})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      // } else {
+      //   this.$router.go(-1)
+      }
+    },
+    sendInvite(authority) {
+      const inviteData = {
+        boardId: this.$route.params.boardId,
+        sendFrom: +window.localStorage.getItem('userId'),
+        sendTo: this.searchResult.userId,
+        authority: authority
+      }
+      // console.log(inviteData)
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.sendInvite, inviteData, this.config)
+        .then(res => {
+          console.log(res)
+          alert(`${this.searchResult.nickname}님에게 초대 메시지를 보냈습니다.`)
+          this.dialog = false
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    uploadFile() {
+      const file = this.$refs.inputUpload.files[0]
+      const fileData = new FormData()
+      fileData.append('file', file)
+      
+      const boardId = this.$route.params.boardId
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.setBoardCover + `/${boardId}`, fileData, this.config)
+        .then(() => {
+          this.getUserBoard()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     searchUser() {
-      // const searchData = {
-      //   email: this.email
-      // }
-      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, this.email)
+      this.isLoading = true
+      const searchData = {
+        email: this.email
+      }
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, searchData, this.config)
+      
         .then(res => {
-          console.log(res)
+          if (res.data.message == '해당하는 유저가 없습니다.') {
+            this.isResult = false
+            return
+          }
+          this.isResult = true
+          this.searchResult = res.data.data
+        })
+        .then(() => {
+          this.isLoading = false
+          this.email = ''
         })
         .catch(err => {
           console.log(err)
         })
     },
-    getBoardMember() {
-      const boardId = this.$route.params.boardId
-      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardMember + `/${boardId}`)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    // getBoardMember() {
+    //   const boardId = this.$route.params.boardId
+    //   this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardMember + `/${boardId}`, this.config)
+    //     .then(res => {
+    //       const boardMembers = res.data.data
+    //       boardMembers.forEach(el => {
+    //         if (el.authority === 'host') {
+    //           this.hosts.push({
+    //             nickname: el.nickname,
+    //             profile: el.profile
+    //           })
+    //         } else {
+    //           this.guests.push({
+    //             nickname: el.nickname,
+    //             profile: el.profile
+    //           })
+    //         }
+    //       })
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
     changeBoardName() {
-      // const config = {
-      //   headers: {
-      //     Authorization: `Bearer ${state.authToken}`,
-      //     Email: `${userEmail}`
-      //   }
-      // }
       const boardData = {
         boardId: +this.$route.params.boardId,
         name: this.editName
@@ -278,34 +378,35 @@ export default {
           console.log(err)
         })
     },
-    getUserBoard() {
-      const boardId = this.$route.params.boardId
-      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardContent + `/${boardId}`)
-        .then(res => {
-          let arr = []
-          if (res.data.data.newsList) {
-            arr = arr.concat(res.data.data.newsList)
-          }
+    // getUserBoard() {
+    //   const boardId = this.$route.params.boardId
+    //   this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardContent + `/${boardId}`, this.config)
+    //     .then(res => {
+    //       console.log(res.data)
+    //       let arr = []
+    //       if (res.data.data.newsList) {
+    //         arr = arr.concat(res.data.data.newsList)
+    //       }
 
-          if (res.data.data.twittList) {
-            arr = arr.concat(res.data.data.twittList)
-          }
-          this.contents = arr
-          return res.data.data
-        })
-        .then(data => {
-          this.boardName = data.name
-          this.editName = data.name
-          if (data.thumbnail) {
-            this.coverImage = data.thumbnail
-            return
-          }
-          this.coverImage = 'https://source.unsplash.com/random'
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
+    //       if (res.data.data.twittList) {
+    //         arr = arr.concat(res.data.data.twittList)
+    //       }
+    //       this.contents = arr
+    //       return res.data.data
+    //     })
+    //     .then(data => {
+    //       this.boardName = data.name
+    //       this.editName = data.name
+    //       if (data.thumbnail) {
+    //         this.coverImage = data.thumbnail
+    //         return
+    //       }
+    //       this.coverImage = 'https://source.unsplash.com/random'
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   created() {
     this.getUserInfo()
@@ -313,14 +414,13 @@ export default {
         console.log(data)
         this.nickname = data.nickname
         this.userEmail = data.email
-        if (data.profile) {
-          this.profile = data.profile
-          return
-        }
-        this.profile = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light'
+        this.profile = data.profile
       })
-    this.getUserBoard()
-    this.getBoardMember()
+    this.getUserBoard(this.$route.params.boardId)
+      .then(res => {
+        this.editName = res.name
+      })
+    this.getBoardMember(this.$route.params.boardId)
   },
 }
 </script>
@@ -329,6 +429,18 @@ export default {
 .board-header {
   position: relative;
   height: 500px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-bottom-left-radius : 10px;
+    border-bottom-right-radius: 10px;
+  }
 
   .board-header-img {
     width: initial;
@@ -342,14 +454,15 @@ export default {
   }
   
   .board-info {
-    background: rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    // background: rgba(0, 0, 0, 0.4);
     position: absolute;
     color: #fff;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 3px solid #000;
-    border-radius: 10px;
+    // border: 3px solid #000;
+    // border-radius: 10px;
     padding: 20px 50px 0;
 
     .user-info {
@@ -377,6 +490,38 @@ export default {
     margin: 0 10px;
     position: absolute;
     bottom: 0;
+  }
+}
+
+.edit-board-title {
+  font-size: 20px;
+}
+
+.add-btn {
+  margin-top: 10px;
+  padding: 5px;
+  border: 3px solid #000;
+  border-radius: 10px;
+
+  .add-name {
+    font-weight: bold;
+  }
+}
+
+.board-btn {
+  border: 2px solid #000;
+  border-radius: 10px;
+  margin: 2px 0;
+  padding: 7px;
+  outline: 0;
+
+  .board-btn-text {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  &:hover {
+    
   }
 }
 </style>

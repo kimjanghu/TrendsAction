@@ -6,7 +6,7 @@ export default {
       user: '/users/user', // GET / 유저 정보 받아오기, PUT / 유저 생성
       deleteUser: '/users/user/', // DELETE / 유저 정보 삭제
       checkNickname: '/users/user/checknickname', // POST / 닉네임 중복 체크
-      uploadProfilePicture: '/boards/upload' // ?
+      uploadProfilePicture: '/boards/upload'
     },
     trends: {
       getTrendInfo: '/trends/trend/',
@@ -25,6 +25,8 @@ export default {
       getBoardList: '/boards/board/',
       getBoardContent: '/boards/board/contents',
       getBoardMember: '/boards/board/sharer',
+      setBoardCover: '/boards/upload/board',
+      sendInvite: '/boards/board/invite',
       searchUser: '/boards/board/searchuser',
       addNewBoard: '/boards/board',
       addNews: '/boards/board/news',
