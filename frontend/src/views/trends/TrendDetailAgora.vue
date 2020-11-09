@@ -20,9 +20,11 @@
         >
           <template v-slot:icon>
             <v-avatar>
+              <img v-if="isLogin" src="userInfo.profile" alt="profile">
               <img
+                v-else
                 src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                alt="John"
+                alt="profile"
               >
             </v-avatar>
           </template>
@@ -65,15 +67,14 @@
           <template v-slot:icon>
             <v-avatar>
               <img
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                alt="John"
+                src="comment.profile"
               >
             </v-avatar>
           </template>
           
           <v-card>
             <v-container>
-              <CommentUDBtn :comment="comment" :userInfo="userInfo" @deleteComment="deleteComment"/> 
+              <CommentUDBtn :userInfo="userInfo" :comment="comment" @deleteComment="deleteComment"/> 
             </v-container>
           </v-card>
          
@@ -98,7 +99,7 @@ import UsersLoginForm from '@/components/users/UsersLoginForm'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['userInfo', 'trendId'],
+  props: ['trendId', 'userInfo'],
   components: {
     CommentUDBtn,
     UsersLoginForm,
@@ -126,7 +127,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + this.trendId)
         .then((res) => 
-          { console.log(res);
+          { console.log('@@@@@'); console.log(res);
             this.comments = res.data })
         .catch((err) => { console.log(err)})
     },

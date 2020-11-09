@@ -112,7 +112,7 @@
               @click="() => {}"
             >
               <v-img
-                :src="keyword.image"
+                :src="keyword.thumbnail"
                 class="mr-4"
                 max-width="64"
                 min-width="64"
@@ -122,7 +122,7 @@
 
               <v-list-item-content class="py-0">
                 <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
-                <v-list-item-title v-text="keyword.title"></v-list-item-title>
+                <v-list-item-title v-text="keyword.name"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -158,35 +158,9 @@ export default {
           {id: 2, name:'Sns', link: 'TrendDetailSns'},
           {id: 3, name:'Agora', link: 'TrendDetailAgora'},
         ],
-        otherkeywords: [
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*9C9hLji68wV373tk8okLYA.jpeg',
-          title: '자본주의키즈',
-          category: 'Travel',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*BBNtYUieAqHoXKjiJ2mMjQ.png',
-          title: '브이노믹스',
-          category: 'Technology',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*rTEtei1UEmNqbq6evRsExw.jpeg',
-          title: '유투버',
-          category: 'Media',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*FD2nkJewVeQnGf0ommQfrw.jpeg',
-          title: '랜선 집들이',
-          category: 'Technology',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*eogFpsVgNzXQLCVgFzT_-A.jpeg',
-          title: '오팔세대',
-          category: 'Travel',
-        },
-      ],
-      bestNews: [],
-      userInfo: {},
+        otherkeywords: [],
+        bestNews: [],
+        userInfo: {},
       }
     },
     computed: {
@@ -223,9 +197,17 @@ export default {
       getTrendInfo() {
         axios
           .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
-          .then((res) => { console.log(res.data); this.trendInfo = res.data})
+          .then((res) => {
+            this.trendInfo = res.data; 
+            console.log(res.data)
+            this.getOtherKeywords(res.data.categoryId)})
           .catch((err) => {console.log(err)})
-
+      },
+      getOtherKeywords(catergoryId) {
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.trends.trendCategories + catergoryId)
+          .then((res) => { console.log('3333'); console.log(res.data); this.otherkeywords = res.data})
+          .catch((err) => console.log(err))
       }
     }
 }
