@@ -14,21 +14,26 @@
         <div class="user-info" v-if="boardInfo">
           <h1>{{ boardInfo.boardName }}</h1>
           <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
-          <v-row justify="center">
+          <button
+            class="board-btn"
+          >
+            <p class="board-btn-text" @click="dialog = true">보드편집</p>
+            <BoardsEditForm 
+              :dialog="dialog"
+              :boardInfo="boardInfo"
+              @change-dialog="changeDialog" 
+              @invite-info="sendInvite"
+              @change-info="changeBoardName"
+            />
+          </button>
+          
+          <!-- <v-row justify="center">
             <v-dialog
               v-model="dialog"
               persistent
               max-width="600px"
             >
               <template v-slot:activator="{ on, attrs }">
-                <!-- <v-btn
-                  color="primary"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  보드편집
-                </v-btn> -->
                 <button
                   v-bind="attrs"
                   v-on="on"
@@ -89,9 +94,6 @@
                         <div v-if="isResult && !isLoading" class="d-flex justify-center flex-column align-center">
                           <p>닉네임: {{ searchResult.nickname }}</p>
                           <p>이메일: {{ searchResult.email }}</p>
-                          <!-- <button class="add-btn" @click="sendInvite('host')">
-                            <span class="add-name">Host로 추가하기</span>
-                          </button> -->
                           <button class="add-btn" @click="sendInvite('guest')">
                             <span class="add-name">Guest로 추가하기</span>
                           </button>
@@ -102,7 +104,7 @@
                 </v-card-text>
               </v-card>
             </v-dialog>
-          </v-row>
+          </v-row> -->
           <button
             class="board-btn"
             @click="deleteBoard"
@@ -216,7 +218,8 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import Loading from '@/components/common/Loading'
+// import Loading from '@/components/common/Loading'
+import BoardsEditForm from '@/components/boards/BoardsEditForm'
 
 export default {
   name: 'BoardDetail',
@@ -225,11 +228,11 @@ export default {
       nickname: '',
       profile: '',
       dialog: false,
-      email: '',
-      isResult: false,
-      searchResult: null,
-      isLoading: false,
-      editName: ''
+      // email: '',
+      // isResult: false,
+      // searchResult: null,
+      // isLoading: false,
+      // editName: ''
       // contents: null,
       // boardName: '',
       // coverImage: '',
@@ -238,7 +241,8 @@ export default {
     }
   },
   components: {
-    Loading
+    // Loading,
+    BoardsEditForm
   },
   computed: {
     ...mapGetters('userStore', ['config']),
@@ -255,10 +259,13 @@ export default {
       'getUserBoard',
       'getBoardMember'
     ]),
-    closeModal() {
-      this.editName = this.boardInfo.boardName
-      this.email = ''
+    changeDialog(dialog) {
+      this.dialog = dialog
     },
+    // closeModal() {
+    //   this.editName = this.boardInfo.boardName
+    //   this.email = ''
+    // },
     deleteNews() {
 
     },
@@ -283,14 +290,24 @@ export default {
       //   this.$router.go(-1)
       }
     },
-    sendInvite(authority) {
-      const inviteData = {
-        boardId: this.$route.params.boardId,
-        sendFrom: +window.localStorage.getItem('userId'),
-        sendTo: this.searchResult.userId,
-        authority: authority
-      }
-      // console.log(inviteData)
+    // sendInvite(authority) {
+    //   const inviteData = {
+    //     boardId: this.$route.params.boardId,
+    //     sendFrom: +window.localStorage.getItem('userId'),
+    //     sendTo: this.searchResult.userId,
+    //     authority: authority
+    //   }
+    //   this.$http.post(this.$api.URL + this.$api.ROUTES.boards.sendInvite, inviteData, this.config)
+    //     .then(res => {
+    //       console.log(res)
+    //       alert(`${this.searchResult.nickname}님에게 초대 메시지를 보냈습니다.`)
+    //       this.dialog = false
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
+    sendInvite(inviteData) {
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.sendInvite, inviteData, this.config)
         .then(res => {
           console.log(res)
@@ -315,29 +332,29 @@ export default {
           console.log(err)
         })
     },
-    searchUser() {
-      this.isLoading = true
-      const searchData = {
-        email: this.email
-      }
-      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, searchData, this.config)
+    // searchUser() {
+    //   this.isLoading = true
+    //   const searchData = {
+    //     email: this.email
+    //   }
+    //   this.$http.post(this.$api.URL + this.$api.ROUTES.boards.searchUser, searchData, this.config)
       
-        .then(res => {
-          if (res.data.message == '해당하는 유저가 없습니다.') {
-            this.isResult = false
-            return
-          }
-          this.isResult = true
-          this.searchResult = res.data.data
-        })
-        .then(() => {
-          this.isLoading = false
-          this.email = ''
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    //     .then(res => {
+    //       if (res.data.message == '해당하는 유저가 없습니다.') {
+    //         this.isResult = false
+    //         return
+    //       }
+    //       this.isResult = true
+    //       this.searchResult = res.data.data
+    //     })
+    //     .then(() => {
+    //       this.isLoading = false
+    //       this.email = ''
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
     // getBoardMember() {
     //   const boardId = this.$route.params.boardId
     //   this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardMember + `/${boardId}`, this.config)
@@ -361,17 +378,29 @@ export default {
     //       console.log(err)
     //     })
     // },
-    changeBoardName() {
-      const boardData = {
-        boardId: +this.$route.params.boardId,
-        name: this.editName
-      }
-      this.$http.put(this.$api.URL + this.$api.ROUTES.boards.addNewBoard, boardData)
+    // changeBoardName() {
+    //   const boardData = {
+    //     boardId: +this.$route.params.boardId,
+    //     name: this.editName
+    //   }
+    //   this.$http.put(this.$api.URL + this.$api.ROUTES.boards.addNewBoard, boardData)
+    //     .then(res => {
+    //       console.log(res)
+    //       this.boardName = this.editName
+    //       this.dialog = false
+    //       this.editName = ''
+    //       alert('보드 이름이 변경되었습니다.')
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
+    changeBoardName(boardData) {
+      this.$http.put(this.$api.URL + this.$api.ROUTES.boards.addNewBoard, boardData, this.config)
         .then(res => {
           console.log(res)
           this.boardName = this.editName
           this.dialog = false
-          this.editName = ''
           alert('보드 이름이 변경되었습니다.')
         })
         .catch(err => {
@@ -493,21 +522,6 @@ export default {
   }
 }
 
-.edit-board-title {
-  font-size: 20px;
-}
-
-.add-btn {
-  margin-top: 10px;
-  padding: 5px;
-  border: 3px solid #000;
-  border-radius: 10px;
-
-  .add-name {
-    font-weight: bold;
-  }
-}
-
 .board-btn {
   border: 2px solid #000;
   border-radius: 10px;
@@ -518,10 +532,6 @@ export default {
   .board-btn-text {
     margin: 0;
     font-size: 13px;
-  }
-
-  &:hover {
-    
   }
 }
 </style>
