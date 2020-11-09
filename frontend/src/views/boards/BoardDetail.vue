@@ -13,7 +13,11 @@
         </v-avatar>
         <div class="user-info" v-if="boardInfo">
           <h1>{{ boardInfo.boardName }}</h1>
-          <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
+          <button
+            class="board-member-btn"
+          >
+            <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
+          </button>
           <button
             class="board-btn"
           >
@@ -326,7 +330,7 @@ export default {
       const boardId = this.$route.params.boardId
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.setBoardCover + `/${boardId}`, fileData, this.config)
         .then(() => {
-          this.getUserBoard()
+          window.location.reload()
         })
         .catch(err => {
           console.log(err)
@@ -457,7 +461,7 @@ export default {
 <style lang="scss" scoped>
 .board-header {
   position: relative;
-  height: 500px;
+  height: 600px;
 
   &::after {
     content: '';
@@ -467,8 +471,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    border-bottom-left-radius : 10px;
-    border-bottom-right-radius: 10px;
   }
 
   .board-header-img {
@@ -531,6 +533,15 @@ export default {
 
   .board-btn-text {
     margin: 0;
+    font-size: 13px;
+  }
+}
+
+.board-member-btn {
+  outline: 0;
+
+  p {
+    margin: 15px;
     font-size: 13px;
   }
 }
