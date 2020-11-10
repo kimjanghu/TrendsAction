@@ -134,6 +134,9 @@ public class BoardController {
 		List<TwittList> list = new ArrayList<TwittList>();
 		Map<String, Object> resultMap = new HashMap<>();
 		
+		// ????? 요청한 user가 보드에 속하는지 검사??
+		
+		
 		try {
 			list = boardService.getTwitterList(boardId);
 			resultMap.put("status", true);
@@ -277,8 +280,17 @@ public class BoardController {
 	
 	@ApiOperation(value="보드에 트윗 담기")
 	@PostMapping("/board/twitter")
-	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody TwittBoard twittBoard) {
+	public ResponseEntity<Map<String, Object>> addTwitt(@RequestBody TwittBoard twittBoard, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		String authority = boardService.getBoardAuth(userId, twittBoard.getBoardId());
+		if (!authority.equals("host") || !authority.equals("maintainer")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			if (boardService.addTwitt(twittBoard) == -1) {
@@ -295,8 +307,17 @@ public class BoardController {
 	
 	@ApiOperation(value="보드에 뉴스 담기")
 	@PostMapping("/board/news")
-	public ResponseEntity<Map<String, Object>> addNews(@RequestBody NewsBoard newsBoard) {
+	public ResponseEntity<Map<String, Object>> addNews(@RequestBody NewsBoard newsBoard, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		String authority = boardService.getBoardAuth(userId, newsBoard.getBoardId());
+		if (!authority.equals("host") || !authority.equals("maintainer")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			if (boardService.addNews(newsBoard) == -1) {
@@ -338,9 +359,17 @@ public class BoardController {
 	
 	@ApiOperation(value="보드 초대", response= String.class)
 	@PostMapping("/board/invite")
-	public ResponseEntity<Map<String, Object>> inviteSharer(@RequestBody Message message) {
+	public ResponseEntity<Map<String, Object>> inviteSharer(@RequestBody Message message, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		
+		int userId = boardService.searchUser(Email).getUserId();
+		String authority = boardService.getBoardAuth(userId, message.getBoardId());
+		if (!authority.equals("host")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		try {
 			if (boardService.inviteSharer(message) == 1) {
 				entity = handleSuccess(message.getSendFrom() + " 사용자가 " + message.getSendTo() + " 사용자를 " + message.getBoardId() + " 보드로 초대 완료했습니다.");
@@ -399,11 +428,20 @@ public class BoardController {
 	
 	@ApiOperation(value="보드원 권한 변경", response = String.class)
 	@PutMapping("/board/updateauth")
-	public ResponseEntity<Map<String, Object>> updateUserAuth(@RequestBody Map<String, Object> data) {
+	public ResponseEntity<Map<String, Object>> updateUserAuth(@RequestBody Map<String, Object> data, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		int userId = (int) data.get("userId");
 		int boardId = (int) data.get("boardId");
 		String authority = (String) data.get("authority");
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int hostId = boardService.searchUser(Email).getUserId();
+		String hostAuth = boardService.getBoardAuth(hostId, boardId);
+		if (!hostAuth.equals("host")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			if (boardService.updateUserAuth(userId, boardId, authority) == 0) {
@@ -461,8 +499,17 @@ public class BoardController {
 	
 	@ApiOperation(value="보드 내 뉴스글 삭제", response = String.class)
 	@DeleteMapping("/board/news/{boardId}/{newsId}")
-	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId) {
+	public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable int boardId, @PathVariable int newsId, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		String authority = boardService.getBoardAuth(userId, boardId);
+		if (!authority.equals("host") || !authority.equals("maintainer")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			if (boardService.deleteNews(boardId, newsId) == 0) {
@@ -479,8 +526,17 @@ public class BoardController {
 	
 	@ApiOperation(value="보드 내 트윗 삭제", response = String.class)
 	@DeleteMapping("/board/twitter/{boardId}/{twitterId}")
-	public ResponseEntity<Map<String, Object>> deleteTwitts(@PathVariable int boardId, @PathVariable int twitterId) {
+	public ResponseEntity<Map<String, Object>> deleteTwitts(@PathVariable int boardId, @PathVariable int twitterId, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		String authority = boardService.getBoardAuth(userId, boardId);
+		if (!authority.equals("host") || !authority.equals("maintainer")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			if (boardService.deleteTwitts(boardId, twitterId) == 0) {
