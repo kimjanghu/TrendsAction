@@ -28,7 +28,7 @@ public interface BoardService {
 	public User searchUser(String email);
 	public int inviteSharer(Message message);
 	public int acceptInvite(int messageId, String accepted);
-	public int updateBoard(int boardId, String name);
+	public int updateBoard(int boardId, String name, String Email);
 	public int updateUserAuth(int userId, int boardId, String authority);
 	public void deleteBoard(int boardId);
 	public int leaveBoard(int userId, int boardId);

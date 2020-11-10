@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
@@ -375,14 +376,17 @@ public class BoardController {
 
 	@ApiOperation(value="보드 정보 변경", response = String.class)
 	@PutMapping("/board")
-	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data) {
+	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		String name = (String) data.get("name");
 		
 		try {
-			if (boardService.updateBoard(boardId, name) == 0) {
-				entity = handleSuccess("fail");
+			if (boardService.updateBoard(boardId, name, Email) < 1) {
+				resultMap.put("message", "권한 없음");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+				
 			} else {
 				entity = handleSuccess(boardId + " 보드의 이름을 " + name + " (으)로 변경했습니다.");				
 			}
@@ -416,8 +420,16 @@ public class BoardController {
 	
 	@ApiOperation(value="보드 삭제", response = String.class)
 	@DeleteMapping("/board/{boardId}")
-	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId) {
+	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		if (!boardService.getBoardAuth(userId, boardId).equals("host")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			boardService.deleteBoard(boardId);

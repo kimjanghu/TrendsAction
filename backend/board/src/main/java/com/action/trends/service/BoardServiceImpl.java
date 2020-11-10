@@ -148,8 +148,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int updateBoard(int boardId, String name) {
-		return boardMapper.updateBoard(boardId, name);
+	public int updateBoard(int boardId, String name, String Email) {
+		int userId;
+		if (boardMapper.searchUser(Email) == null)
+			return -1;
+		else
+			userId = boardMapper.searchUser(Email).getUserId();
+		
+		if (userId == 0)
+			return -1;
+		
+		if (!boardMapper.getBoardAuth(userId, boardId).equals("host")) {
+			return -1;
+		} else {
+			return boardMapper.updateBoard(boardId, name);
+		}
 	}
 	
 	@Override
