@@ -5,7 +5,7 @@
 
 <mapper namespace="com.action.trends.repository.BoardMapper">
     <select id="getBoardList" parameterType="int" resultType="Board">
-		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId}
+		SELECT board_id as boardId, name, thumbnail FROM board as b, user_board as ub WHERE b.id=ub.board_id and ub.user_id=#{userId} and ub.authority IN ('host', 'maintainer')
 	</select>
 	
 	<select id="getSharerList" parameterType="int" resultType="Sharer">
@@ -78,6 +78,10 @@
 	
 	<select id="getBoardInfo" parameterType="int" resultType="Board">
 		SELECT id as boardId, name, thumbnail FROM board WHERE id=#{boardId}
+	</select>
+	
+	<select id="getBoardAuth" parameterType="map" resultType="String">
+		SELECT authority FROM user_board WHERE user_id=#{userId} and board_id=#{boardId}
 	</select>
 	
 	<insert id="createBoard" parameterType="Board">

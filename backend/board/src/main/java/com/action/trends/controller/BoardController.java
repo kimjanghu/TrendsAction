@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Board;
@@ -47,7 +48,6 @@ public class BoardController {
 		
 		try {
 			list = boardService.getBoardList(userId);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + list.size());
 			resultMap.put("status", true);
 			if (list.size() == 0) {
 				resultMap.put("message", "생성된 보드가 없습니다.");
@@ -227,6 +227,31 @@ public class BoardController {
 		return entity;
 	}
 	
+	@ApiOperation(value="보드 권한 조회", response = String.class)
+	@GetMapping("/board/auth/{userId}/{boardId}")
+	public ResponseEntity<Map<String, Object>> getBoardAuth(@PathVariable int userId, @PathVariable int boardId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		String authority = "";
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			authority = boardService.getBoardAuth(userId, boardId);
+			resultMap.put("status", true);
+			if (authority != null) {
+				resultMap.put("message", userId + " 사용자의 " + boardId + " 보드에 대한 권한은 " + authority + " 입니다.");
+				resultMap.put("data", authority);
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			} else {
+				
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+			}
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
 	@ApiOperation(value="보드 생성")
 	@PostMapping("/board")
 	public ResponseEntity<Map<String, Object>> createBoard(@RequestBody Map<String, Object> data) {
@@ -351,14 +376,17 @@ public class BoardController {
 
 	@ApiOperation(value="보드 정보 변경", response = String.class)
 	@PutMapping("/board")
-	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data) {
+	public ResponseEntity<Map<String, Object>> updateBoard(@RequestBody Map<String, Object> data, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
 		int boardId = (int) data.get("boardId");
 		String name = (String) data.get("name");
 		
 		try {
-			if (boardService.updateBoard(boardId, name) == 0) {
-				entity = handleSuccess("fail");
+			if (boardService.updateBoard(boardId, name, Email) < 1) {
+				resultMap.put("message", "권한 없음");
+				entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+				
 			} else {
 				entity = handleSuccess(boardId + " 보드의 이름을 " + name + " (으)로 변경했습니다.");				
 			}
@@ -392,8 +420,16 @@ public class BoardController {
 	
 	@ApiOperation(value="보드 삭제", response = String.class)
 	@DeleteMapping("/board/{boardId}")
-	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId) {
+	public ResponseEntity<Map<String, Object>> deleteBoard(@PathVariable int boardId, @RequestHeader String Email) {
 		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		int userId = boardService.searchUser(Email).getUserId();
+		if (!boardService.getBoardAuth(userId, boardId).equals("host")) {
+			resultMap.put("message", "권한 없음");
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+			return entity;
+		}
 		
 		try {
 			boardService.deleteBoard(boardId);
