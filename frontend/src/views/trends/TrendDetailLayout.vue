@@ -43,20 +43,20 @@
               color="black"
               :grow="$vuetify.breakpoint.mobile"
             >
-              <!-- <v-tab
+              <v-tab
                 v-for="item in items"
                 :key="item.id"
                 :to="{name: item.link}"
-              > -->
-              <v-tab
+              >{{ item.name }}</v-tab>
+              <!-- <v-tab
                 v-for="item in items"
                 :key="item.id"
               >
                 {{ item.name }}
-              </v-tab>
+              </v-tab> -->
             </v-tabs>
-            <!-- <router-view></router-view> -->
-            <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
+            <router-view :userInfo="userInfo" :trendId="trendId"></router-view>
+            <!-- <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
               <v-tab-item
                 v-for="item in items"
                 :key="item.id"
@@ -67,36 +67,8 @@
                 <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>
 
               </v-tab-item>
-            </v-tabs-items>
+            </v-tabs-items> -->
           </v-col>
-          <!-- <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
-            <div>
-              <p class="my-2 subtitle-1 neumor-design">BEST NEWS</p>
-              <v-card outlined class="neumor-design">
-                <v-list two-line>
-                  <v-list-item
-                    class="px-3 py-0"
-                    v-for="(news, i) in bestNews"
-                    :key="i"
-                  >
-                    <v-list-item-content class="py-0">
-                      <v-row>
-                        <v-col cols="1">
-                          {{ i+1 }}
-                        </v-col>
-                        <v-col cols="10">
-                          <v-list-item-subtitle v-text="news.press"></v-list-item-subtitle>
-                          <v-list-item-title v-text="news.title"></v-list-item-title>
-                        </v-col>
-                      </v-row>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-            </div>
-            
-            
-          </v-col> -->
         </v-row>
       </v-col>
       <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp" style="position: relative">
@@ -112,19 +84,20 @@
               @click="() => {}"
             >
               <v-img
-                :src="keyword.image"
+                :src="keyword.thumbnail"
                 class="mr-4"
                 max-width="64"
                 min-width="64"
                 min-height="50"
                 max-height="50"
               ></v-img>
-
               <v-list-item-content class="py-0">
                 <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
-                <v-list-item-title v-text="keyword.title"></v-list-item-title>
+                <v-list-item-title v-text="keyword.name"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            
+             <!-- </router-link> -->
           </v-list>
         </div>
         </div>
@@ -134,18 +107,18 @@
 </template>
 
 <script>
-import TrendDetailNews from './TrendDetailNews.vue'
-import TrendDetailSns from './TrendDetailSns.vue'
-import TrendDetailAgora from './TrendDetailAgora.vue'
+// import TrendDetailNews from './TrendDetailNews.vue'
+// import TrendDetailSns from './TrendDetailSns.vue'
+// import TrendDetailAgora from './TrendDetailAgora.vue'
 import axios from 'axios'
 import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    TrendDetailNews,
-    TrendDetailSns,
-    TrendDetailAgora
+    // TrendDetailNews,
+    // TrendDetailSns,
+    // TrendDetailAgora
   },
   props: ['trendId'],
   data () {
@@ -158,35 +131,9 @@ export default {
           {id: 2, name:'Sns', link: 'TrendDetailSns'},
           {id: 3, name:'Agora', link: 'TrendDetailAgora'},
         ],
-        otherkeywords: [
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*9C9hLji68wV373tk8okLYA.jpeg',
-          title: '자본주의키즈',
-          category: 'Travel',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*BBNtYUieAqHoXKjiJ2mMjQ.png',
-          title: '브이노믹스',
-          category: 'Technology',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*rTEtei1UEmNqbq6evRsExw.jpeg',
-          title: '유투버',
-          category: 'Media',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*FD2nkJewVeQnGf0ommQfrw.jpeg',
-          title: '랜선 집들이',
-          category: 'Technology',
-        },
-        {
-          image: 'https://cdn-images-1.medium.com/max/1024/1*eogFpsVgNzXQLCVgFzT_-A.jpeg',
-          title: '오팔세대',
-          category: 'Travel',
-        },
-      ],
-      bestNews: [],
-      userInfo: {},
+        otherkeywords: [],
+        bestNews: [],
+        userInfo: {},
       }
     },
     computed: {
@@ -215,7 +162,6 @@ export default {
         axios
           .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
-            console.log(res.data.data);
             this.userInfo = res.data.data
           })
           .catch((err) => { console.log(err)})
@@ -223,9 +169,16 @@ export default {
       getTrendInfo() {
         axios
           .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
-          .then((res) => { console.log(res.data); this.trendInfo = res.data})
+          .then((res) => {
+            this.trendInfo = res.data; 
+            this.getOtherKeywords(res.data.categoryId)})
           .catch((err) => {console.log(err)})
-
+      },
+      getOtherKeywords(catergoryId) {
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.trends.trendCategories + catergoryId)
+          .then((res) => { this.otherkeywords = res.data})
+          .catch((err) => console.log(err))
       }
     }
 }

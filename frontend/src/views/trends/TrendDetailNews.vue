@@ -23,7 +23,7 @@
         <v-card-subtitle class="pb-0">
           {{ news.press }} / {{ news.pubDate }}
         </v-card-subtitle>     
-        <AddBoardBtn v-if="isLogin" :userInfo="userInfo" :newsId="news.id"/>
+        <AddBoardBtn v-if="isLogin" :newsId="news.id"/>
         <v-card-actions v-else></v-card-actions> 
       </v-card>
 
@@ -71,7 +71,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
         .then((res) => 
-          { console.log(res);
+          { 
             this.newsList = res.data })
         .catch((err) => { console.log(err)})
     },

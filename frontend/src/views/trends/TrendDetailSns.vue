@@ -69,7 +69,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.trendSns + this.trendId)
         .then((res) => 
-          { console.log(res);
+          { 
             this.snsList = res.data })
         .catch((err) => { console.log(err)})
     }

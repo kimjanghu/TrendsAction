@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div class="font-weight-normal d-flex justify-space-between">
       <div><strong>{{ comment.nickname }}</strong> <span class="ml-1">@{{ comment.date }}</span></div>

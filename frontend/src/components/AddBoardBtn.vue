@@ -128,28 +128,37 @@
 <script>
 import axios from 'axios'
 import SERVER from '@/lib/api'
-import { mapGetters } from 'vuex'
+import { mapGetters} from 'vuex'
 
 export default {
-  props: ['userInfo', 'newsId', 'snsId'],
+  props: ['newsId', 'snsId'],
   data () {
       return {
-        dialogm1: '',
         dialog: false,
         dialog2: false,
         newBoard: '',
         groupSelect: [],
         myBoardList: [],
+        userInfo: {},
       }
     },
   computed: {
     ...mapGetters('userStore', ['config']),
   },
   created() {
+    this.getUserInfo()
     this.getBoardList()
-
   },
   methods: {
+    getUserInfo() {
+        const userId = window.localStorage.getItem('userId')
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
+          .then((res) => { 
+            this.userInfo = res.data.data
+          })
+          .catch((err) => { console.log(err)})
+      },
     addNewBoard() {
       let body = { 'userId': this.userInfo.id, 'name': this.newBoard }
       axios
@@ -166,8 +175,9 @@ export default {
         })
     },
     getBoardList() {
+      const userId = window.localStorage.getItem('userId')
       axios
-        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + this.userInfo.id, this.config)
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + userId, this.config)
         .then((res) => { this.myBoardList = res.data.data })
         .catch((err) => { console.log(err)})
     },
@@ -187,7 +197,7 @@ export default {
           } else {
             alert(res.data.message)
           }
-          console.log(res)})
+          })
         .catch((err) => {
           alert('트렌드보드에 뉴스를 저장하지 못했습니다.') 
           console.log(err)})
@@ -208,7 +218,7 @@ export default {
           } else {
             alert(res.data.message)
           }
-          console.log(res)})
+          })
         .catch((err) => { 
           alert('트렌드보드에 트윗을 저장하지 못했습니다.')
           console.log(err)})

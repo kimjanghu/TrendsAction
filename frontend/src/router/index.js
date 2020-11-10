@@ -17,6 +17,10 @@ import UserProfile from '../views/users/UserProfile.vue'
 import BoardList from '../views/boards/BoardList.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
 
+// predict
+import PredictList from '../views/predict/PredictList.vue'
+import PredictDetail from '../views/predict/PredictDetail.vue'
+
 
 Vue.use(VueRouter)
 
@@ -41,7 +45,12 @@ const routes = [
     component: loadView('users/UserLogout')
   },
   {
-    path: '/trend-detail/:trendId',
+    path: '/trend',
+    name: constants.URL_TYPE.TREND.LIST,
+    component: loadView('trends/TrendList')
+  },
+  {
+    path: '/trend/:trendId',
     component: TrendDetailLayout,
     props: true,
     children: [
@@ -84,14 +93,25 @@ const routes = [
     component: BoardDetail
   },
   {
-    path: '/trend',
-    name: constants.URL_TYPE.TREND.LIST,
-    component: loadView('trends/TrendList')
-  },
-  {
     path: '/predict',
     name: constants.URL_TYPE.PREDICT.LIST,
-    component: loadView('predict/PredictList')
+    component: loadView('predict/PredictLayout'),
+    children: [
+      {
+        path: '/:year/:month',
+        name: 'PredictList',
+        component: PredictList,
+        props: true,
+        children: [
+          {
+            path: '/:year/:month/:week/:categoryId',
+            name: 'PredictDetail',
+            component: PredictDetail,
+            props: true,
+          }
+        ]
+      },
+    ]
   }
 ]
 

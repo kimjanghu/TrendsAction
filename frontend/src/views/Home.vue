@@ -79,6 +79,32 @@
       <!-- <div class="arrow" @click="$vuetify.goTo('#third-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div> -->
     </section>
 
+    <section id="third-section" class="section-area my-16">
+      <v-container class="my-16">
+        <v-row justify="center">
+          <v-col cols="12" lg="10">
+            <h2 class="my-5">FAQ</h2>
+            <v-expansion-panels focusable>
+              <v-expansion-panel
+                v-for="(item,i) in 5"
+                :key="i"
+              >
+                <v-expansion-panel-header class="py-5">
+                  <span>
+                    <span style="font-size:1.5rem;"><i class="far fa-question-circle mr-3"></i></span>
+                    <span style="font-size:1.2rem;">예측 키워드에서 사용된 알고리즘은 무엇인가요?</span>
+                  </span>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content class="pt-5">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+
     <!-- <section id="third-section" style="height:300px;">
     </section> -->
 

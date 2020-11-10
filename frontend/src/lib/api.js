@@ -11,7 +11,7 @@ export default {
     trends: {
       getTrendInfo: '/trends/trend/',
       trendList: '/trends/trend/allTrendsList',
-      trendCategories: '/trends/list/', // GET / 카테고리별 트렌드 목록 조회
+      trendCategories: '/trends/trend/list/', // GET / 카테고리별 트렌드 목록 조회
       trendNews: '/trends/trend/news/', // GET / 트렌드에 맞는 뉴스 목록 조회
       trendSns: '/trends/trend/twitter/', // GET / 트렌드에 맞는 트위터 목록 조회
       predictTrend: '/trends/trend/predictTrend' // GET / 예측 트렌드 키워드 목록 조회

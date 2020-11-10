@@ -10,7 +10,7 @@
     <div class="router-area" v-if="$vuetify.breakpoint.lgAndUp">
       <ul class="navbar-list">
         <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
-        <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
+        <li class="navbar-list-item" @click="$router.push({ name: 'PredictDetail', params: { year: '2021', month: '11', week: 1, categoryId: 1} })">Predict</li>
         <li class="navbar-list-item" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
@@ -34,9 +34,6 @@
       </ul>
     </div>
     <div v-else>
-      <!-- <span @click.stop="drawer = !drawer" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
-        <i class="fas fa-bars navbar-icon"></i>
-      </span> -->
       <span @click="toggleClassName" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
         <i class="fas fa-bars navbar-icon toggle-icon"></i>
       </span>
@@ -48,7 +45,7 @@
       </div>
       <ul style="text-align:center">
         <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
-        <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })">Predict</li>
+        <li style="cursor:pointer;" @click="$router.push({ name: 'PredictDetail', params: { year: '2021', month: '11', week: 1, categoryId: 1} })">Predict</li>
         <li style="cursor:pointer;" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
@@ -57,79 +54,11 @@
           <li @click="logout()">Logout</li>
           <div style="cursor:pointer; display:flex; justify-content:center">
             <v-icon class="mr-3">mdi-account-circle</v-icon>
-            <v-icon>mdi-bell</v-icon>
           </div>
         </div>
       </ul>
     </div>
   </header>
-    <!-- Side bar -->
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      right
-      temporary
-    >
-      <v-list-item v-if="!isLogin" class="avatar-info">
-        <v-list-item-avatar>
-          <v-img src="mdi-account"></v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>로그인이 필요합니다.</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item v-if="isLogin" class="avatar-info">
-        <v-list-item-avatar>
-          <v-icon>mdi-menu-down</v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>메뉴 리스트</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-orange--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>홈</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>내 정보</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-if="isLogin">
-            <v-list-item-icon>
-              <v-icon>mdi-logout</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>로그아웃</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-else>
-            <v-list-item-icon>
-              <v-icon>mdi-login</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>로그인</v-list-item-title>
-          </v-list-item>
-
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer> -->
-
   </div>
   
 </template>
@@ -173,7 +102,7 @@ export default {
     },
     handleScroll() {
       let header = document.querySelector('header');
-      header.classList.toggle('sticky', window.scrollY > 0)
+      header.classList.toggle('sticky', window.scrollY > 650)
     },
     goToHome() {
       this.$router.push('/')
