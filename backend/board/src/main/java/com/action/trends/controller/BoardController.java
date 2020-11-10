@@ -397,6 +397,7 @@ public class BoardController {
 				entity = handleException(e);
 			}
 		} else {
+			boardService.denyInvite(messageId, accepted);
 			entity = handleSuccess("보드로의 초대를 거절했습니다.\n Nothing Happened");
 		}
 		
