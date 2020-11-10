@@ -43,20 +43,20 @@
               color="black"
               :grow="$vuetify.breakpoint.mobile"
             >
-              <!-- <v-tab
+              <v-tab
                 v-for="item in items"
                 :key="item.id"
                 :to="{name: item.link}"
-              > -->
-              <v-tab
+              >{{ item.name }}</v-tab>
+              <!-- <v-tab
                 v-for="item in items"
                 :key="item.id"
               >
                 {{ item.name }}
-              </v-tab>
+              </v-tab> -->
             </v-tabs>
-            <!-- <router-view></router-view> -->
-            <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
+            <router-view :userInfo="userInfo" :trendId="trendId"></router-view>
+            <!-- <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
               <v-tab-item
                 v-for="item in items"
                 :key="item.id"
@@ -67,36 +67,8 @@
                 <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>
 
               </v-tab-item>
-            </v-tabs-items>
+            </v-tabs-items> -->
           </v-col>
-          <!-- <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp">
-            <div>
-              <p class="my-2 subtitle-1 neumor-design">BEST NEWS</p>
-              <v-card outlined class="neumor-design">
-                <v-list two-line>
-                  <v-list-item
-                    class="px-3 py-0"
-                    v-for="(news, i) in bestNews"
-                    :key="i"
-                  >
-                    <v-list-item-content class="py-0">
-                      <v-row>
-                        <v-col cols="1">
-                          {{ i+1 }}
-                        </v-col>
-                        <v-col cols="10">
-                          <v-list-item-subtitle v-text="news.press"></v-list-item-subtitle>
-                          <v-list-item-title v-text="news.title"></v-list-item-title>
-                        </v-col>
-                      </v-row>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-            </div>
-            
-            
-          </v-col> -->
         </v-row>
       </v-col>
       <v-col cols="12" md="3" v-if="$vuetify.breakpoint.mdAndUp" style="position: relative">
@@ -119,12 +91,13 @@
                 min-height="50"
                 max-height="50"
               ></v-img>
-
               <v-list-item-content class="py-0">
                 <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
                 <v-list-item-title v-text="keyword.name"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            
+             <!-- </router-link> -->
           </v-list>
         </div>
         </div>
@@ -134,18 +107,18 @@
 </template>
 
 <script>
-import TrendDetailNews from './TrendDetailNews.vue'
-import TrendDetailSns from './TrendDetailSns.vue'
-import TrendDetailAgora from './TrendDetailAgora.vue'
+// import TrendDetailNews from './TrendDetailNews.vue'
+// import TrendDetailSns from './TrendDetailSns.vue'
+// import TrendDetailAgora from './TrendDetailAgora.vue'
 import axios from 'axios'
 import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    TrendDetailNews,
-    TrendDetailSns,
-    TrendDetailAgora
+    // TrendDetailNews,
+    // TrendDetailSns,
+    // TrendDetailAgora
   },
   props: ['trendId'],
   data () {
@@ -189,7 +162,6 @@ export default {
         axios
           .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
-            console.log(res.data.data);
             this.userInfo = res.data.data
           })
           .catch((err) => { console.log(err)})
@@ -199,14 +171,13 @@ export default {
           .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
           .then((res) => {
             this.trendInfo = res.data; 
-            console.log(res.data)
             this.getOtherKeywords(res.data.categoryId)})
           .catch((err) => {console.log(err)})
       },
       getOtherKeywords(catergoryId) {
         axios
           .get(SERVER.URL + SERVER.ROUTES.trends.trendCategories + catergoryId)
-          .then((res) => { console.log('3333'); console.log(res.data); this.otherkeywords = res.data})
+          .then((res) => { this.otherkeywords = res.data})
           .catch((err) => console.log(err))
       }
     }

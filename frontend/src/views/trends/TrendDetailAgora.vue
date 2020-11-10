@@ -127,7 +127,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.comments.rdComment + this.trendId)
         .then((res) => 
-          { console.log('@@@@@'); console.log(res);
+          {
             this.comments = res.data })
         .catch((err) => { console.log(err)})
     },
@@ -139,8 +139,8 @@ export default {
       }
       axios
         .post(SERVER.URL + SERVER.ROUTES.comments.cuComment, body, this.config )
-        .then((res) => 
-          { console.log(res); this.input = ''; this.getComments()})
+        .then(() => 
+          { this.input = ''; this.getComments()})
         .catch((err) => { console.log(err)})
     },
     changeDialog(dialog) {

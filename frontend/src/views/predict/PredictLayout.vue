@@ -1,8 +1,13 @@
 <template>
   <v-container class="mt-10">
     <v-row>
+
+      <v-col cols="12" md="9">
+        <router-view></router-view>
+      </v-col>
+
       <v-col cols="12" md="3">
-        <div class="neumor-design">
+        <div class="neumor-design set-sticky">
         <v-list class="pt-0 neumor-design" style="background: #F5F5F6;">
           <v-list-group
             v-for="(category, i) in categories"
@@ -28,9 +33,6 @@
           </v-list-group>
         </v-list>
         </div>
-      </v-col>
-      <v-col cols="12" md="9">
-        <router-view></router-view>
       </v-col>
     </v-row>
   </v-container>
@@ -73,5 +75,11 @@ export default {
 .custom-link {
   text-decoration: none;
   color:black;
+}
+
+.set-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
 }
 </style>

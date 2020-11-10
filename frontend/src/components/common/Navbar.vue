@@ -174,7 +174,7 @@ export default {
     },
     handleScroll() {
       let header = document.querySelector('header');
-      header.classList.toggle('sticky', window.scrollY > 0)
+      header.classList.toggle('sticky', window.scrollY > 650)
     },
     goToHome() {
       this.$router.push('/')
@@ -194,7 +194,6 @@ export default {
       this.getUserInfo()
         .then(data => {
           this.userId = data.id
-          console.log(data)
         })
     }
 

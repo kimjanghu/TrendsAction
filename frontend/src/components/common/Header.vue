@@ -1,6 +1,18 @@
 <template>
-<div>
-  <div class="header-area">
+<div class="header-area">
+  <video class="embed-container" id="videoBG" autoplay muted loop>
+    <source src="@/assets/video/ink.mp4" type="video/mp4">
+  </video>
+  <div class="content" 
+      data-sal="slide-up"
+      data-sal-duration="800"
+      data-sal-repeat
+      >
+      <h2>Trends Action!</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
+    </div>
+    <div class="arrow" @click="$vuetify.goTo('#first-section')"><span style="color:white; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
+  <!-- <div class="header-area">
     <img class="header-img" src="https://source.unsplash.com/random" alt="header-image">
     <div class="content" 
       data-sal="slide-up"
@@ -11,7 +23,7 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
     </div>
     <div class="arrow" @click="$vuetify.goTo('#first-section')"><span style="color:white; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
-  </div>
+  </div> -->
 </div>
 </template>
 
@@ -26,6 +38,14 @@ export default {
 </script>
 
 <style>
+#videoBG {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
 .header-area {
   position: relative;

@@ -10,7 +10,7 @@
     >
       <v-chip v-for="(each, i) in month" :key="i">
         <router-link class="custom-link" :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: i+1, categoryId: categorySelection }}">
-          <div class="custom-link">{{ each.value }}주</div>
+          <div>{{ each.value }}주</div>
         </router-link>
       </v-chip>
     </v-chip-group>
