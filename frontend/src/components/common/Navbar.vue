@@ -17,18 +17,37 @@
         </li>
         <div v-else style="display:flex;">
           <li class="navbar-list-item" @click="logout()">Logout</li>
-          
-            <router-link
-              class="navbar-icon"
-              tag="button"
-              :to="{ name: 'BoardList', params: { id: userId }}"
-            >
-              <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
-                <i class="fas fa-user-circle navbar-icon"></i>
-              </span>
-            </router-link>
+          <router-link
+            class="navbar-icon"
+            tag="button"
+            :to="{ name: 'BoardList', params: { id: userId }}"
+          >
+            <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
+              <i class="fas fa-user-circle navbar-icon"></i>
+            </span>
+          </router-link>
           <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
-            <i class="fas fa-bell navbar-icon"></i>
+            <i class="fas fa-bell navbar-icon" @click="getInviteMessage(); changeAlarm();"></i>
+            <div v-if="isAlarm" class="board-alarm">
+              <div v-if="messageList" class="board-alarm-area">
+                <div v-for="message in messageList" :key="message.messageId">
+                  <p class="board-alarm-text">{{ message.sendFromName }}님이 {{ message.boardId }} 보드에 {{ message.authority }}로 초대했습니다.</p>
+                  <v-spacer></v-spacer>
+                  <div class="d-flex align-center">
+                    <span style="color: green; font-size: 1.5rem; cursor:pointer; margin-right: 5px;">
+                      <i class="fas fa-check-circle" @click="acceptInvite(message.messageId, 'true')"></i>
+                    </span>
+                    <span style="color: red; font-size: 1.5rem; cursor:pointer; margin-right: 5px;">
+                      <i class="fas fa-times-circle"  @click="acceptInvite(message.messageId, 'false')"></i>
+                    </span>
+                  </div>
+                  <hr class="board-alarm-hr">
+                </div>
+              </div>
+              <div v-else class="board-alarm-area">
+                <p class="board-non-text">메시지가 없습니다.</p>
+              </div>
+            </div>
           </span>
         </div>
       </ul>
@@ -56,8 +75,7 @@
         <div v-else>
           <li @click="logout()">Logout</li>
           <div style="cursor:pointer; display:flex; justify-content:center">
-            <v-icon class="mr-3">mdi-account-circle</v-icon>
-            <v-icon>mdi-bell</v-icon>
+            <v-icon class="mr-3">Mypage</v-icon>
           </div>
         </div>
       </ul>
@@ -137,6 +155,7 @@
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
 import { mapGetters, mapActions, mapState } from 'vuex'
+// import BoardsAlarm from '@/components/boards/BoardsAlarm'
 
 export default {
   name: 'Navbar',
@@ -145,15 +164,18 @@ export default {
       dialog: false,
       drawer: false,
       userId: null,
-      group: null
+      group: null,
+      isAlarm: false,
+      messageList: []
     }
   },
   components: {
-    UsersLoginForm
+    UsersLoginForm,
+    // BoardsAlarm
   },
   computed: {
     ...mapState('userStore', ['userInfo']),
-    ...mapGetters('userStore', ['isLogin'])
+    ...mapGetters('userStore', ['isLogin', 'config']),
   },
   watch: { 
     group () {
@@ -168,6 +190,9 @@ export default {
   },
   methods: {
     ...mapActions('userStore', ['logout', 'getUserInfo']),
+    changeAlarm() {
+      this.isAlarm = !this.isAlarm
+    },
     changeDialog(dialog) {
       this.dialog = dialog
     },
@@ -186,6 +211,29 @@ export default {
     toggleClassName() {
       let sidebar = document.querySelector('.sidebar');
       sidebar.classList.toggle('active')
+    },
+    acceptInvite(messageId, status) {
+      const reqData = {
+        messageId: +messageId,
+        accepted: status
+      }
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.acceptInvite, reqData, this.config)
+        .then(res => {
+          console.log(res)
+        })
+        .then(err => {
+          console.log(err)
+        })
+    },
+    getInviteMessage() {
+      const userId = window.localStorage.getItem('userId')
+      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getInviteMessage + `/${userId}`, this.config)
+        .then(res => {
+          this.messageList = res.data.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   mounted() {
@@ -294,5 +342,43 @@ header.sticky .navbar-icon{
 
 .navbar-icon:focus {
   outline: none;
+}
+
+.board-alarm {
+  position: relative;
+
+  .board-alarm-area {
+    position: absolute;
+    margin-top: 10px;
+    right: 0;
+    border: 3px solid #000;
+    border-radius: 10px;
+    background: #F5F5F6;
+    width: 350px;
+    height: 400px;
+    overflow: auto;
+    padding: 15px;
+
+    .board-alarm-text {
+      color: #000;
+      font-size: 15px;
+      margin-left: 2px;
+      margin-bottom: 0;
+    }
+
+    .board-alarm-hr {
+      margin-bottom: 16px;
+    }
+
+    .board-non-text {
+      position: absolute;
+      color: #000;
+      top: 50%;
+      left: 50%;
+      font-size: 20px;
+      text-align: center;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
 </style>

@@ -13,6 +13,7 @@ const boardStore = {
     userId: window.localStorage.getItem('userId'),
     boardInfo: null,
     contents: null,
+    authority: '',
     hosts: [],
     guests: []
   },
@@ -41,8 +42,23 @@ const boardStore = {
     SET_BOARD_GUEST(state, guests) {
       state.guests = guests
     },
+    SET_USER_AUTHORITY(state, authority) {
+      state.authority = authority
+    }
   },
   actions: {
+    getUserAuthority({ commit, getters }, boardId) {
+      const userId = +window.localStorage.getItem('userId')
+
+      axios.get(SERVER.URL + SERVER.ROUTES.boards.getUserAuthority + `/${userId}` + `/${boardId}`, getters.config)
+        .then(res => {
+          console.log(res.data.data)
+          commit('SET_USER_AUTHORITY', res.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     getBoardMember({ commit, getters }, boardId) {
       axios.get(SERVER.URL + SERVER.ROUTES.boards.getBoardMember + `/${boardId}`, getters.config)
         .then(res => {
