@@ -9,8 +9,8 @@
       label
     >
       <v-chip v-for="(each, i) in month" :key="i">
-        <router-link :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: i+1, categoryId: categorySelection }}">
-          <div>{{ each.value }}주</div>
+        <router-link class="custom-link" :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: i+1, categoryId: categorySelection }}">
+          <div class="custom-link">{{ each.value }}주</div>
         </router-link>
       </v-chip>
     </v-chip-group>
@@ -22,7 +22,7 @@
       label
     > 
       <v-chip v-for="(category, i) in categories" :key="i">
-        <router-link :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: weekSelection+1, categoryId: category.id }}">
+        <router-link class="custom-link" :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: weekSelection+1, categoryId: category.id }}">
           {{ category.value }}    
         </router-link>
       </v-chip>
@@ -58,6 +58,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.custom-link {
+  text-decoration: none;
+}
 
 </style>

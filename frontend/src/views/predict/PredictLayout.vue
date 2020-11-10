@@ -12,7 +12,7 @@
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title v-text="`${category.year} 년`"></v-list-item-title>
+                <v-list-item-title style="color: black;" v-text="`${category.year} 년`"></v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item
@@ -20,7 +20,7 @@
               :key="each.title"
             >
               <v-list-item-content>
-                <router-link :to="{name: 'PredictDetail', params: {year: category.year, month: each.title, week:1, categoryId: 1 }}">
+                <router-link class="custom-link" :to="{name: 'PredictDetail', params: {year: category.year, month: each.title, week:1, categoryId: 1 }}">
                 <v-list-item-title v-text="`${each.title} 월`"></v-list-item-title>
                 </router-link>
               </v-list-item-content>
@@ -30,7 +30,6 @@
         </div>
       </v-col>
       <v-col cols="12" md="9">
-
         <router-view></router-view>
       </v-col>
     </v-row>
@@ -69,5 +68,10 @@ export default {
   background: #F5F5F6;
   box-shadow:  9px 9px 18px #ebebec, 
               -9px -9px 18px #ffffff;
+}
+
+.custom-link {
+  text-decoration: none;
+  color:black;
 }
 </style>
