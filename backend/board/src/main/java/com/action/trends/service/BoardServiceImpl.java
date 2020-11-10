@@ -148,6 +148,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public int denyInvite(int messageId, String accepted) {
+		return boardMapper.updateAccepted(messageId, accepted);
+	}
+	
+	@Override
 	public int updateBoard(int boardId, String name, String Email) {
 		int userId;
 		if (boardMapper.searchUser(Email) == null)
