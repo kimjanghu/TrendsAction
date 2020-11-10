@@ -1,5 +1,5 @@
 export default {
-  URL: 'http://k3a408.p.ssafy.io:9090',
+  URL: 'http://k3a408.p.ssafy.io:8888',
   ROUTES: {
     accounts: {
       kakaoLogin: '/users/login/kakao',

@@ -13,7 +13,15 @@
         </v-avatar>
         <div class="user-info" v-if="boardInfo">
           <h1>{{ boardInfo.boardName }}</h1>
-          <p>참여중인 멤버 {{ hosts.length + guests.length }}명</p>
+          <button
+            class="board-member-btn"
+          >
+            <p @click="memberDialog = true">참여중인 멤버 {{ hosts.length + guests.length }}명</p>
+            <BoardsMember 
+              :dialog="memberDialog"
+              @change-member-dialog="changeMemberDialog"
+            />
+          </button>
           <button
             class="board-btn"
           >
@@ -220,6 +228,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 // import Loading from '@/components/common/Loading'
 import BoardsEditForm from '@/components/boards/BoardsEditForm'
+import BoardsMember from '@/components/boards/BoardsMember'
 
 export default {
   name: 'BoardDetail',
@@ -228,6 +237,7 @@ export default {
       nickname: '',
       profile: '',
       dialog: false,
+      memberDialog: false
       // email: '',
       // isResult: false,
       // searchResult: null,
@@ -242,7 +252,8 @@ export default {
   },
   components: {
     // Loading,
-    BoardsEditForm
+    BoardsEditForm,
+    BoardsMember
   },
   computed: {
     ...mapGetters('userStore', ['config']),
@@ -251,7 +262,7 @@ export default {
       'contents', 
       'hosts', 
       'guests'
-    ])
+    ]),
   },
   methods: {
     ...mapActions('userStore', ['getUserInfo']),
@@ -261,6 +272,9 @@ export default {
     ]),
     changeDialog(dialog) {
       this.dialog = dialog
+    },
+    changeMemberDialog(dialog) {
+      this.memberDialog = dialog
     },
     // closeModal() {
     //   this.editName = this.boardInfo.boardName
@@ -311,7 +325,7 @@ export default {
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.sendInvite, inviteData, this.config)
         .then(res => {
           console.log(res)
-          alert(`${this.searchResult.nickname}님에게 초대 메시지를 보냈습니다.`)
+          alert('초대 메시지를 보냈습니다.')
           this.dialog = false
         })
         .catch(err => {
@@ -326,7 +340,7 @@ export default {
       const boardId = this.$route.params.boardId
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.setBoardCover + `/${boardId}`, fileData, this.config)
         .then(() => {
-          this.getUserBoard()
+          window.location.reload()
         })
         .catch(err => {
           console.log(err)
@@ -457,7 +471,7 @@ export default {
 <style lang="scss" scoped>
 .board-header {
   position: relative;
-  height: 500px;
+  height: 600px;
 
   &::after {
     content: '';
@@ -467,8 +481,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    border-bottom-left-radius : 10px;
-    border-bottom-right-radius: 10px;
   }
 
   .board-header-img {
@@ -483,7 +495,7 @@ export default {
   }
   
   .board-info {
-    z-index: 10;
+    z-index: 1;
     // background: rgba(0, 0, 0, 0.4);
     position: absolute;
     color: #fff;
@@ -531,6 +543,15 @@ export default {
 
   .board-btn-text {
     margin: 0;
+    font-size: 13px;
+  }
+}
+
+.board-member-btn {
+  outline: 0;
+
+  p {
+    margin: 15px;
     font-size: 13px;
   }
 }

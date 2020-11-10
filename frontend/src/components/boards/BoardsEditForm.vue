@@ -5,15 +5,6 @@
       persistent
       max-width="600px"
     >
-      <!-- <template v-slot:activator="{ on, attrs }">
-        <button
-          v-bind="attrs"
-          v-on="on"
-          class="board-btn"
-        >
-          <p class="board-btn-text">보드편집</p>
-        </button>
-      </template> -->
       <v-card>
         <v-card-title>
           <span class="edit-board-title">Edit Board</span>
