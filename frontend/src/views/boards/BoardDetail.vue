@@ -22,18 +22,7 @@
               @change-member-dialog="changeMemberDialog"
             />
           </button>
-          <button
-            class="board-btn"
-          >
-            <p class="board-btn-text" @click="dialog = true">보드편집</p>
-            <BoardsEditForm 
-              :dialog="dialog"
-              :boardInfo="boardInfo"
-              @change-dialog="changeDialog" 
-              @invite-info="sendInvite"
-              @change-info="changeBoardName"
-            />
-          </button>
+          
           
           <!-- <v-row justify="center">
             <v-dialog
@@ -113,17 +102,39 @@
               </v-card>
             </v-dialog>
           </v-row> -->
-          <button
-            class="board-btn"
-            @click="deleteBoard"
-          >
-            <p class="board-btn-text">보드삭제</p>
-          </button>
-          <p 
-            class="cover-img-btn"
-            @click="$refs.inputUpload.click()"
-          >커버이미지 변경</p>
-          <input v-show="false" ref="inputUpload" type="file" @change="uploadFile">
+          <div v-if="authority === 'host'">
+            <button
+              class="board-btn"
+            >
+              <p class="board-btn-text" @click="dialog = true">보드편집</p>
+              <BoardsEditForm 
+                :dialog="dialog"
+                :boardInfo="boardInfo"
+                @change-dialog="changeDialog" 
+                @invite-info="sendInvite"
+                @change-info="changeBoardName"
+              />
+            </button>
+            <button
+              class="board-btn"
+              @click="deleteBoard"
+            >
+              <p class="board-btn-text">보드삭제</p>
+            </button>
+            <p 
+              class="cover-img-btn"
+              @click="$refs.inputUpload.click()"
+            >커버이미지 변경</p>
+            <input v-show="false" ref="inputUpload" type="file" @change="uploadFile">
+          </div>
+          <div v-else>
+            <button
+              class="board-btn"
+              @click="deleteBoard"
+            >
+              <p class="board-btn-text">보드탈퇴</p>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -261,14 +272,16 @@ export default {
       'boardInfo', 
       'contents', 
       'hosts', 
-      'guests'
+      'guests',
+      'authority'
     ]),
   },
   methods: {
     ...mapActions('userStore', ['getUserInfo']),
     ...mapActions('boardStore', [
       'getUserBoard',
-      'getBoardMember'
+      'getBoardMember',
+      'getUserAuthority'
     ]),
     changeDialog(dialog) {
       this.dialog = dialog
@@ -286,6 +299,18 @@ export default {
     deleteTwitter() {
 
     },
+    // getUserAuthority() {
+    //   const boardId = this.$route.params.boardId
+    //   const userId = +window.localStorage.getItem('userId')
+
+    //   this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getUserAuthority + `/${userId}` + `/${boardId}`, this.config)
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
     deleteBoard() {
       const boardId = this.$route.params.boardId
       const userId = +window.localStorage.getItem('userId')
@@ -300,8 +325,6 @@ export default {
           .catch(err => {
             console.log(err)
           })
-      // } else {
-      //   this.$router.go(-1)
       }
     },
     // sendInvite(authority) {
@@ -454,7 +477,6 @@ export default {
   created() {
     this.getUserInfo()
       .then(data => {
-        console.log(data)
         this.nickname = data.nickname
         this.userEmail = data.email
         this.profile = data.profile
@@ -464,6 +486,7 @@ export default {
         this.editName = res.name
       })
     this.getBoardMember(this.$route.params.boardId)
+    this.getUserAuthority(this.$route.params.boardId)
   },
 }
 </script>
@@ -518,6 +541,7 @@ export default {
       cursor: pointer;
       font-size: 2px;
       margin: 10px 0 0 0;
+      text-align: center;
     }
   }
 }
@@ -538,8 +562,14 @@ export default {
   border: 2px solid #000;
   border-radius: 10px;
   margin: 2px 0;
-  padding: 7px;
+  padding: 4px 7px ;
   outline: 0;
+
+  &:hover {
+    background-color: #fff;
+    color: #000;
+    transition: .4s;
+  }
 
   .board-btn-text {
     margin: 0;

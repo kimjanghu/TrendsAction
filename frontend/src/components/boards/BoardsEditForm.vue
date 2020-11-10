@@ -3,7 +3,7 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="600px"
+      max-width="500px"
     >
       <v-card>
         <v-card-title>
@@ -116,7 +116,6 @@ export default {
         authority: authority
       }
       this.$emit('invite-info', inviteInfo)
-      // this.changeDialog()
     },
     searchUser() {
       this.isLoading = true
