@@ -1,6 +1,7 @@
 <template>
 <div>
-  <v-container>
+  <Navbar />
+  <v-container class="mt-16">
     <v-row justify="center">
       <v-col cols="12" md ="4" lg="3">
         <v-sheet
@@ -41,12 +42,13 @@
 </template>
 
 <script>
+import Navbar from '@/components/common/Navbar2'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'UserProfileLayout',
   components: {
-
+    Navbar,
   },
   data() { 
     return {

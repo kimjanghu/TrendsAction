@@ -87,7 +87,7 @@ export default {
   background-color: gray;
 
   .board-title {
-    z-index: 10;
+    z-index: 1;
     color: white;
     position: absolute;
     padding: 10px;

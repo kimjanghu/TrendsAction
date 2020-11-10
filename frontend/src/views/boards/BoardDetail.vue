@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="board-header">
+    <Navbar />
+    <div class="board-header mt-16">
       <img v-if="boardInfo" :src="boardInfo.coverImage" alt="" class="board-header-img">
       <section class="board-info">
         <v-avatar
@@ -240,9 +241,16 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 // import Loading from '@/components/common/Loading'
 import BoardsEditForm from '@/components/boards/BoardsEditForm'
 import BoardsMember from '@/components/boards/BoardsMember'
+import Navbar from '@/components/common/Navbar2'
 
 export default {
   name: 'BoardDetail',
+  components: {
+    // Loading,
+    BoardsEditForm,
+    BoardsMember,
+    Navbar,
+  },
   data() {
     return {
       nickname: '',
@@ -260,11 +268,6 @@ export default {
       // hosts: [],
       // guests: [],
     }
-  },
-  components: {
-    // Loading,
-    BoardsEditForm,
-    BoardsMember
   },
   computed: {
     ...mapGetters('userStore', ['config']),

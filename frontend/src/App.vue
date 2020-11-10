@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div>
-      <Navbar />
+      <!-- <Navbar /> -->
     </div>
     <v-main class="main-area">
       <router-view></router-view>
@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import Navbar from '@/components/common/Navbar'
+// import Navbar from '@/components/common/Navbar2'
 import Footer from '@/components/common/Footer'
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    // Navbar,
     Footer
   },
   data: () => ({
