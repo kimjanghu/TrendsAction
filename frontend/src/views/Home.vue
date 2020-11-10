@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <Navbar />
     <Header />
     <section id="first-section" class="section-area">
     <v-container>
@@ -104,41 +105,11 @@
         </v-row>
       </v-container>
     </section>
-
-    <!-- <section id="third-section" style="height:300px;">
-    </section> -->
-
-
-      <!-- <v-row class="pt-0">
-        <v-col cols="12" md="6" xl="4" style="padding: 10%">
-          <div
-            data-sal="slide-right"
-            data-sal-duration="800"
-            data-sal-delay="800"
-            data-sal-repeat
-            style="text-align:right"
-          >
-            <h2>밀려드는 트렌드 속</h2>
-            <p>살아남고 싶은 자, 트렌드를 파악해라
-            </p>
-            <v-btn color="primary" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Learn more</v-btn>
-          </div>
-        </v-col>
-        <v-col cols="12" md="6" xl="4">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            height="100%"
-          ></v-img>
-        </v-col>
-      </v-row> -->
-      
-   
   </div>
 </template>
 
 <script>
-// import Carousel from '@/components/common/Carousel'
-// import MainList from '@/components/common/MainList'
+import Navbar from '@/components/common/Navbar'
 import Header from '@/components/common/Header'
 import sal from "sal.js";
 import { mapGetters } from 'vuex';
@@ -146,9 +117,8 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Home',
   components: {
-    // Carousel,
-    // MainList,
-    Header
+    Header,
+    Navbar,
   },
   data() {
     return {

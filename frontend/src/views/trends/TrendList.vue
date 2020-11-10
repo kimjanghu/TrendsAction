@@ -1,58 +1,31 @@
 <template>
-  <v-container style="background-color: #F5F5F6;" class="mt-10">
-    <v-col cols="12" v-for="keyword in keywordList" :key="keyword.categoryName" class="trend-area">
-      <v-container class="trend-container">
-        <p class="trend-category">#{{ keyword.categoryName }}</p>
-        <v-row justify="center">
-          <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="6" xl="3" >
-            <router-link :to="{ name: 'TrendDetailNews', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">  
-              <div class="text-center trend-keyword">
-                {{ trend.trendName }}
-              </div>
-            </router-link>
-          </v-col>
-        </v-row>
-      </v-container>
-      <!-- <v-container class="trend-container">
-        <p class="trend-category">#culture code</p>
-        <v-row justify="center">
-          <v-col v-for="(keyword, idx) in keywordArr" :key="idx" cols="12" lg="6" xl="3">
-            <div class="text-center trend-keyword">
-              {{ keyword }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <v-container class="trend-container">
-        <p class="trend-category">#life style</p>
-        <v-row justify="center">
-          <v-col v-for="(keyword, idx) in keywordArr" :key="idx" cols="12" lg="6" xl="3">
-            <div class="text-center trend-keyword">
-              {{ keyword }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <v-container class="trend-container">
-        <p class="trend-category">#business consumption</p>
-        <v-row justify="center">
-          <v-col v-for="(keyword, idx) in keywordArr" :key="idx" cols="12" lg="6" xl="3">
-            <div class="text-center trend-keyword">
-              {{ keyword }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-container> -->
-    </v-col>
-
-  </v-container>
+  <div>
+    <Navbar />
+    <v-container style="background-color: #F5F5F6;" class="mt-16">
+      <v-col cols="12" v-for="keyword in keywordList" :key="keyword.categoryName" class="trend-area">
+        <v-container class="trend-container">
+          <p class="trend-category">#{{ keyword.categoryName }}</p>
+          <v-row justify="center">
+            <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="4">
+              <router-link :to="{ name: 'TrendDetailNews', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">  
+                <div class="text-center trend-keyword">
+                  {{ trend.trendName }}
+                </div>
+              </router-link>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import Navbar from '@/components/common/Navbar2'
+
 export default {
   name: 'TrendList',
+  components: { Navbar },
   data() {
     return {
       keywordList: []
@@ -77,7 +50,6 @@ export default {
 
 <style lang="scss" scoped>
 .trend-area {
-
   .trend-container {
     border: none;
     border-radius: 25px;
@@ -99,9 +71,7 @@ export default {
 }
 
 .trend-keyword {
-  padding: 20px;
-  width: 70%;
-  margin: 0 auto;
+  padding: 20px 0;
   border: none;
   border-radius: 25px;
   background: #F5F5F6;
