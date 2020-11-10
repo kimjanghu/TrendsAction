@@ -1,97 +1,57 @@
 <template>
-  <v-container class="mt-10">
-    <v-row>
-      <v-col cols="12" md="3">
-        <v-list>
-          <v-list-group
-            v-for="item in items"
-            :key="item.title"
-            v-model="item.active"
-            no-action
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-              </v-list-item-content>
-            </template>
+  <v-container>
+    <h2>{{ $route.params.year }}년 {{ $route.params.month }}월</h2>
+    <v-chip-group
+      v-model="weekSelection"
+      color="indigo"
+      text
+      mandatory
+      label
+    >
+      <v-chip v-for="(each, i) in month" :key="i">
+        <router-link :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: i+1, categoryId: categorySelection }}">
+          <div>{{ each.value }}주</div>
+        </router-link>
+      </v-chip>
+    </v-chip-group>
+    <v-chip-group
+      v-model="categorySelection"
+      color="primary"
+      text
+      mandatory
+      label
+    > 
+      <v-chip v-for="(category, i) in categories" :key="i">
+        <router-link :to="{name: 'PredictDetail', params: { year: $route.params.year, month: $route.params.month, week: weekSelection+1, categoryId: category.id }}">
+          {{ category.value }}    
+        </router-link>
+      </v-chip>
+    </v-chip-group>
 
-            <v-list-item
-              v-for="child in item.items"
-              :key="child.title"
-            >
-              <v-list-item-content>
-                <v-list-item-title v-text="child.title"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-        </v-list>
-      </v-col>
-      <v-col cols="12" md="9">
-        <v-row justify="center">
-          <v-col cols="12">
-            <div class="neumor-design">
-              <v-img
-                width="100%"
-                :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
-                lazy-src="https://picsum.photos/id/11/10/6"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                src="https://picsum.photos/id/11/500/300"
-                class="trend-img"
-                style="border-radius: 19px;"
-              >
-                <div class="trend-desc">
-                  <v-chip
-                    class="white--text ml-0 mb-2"
-                    color="purple"
-                    label
-                    small
-                  >
-                    <span>카테고리</span>
-                  </v-chip>
-                  <div style="color:white;">
-                    <p class="text-h6">예측키워드 타이틀</p>
-                    <span>키워드 description</span>
-                  </div>
-                </div>
-              </v-img>
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+    <router-view></router-view>
+  
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'PredictList',
   data() {
     return {
-      items: [
-        {
-          active: true,
-          items: [
-            { title: '1월', },
-            { title: '2월', },
-            { title: '3월', },
-            { title: '4월', },
-            { title: '5월', },
-            { title: '6월', },
-          ],
-          title: '2020',
-        },
-        {
-          items: [
-            { title: '1월', },
-            { title: '2월', },
-            { title: '3월', },
-            { title: '4월', },
-            { title: '5월', },
-            { title: '6월', },
-          ],
-          title: '2021',
-        },
+      weekSelection: '1',
+      categorySelection: 0,
+      categories: [
+        { id: 1, value: '사회/문화'},
+        { id: 2, value: 'IT'},
+        { id: 3, value: '비즈니스'},
+        { id: 4, value: '세계'},
       ],
+      month: [
+        { value: 1 },
+        { value: 2 },
+        { value: 3 },
+        { value: 4 },
+        { value: 5 },
+      ]
     }
   }
 
