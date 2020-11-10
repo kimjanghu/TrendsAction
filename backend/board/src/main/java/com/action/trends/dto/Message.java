@@ -8,6 +8,7 @@ public class Message {
 	private String authority;
 	private String accepted;
 	private String sendFromName;
+	private String boardName;
 	public int getMessageId() {
 		return messageId;
 	}
@@ -49,6 +50,12 @@ public class Message {
 	}
 	public void setSendFromName(String sendFromName) {
 		this.sendFromName = sendFromName;
+	}
+	public String getBoardName() {
+		return boardName;
+	}
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
 	}
 	
 	

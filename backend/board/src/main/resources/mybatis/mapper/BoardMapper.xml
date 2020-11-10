@@ -27,7 +27,9 @@
 	</select>
 	
 	<select id="getMessageList" parameterType="int" resultType="Message">
-		SELECT message.id as messageId, send_to as sendTo, send_from as sendFrom, board_id as boardId, authority, accepted, nickname as sendFromName FROM message, user where send_to=#{userId} and accepted="unread" and send_from=user.id
+		SELECT message.id as messageId, send_to as sendTo, send_from as sendFrom, board_id as boardId, board.name as boardName, authority, accepted, nickname as sendFromName
+		FROM message, user, board
+		WHERE send_to=#{userId} and accepted="unread" and send_from=user.id and board.id=message.board_id
 	</select>
 	
 	<select id="getCategoryName" parameterType="int" resultType="String">
