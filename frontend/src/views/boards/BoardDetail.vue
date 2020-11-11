@@ -17,7 +17,7 @@
           <button
             class="board-member-btn"
           >
-            <p @click="memberDialog = true">참여중인 멤버 {{ hosts.length + guests.length }}명</p>
+            <p @click="memberDialog = true">참여중인 멤버 {{ hosts.length + maintainers.length + guests.length }}명</p>
             <BoardsMember 
               :dialog="memberDialog"
               @change-member-dialog="changeMemberDialog"
@@ -131,7 +131,7 @@
           <div v-else>
             <button
               class="board-btn"
-              @click="deleteBoard"
+              @click="asyncRemoveMember"
             >
               <p class="board-btn-text">보드탈퇴</p>
             </button>
@@ -152,6 +152,7 @@
                 max-width="400"
               >
                 <v-responsive :aspect-ratio="4/3">
+                  <i class="fas fa-times-circle" @click="deleteNews(content.newsId)"></i>
                   <v-img
                     class="white--text align-end"
                     height="220px"
@@ -274,7 +275,8 @@ export default {
     ...mapState('boardStore', [
       'boardInfo', 
       'contents', 
-      'hosts', 
+      'hosts',
+      'maintainers',
       'guests',
       'authority'
     ]),
@@ -284,7 +286,8 @@ export default {
     ...mapActions('boardStore', [
       'getUserBoard',
       'getBoardMember',
-      'getUserAuthority'
+      'getUserAuthority',
+      'removeMember'
     ]),
     changeDialog(dialog) {
       this.dialog = dialog
@@ -296,8 +299,20 @@ export default {
     //   this.editName = this.boardInfo.boardName
     //   this.email = ''
     // },
-    deleteNews() {
+    deleteNews(newsId) {
+      const boardId = this.$route.params.boardId
 
+      const check = confirm('뉴스를 삭제하시겠습니까?')
+      if (check) {
+        console.log(this.config)
+        this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addNews + `/${boardId}` + `/${newsId}`, this.config)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
     deleteTwitter() {
 
@@ -314,6 +329,22 @@ export default {
     //       console.log(err)
     //     })
     // },
+    moveMypage(userId) {
+      alert('보드에서 탈퇴하였습니다.')
+      this.$router.push({ name: 'BoardList', params: { id: userId }})
+    },
+    async asyncRemoveMember() {
+      const removeData = {
+        userId: window.localStorage.getItem('userId'),
+        boardId: +this.$route.params.boardId
+      }
+      const check = confirm('보드를 탈퇴 하시겠습니까?')
+
+      if (check) {
+        await this.removeMember(removeData)
+        await this.moveMypage(removeData.userId)
+      }
+    },
     deleteBoard() {
       const boardId = this.$route.params.boardId
       const userId = +window.localStorage.getItem('userId')

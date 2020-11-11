@@ -26,6 +26,7 @@ export default {
       getBoardContent: '/boards/board/contents',
       getBoardMember: '/boards/board/sharer',
       setBoardCover: '/boards/upload/board',
+      leaveBoard: '/boards/board/leave',
       sendInvite: '/boards/board/invite',
       getInviteMessage: '/boards/message/list',
       acceptInvite: '/boards/board/invite/accept',

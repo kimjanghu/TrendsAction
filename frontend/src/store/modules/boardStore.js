@@ -15,6 +15,7 @@ const boardStore = {
     contents: null,
     authority: '',
     hosts: [],
+    maintainers: [],
     guests: []
   },
   getters: {
@@ -26,10 +27,6 @@ const boardStore = {
     })
   },
   mutations: {
-    SET_TOKEN(state, token) {
-      state.authToken = token
-      cookies.set('auth-token', token)
-    },
     SET_BOARD_INFO(state, boardInfo) {
       state.boardInfo = boardInfo
     },
@@ -38,6 +35,9 @@ const boardStore = {
     },
     SET_BOARD_HOST(state, hosts) {
       state.hosts = hosts
+    },
+    SET_BOARD_MAINTAINER(state, maintainers) {
+      state.maintainers = maintainers
     },
     SET_BOARD_GUEST(state, guests) {
       state.guests = guests
@@ -52,8 +52,16 @@ const boardStore = {
 
       axios.get(SERVER.URL + SERVER.ROUTES.boards.getUserAuthority + `/${userId}` + `/${boardId}`, getters.config)
         .then(res => {
-          console.log(res.data.data)
           commit('SET_USER_AUTHORITY', res.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    removeMember({ dispatch, getters }, removeData) {
+      axios.delete(SERVER.URL + SERVER.ROUTES.boards.leaveBoard + `/${removeData.userId}` + `/${removeData.boardId}`, getters.config)
+        .then(() => {
+          dispatch('getBoardMember', removeData.boardId)
         })
         .catch(err => {
           console.log(err)
@@ -64,23 +72,31 @@ const boardStore = {
         .then(res => {
           const boardMembers = res.data.data
           const hosts = []
+          const maintainers = []
           const guests = []
           boardMembers.forEach(el => {
             if (el.authority === 'host') {
               hosts.push({
+                userId: el.userId,
+                nickname: el.nickname,
+                profile: el.profile
+              })
+            } else if (el.authority === 'guest') {
+              guests.push({
+                userId: el.userId,
                 nickname: el.nickname,
                 profile: el.profile
               })
             } else {
-              guests.push({
+              maintainers.push({
+                userId: el.userId,
                 nickname: el.nickname,
                 profile: el.profile
               })
             }
           })
-          // console.log(hosts)
-          // console.log(guests)
           commit('SET_BOARD_HOST', hosts)
+          commit('SET_BOARD_MAINTAINER', maintainers)
           commit('SET_BOARD_GUEST', guests)
         })
         .catch(err => {
@@ -108,20 +124,16 @@ const boardStore = {
             boardName: data.name,
             coverImage: 'https://source.unsplash.com/random'
           }
-          // this.boardName = data.name
-          // this.editName = data.name
           if (data.thumbnail) {
             boardInfo['coverImage'] = data.thumbnail
           }
           commit('SET_BOARD_INFO', boardInfo)
-          // resolve(data)
         })
         .catch(err => {
           console.log(err)
         })
       })
     }
-    
   }
 }
 

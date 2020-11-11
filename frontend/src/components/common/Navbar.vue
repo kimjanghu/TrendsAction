@@ -31,15 +31,17 @@
             <div v-if="isAlarm" class="board-alarm">
               <div v-if="messageList" class="board-alarm-area">
                 <div v-for="message in messageList" :key="message.messageId">
-                  <p class="board-alarm-text">{{ message.sendFromName }}님이 {{ message.boardId }} 보드에 {{ message.authority }}로 초대했습니다.</p>
-                  <v-spacer></v-spacer>
-                  <div class="d-flex align-center">
-                    <span style="color: green; font-size: 1.5rem; cursor:pointer; margin-right: 5px;">
-                      <i class="fas fa-check-circle" @click="acceptInvite(message.messageId, 'true')"></i>
-                    </span>
-                    <span style="color: red; font-size: 1.5rem; cursor:pointer; margin-right: 5px;">
-                      <i class="fas fa-times-circle"  @click="acceptInvite(message.messageId, 'false')"></i>
-                    </span>
+                  <div class="d-flex align-center justify-space-between">
+                    <p class="board-alarm-text">{{ message.sendFromName }}님이 {{ message.boardId }} 보드에 {{ message.authority }}로 초대했습니다.</p>
+                    <v-spacer></v-spacer>
+                    <div class="d-flex align-center">
+                      <span style="color: green; font-size: 1rem; cursor:pointer; margin-right: 5px;" class="check-btn">
+                        <i class="fas fa-check-circle" @click="acceptInvite(message.messageId, 'true')"></i>
+                      </span>
+                      <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 5px;" class="check-btn">
+                        <i class="fas fa-times-circle"  @click="acceptInvite(message.messageId, 'false')"></i>
+                      </span>
+                    </div>
                   </div>
                   <hr class="board-alarm-hr">
                 </div>
@@ -291,13 +293,13 @@ header.sticky .navbar-icon{
 
     .board-alarm-text {
       color: #000;
-      font-size: 15px;
+      font-size: 11px;
       margin-left: 2px;
       margin-bottom: 0;
     }
 
     .board-alarm-hr {
-      margin-bottom: 16px;
+      margin: 10px 0;
     }
 
     .board-non-text {
@@ -308,6 +310,10 @@ header.sticky .navbar-icon{
       font-size: 20px;
       text-align: center;
       transform: translate(-50%, -50%);
+    }
+
+    .check-btn:hover {
+      text-shadow: .1px .2px 1px #000;
     }
   }
 }

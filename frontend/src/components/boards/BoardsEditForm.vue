@@ -57,9 +57,9 @@
                 <div v-if="isResult && !isLoading" class="d-flex justify-center flex-column align-center">
                   <p>닉네임: {{ searchResult.nickname }}</p>
                   <p>이메일: {{ searchResult.email }}</p>
-                  <!-- <button class="add-btn" @click="sendInvite('host')">
-                    <span class="add-name">Host로 추가하기</span>
-                  </button> -->
+                  <button class="add-btn" @click="sendInvite('maintainer')">
+                    <span class="add-name">Maintainer로 추가하기</span>
+                  </button>
                   <button class="add-btn" @click="sendInvite('guest')">
                     <span class="add-name">Guest로 추가하기</span>
                   </button>
@@ -165,6 +165,7 @@ export default {
   padding: 5px;
   border: 3px solid #000;
   border-radius: 10px;
+  outline: none;
 
   .add-name {
     font-weight: bold;

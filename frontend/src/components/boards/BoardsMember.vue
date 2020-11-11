@@ -29,16 +29,18 @@
                 <p>Host</p>
                 <hr>
                 <div v-if="hosts.length" class="avatar-profile-area">
-                  <div class="avartar-profile">
-                    <v-avatar
-                      color="#efefef"
-                      size="35"
-                    >
-                      <img
-                        :src="hosts[0].profile"
+                  <div class="member-profile">
+                    <div class="avartar-profile">
+                      <v-avatar
+                        color="#efefef"
+                        size="30"
                       >
-                    </v-avatar>
-                    <span class="avatar-text">{{ hosts[0].nickname }}</span>
+                        <img
+                          :src="hosts[0].profile"
+                        >
+                      </v-avatar>
+                      <span class="avatar-text">{{ hosts[0].nickname }}</span>
+                    </div>
                   </div>
                 </div>
               </v-col>
@@ -47,7 +49,27 @@
               >
                 <p>Maintainer</p>
                 <hr>
-                <div>
+                <div v-if="maintainers.length" class="avatar-profile-area">
+                  <div v-for="maintainer in maintainers" :key="maintainer.nickname" class="member-profile" :data-id="maintainer.userId">
+                    <div class="avartar-profile">
+                      <v-avatar
+                        color="#efefef"
+                        size="30"
+                      >
+                        <img
+                          :src="maintainer.profile"
+                        >
+                      </v-avatar>
+                      <span class="avatar-text">{{ maintainer.nickname }}</span>
+                    </div>
+                    <div v-if="authority === 'host'">
+                      <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 10px">
+                        <i class="fas fa-minus-circle" @click="asyncRemoveMember(maintainer.userId)"></i>
+                      </span>
+                    </div>
+                  </div>  
+                </div>
+                <div v-else>
                   <p class="empty-member-text">현재 Maintainer가 없습니다.</p>
                 </div>
               </v-col>
@@ -57,7 +79,7 @@
                 <p>Guest</p>
                 <hr>
                 <div v-if="guests.length" class="avatar-profile-area">
-                  <div v-for="guest in guests" :key="guest.nickname">
+                  <div v-for="guest in guests" :key="guest.nickname" class="member-profile" :data-id="guest.userId">
                     <div class="avartar-profile">
                       <v-avatar
                         color="#efefef"
@@ -69,8 +91,12 @@
                       </v-avatar>
                       <span class="avatar-text">{{ guest.nickname }}</span>
                     </div>
-                  </div>
-                  
+                    <div v-if="authority === 'host'">
+                      <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 10px">
+                        <i class="fas fa-minus-circle" @click="asyncRemoveMember(guest.userId)"></i>
+                      </span>
+                    </div>
+                  </div>  
                 </div>
                 <div v-else>
                   <p class="empty-member-text">현재 Guest가 없습니다.</p>
@@ -85,7 +111,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'BoardsMember',
@@ -95,15 +121,49 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('userStore', ['config']),
     ...mapState('boardStore', [
       'hosts', 
-      'guests'
+      'maintainers',
+      'guests',
+      'authority'
     ]),
   },
   methods: {
+    ...mapActions('boardStore', [
+      'getBoardMember',
+      'removeMember'
+    ]),
     changeMemberDialog() {
       this.$emit('change-member-dialog', false)
     },
+    checkMemberProfile(userId) {
+      alert('강퇴에 성공했습니다.')
+      const deleteBtn = document.querySelector(`.member-profile[data-id="${userId}"]`)
+      deleteBtn.remove();
+    },
+    async asyncRemoveMember(userId) {
+      const removeData = {
+        userId: userId,
+        boardId: this.$route.params.boardId
+      }
+      const check = confirm('유저를 강퇴하시겠습니까?')
+
+      if (check) {
+        await this.removeMember(removeData)
+        await this.checkMemberProfile(userId)
+      }
+    },
+    // removeMember(userId, boardId) {
+    //   this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.leaveBoard + `/${userId}` + `/${boardId}`, this.config)
+    //     .then(() => {
+    //       alert('강퇴에 성공했습니다.')
+    //       this.getBoardMember(boardId)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   }
 }
 </script>
@@ -112,15 +172,19 @@ export default {
 .avatar-profile-area {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-  .avartar-profile {
-    margin: 10px 0;
 
-    .avatar-text {
-      margin-left: 10px;
-      font-size: 15px;
+  .member-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .avartar-profile {
+      margin: 10px 0 10px 10px;
+
+      .avatar-text {
+        margin-left: 10px;
+        font-size: 12px;
+      }
     }
   }
 }
