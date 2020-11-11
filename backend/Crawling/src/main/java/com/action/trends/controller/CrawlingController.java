@@ -38,9 +38,9 @@ public class CrawlingController {
 		try {
 			System.out.println("Executing python code");
 			// 경로는 서버에서 다시 잘~~ 설정해야함. 잊지 말길!
-			String pythonScriptPath = "C:/Users/multicampus/git/s03p31a408/python/main.py";
+			String pythonScriptPath = "/Users/donghwi/Desktop/Trend/python/main.py";
 			String[] cmd = new String[3];
-			cmd[0] = "python";
+			cmd[0] = "python3";
 			cmd[1] = pythonScriptPath;
 			cmd[2] = keyword;
 			

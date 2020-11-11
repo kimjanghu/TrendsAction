@@ -25,8 +25,16 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper boardMapper;
 	
 	@Override
+	public List<Board> getBoardListWithAuth(int userId) {
+		List<Board> list = boardMapper.getBoardListWithAuth(userId);
+		
+		return list;
+	}
+	
+	@Override
 	public List<Board> getBoardList(int userId) {
 		List<Board> list = boardMapper.getBoardList(userId);
+		
 		for (int i = 0; i < list.size(); i++) {
 			Board temp = list.get(i);
 			List<NewsList> tempList = getNewsList(temp.getBoardId());

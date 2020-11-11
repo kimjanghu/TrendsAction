@@ -39,6 +39,30 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@ApiOperation(value="컨텐츠 담을 때 보드 리스트 조회", response = List.class)
+	@GetMapping("/board/auth/{userId}")
+	public ResponseEntity<Map<String, Object>> getBoardListWithAuth(@PathVariable int userId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		List<Board> list = new ArrayList<Board>();
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			list = boardService.getBoardListWithAuth(userId);
+			resultMap.put("status", true);
+			if (list.size() == 0) {
+				resultMap.put("message", "생성된 보드가 없습니다.");
+			} else {
+				resultMap.put("message", "보드 리스트 조회에 성공했습니다.");
+			}
+			resultMap.put("data", list);
+			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		
+		return entity;
+	}
+	
 	@ApiOperation(value="보드 리스트 조회", response = List.class)
 	@GetMapping("/board/{userId}")
 	public ResponseEntity<Map<String, Object>> getBoardList(@PathVariable int userId) {
@@ -286,7 +310,7 @@ public class BoardController {
 		
 		int userId = boardService.searchUser(Email).getUserId();
 		String authority = boardService.getBoardAuth(userId, twittBoard.getBoardId());
-		if (!authority.equals("host") || !authority.equals("maintainer")) {
+		if (authority.equals("guest") && !(authority.equals("host") || authority.equals("maintainer"))) {
 			resultMap.put("message", "권한 없음");
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
 			return entity;
@@ -313,7 +337,7 @@ public class BoardController {
 		
 		int userId = boardService.searchUser(Email).getUserId();
 		String authority = boardService.getBoardAuth(userId, newsBoard.getBoardId());
-		if (!authority.equals("host") || !authority.equals("maintainer")) {
+		if (authority.equals("guest") && !(authority.equals("host") || authority.equals("maintainer"))) {
 			resultMap.put("message", "권한 없음");
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
 			return entity;
@@ -506,7 +530,7 @@ public class BoardController {
 		
 		int userId = boardService.searchUser(Email).getUserId();
 		String authority = boardService.getBoardAuth(userId, boardId);
-		if (!authority.equals("host") || !authority.equals("maintainer")) {
+		if (authority.equals("guest") && !(authority.equals("host") || authority.equals("maintainer"))) {
 			resultMap.put("message", "권한 없음");
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
 			return entity;
@@ -533,7 +557,7 @@ public class BoardController {
 		
 		int userId = boardService.searchUser(Email).getUserId();
 		String authority = boardService.getBoardAuth(userId, boardId);
-		if (!authority.equals("host") || !authority.equals("maintainer")) {
+		if (authority.equals("guest") && !(authority.equals("host") || authority.equals("maintainer"))) {
 			resultMap.put("message", "권한 없음");
 			entity = new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
 			return entity;
