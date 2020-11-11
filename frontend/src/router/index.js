@@ -44,30 +44,31 @@ const routes = [
     component: loadView('users/UserLogout')
   },
   {
-    path: '/trend',
+    path: '/trends',
     name: constants.URL_TYPE.TREND.LIST,
     component: loadView('trends/TrendList')
   },
   {
     path: '/trend/:trendId',
+    name: 'TrendDetailLayout',
     component: TrendDetailLayout,
     props: true,
     children: [
-      {
-        path: 'news',
-        name: 'TrendDetailNews',
-        component: TrendDetailNews
-      },
-      {
-        path: 'sns',
-        name: 'TrendDetailSns',
-        component: TrendDetailSns
-      },
-      {
-        path: 'agora',
-        name: 'TrendDetailAgora',
-        component: TrendDetailAgora
-      },
+        {
+          path: 'news',
+          name: 'TrendDetailNews',
+          component: TrendDetailNews
+        },
+        {
+          path: 'sns',
+          name: 'TrendDetailSns',
+          component: TrendDetailSns
+        },
+        {
+          path: 'agora',
+          name: 'TrendDetailAgora',
+          component: TrendDetailAgora
+        },
     ]
   },
   {

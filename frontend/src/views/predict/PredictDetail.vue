@@ -59,7 +59,6 @@
             v-for="item in items"
             :key="item.id"
           >
-            
             <trend-detail-news v-if="item.id==1" :userInfo="userInfo" :trendId="trendId"/>
             <trend-detail-sns v-if="item.id==2" :userInfo="userInfo" :trendId="trendId"/>
             <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>

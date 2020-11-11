@@ -50,26 +50,8 @@
                   :key="item.id"
                   :to="{name: item.link}"
                 >{{ item.name }}</v-tab>
-                <!-- <v-tab
-                  v-for="item in items"
-                  :key="item.id"
-                >
-                  {{ item.name }}
-                </v-tab> -->
               </v-tabs>
-              <router-view :userInfo="userInfo" :trendId="trendId"></router-view>
-              <!-- <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
-                <v-tab-item
-                  v-for="item in items"
-                  :key="item.id"
-                >
-                  
-                  <trend-detail-news v-if="item.id==1" :userInfo="userInfo" :trendId="trendId"/>
-                  <trend-detail-sns v-if="item.id==2" :userInfo="userInfo" :trendId="trendId"/>
-                  <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>
-
-                </v-tab-item>
-              </v-tabs-items> -->
+              <router-view class="neumor-design" :userInfo="userInfo" :trendId="trendId"></router-view>
             </v-col>
           </v-row>
         </v-col>
@@ -93,13 +75,12 @@
                   min-height="50"
                   max-height="50"
                 ></v-img>
-                <v-list-item-content class="py-0">
+                <v-list-item-content class="py-0" @click="goToTrendDetail(keyword.id)">
                   <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
                   <v-list-item-title v-text="keyword.name"></v-list-item-title>
                 </v-list-item-content>
+     
               </v-list-item>
-              
-              <!-- </router-link> -->
             </v-list>
           </div>
           </div>
@@ -110,9 +91,6 @@
 </template>
 
 <script>
-// import TrendDetailNews from './TrendDetailNews.vue'
-// import TrendDetailSns from './TrendDetailSns.vue'
-// import TrendDetailAgora from './TrendDetailAgora.vue'
 import axios from 'axios'
 import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
@@ -120,9 +98,6 @@ import Navbar from '@/components/common/Navbar2'
 
 export default {
   components: {
-    // TrendDetailNews,
-    // TrendDetailSns,
-    // TrendDetailAgora,
     Navbar,
   },
   props: ['trendId'],
@@ -162,6 +137,10 @@ export default {
       //       console.log(err)
       //     } )
       // },
+      goToTrendDetail(keywordId) {
+        this.$router.push({ name: 'TrendDetailNews', params: { trendId: keywordId }})
+        this.$router.go(0)
+      },
       getUserInfo() {
         const userId = window.localStorage.getItem('userId')
         axios
