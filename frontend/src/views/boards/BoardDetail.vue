@@ -183,6 +183,7 @@
                 max-height="320"
               >
                 <v-responsive :aspect-ratio="4/3">
+                  <i class="fas fa-times-circle" @click="deleteTwitter(content.twitterId)"></i>
                   <v-card-title>
                     <v-icon
                       large
@@ -302,7 +303,7 @@ export default {
     deleteNews(newsId) {
       const boardId = this.$route.params.boardId
 
-      const check = confirm('뉴스를 삭제하시겠습니까?')
+      const check = confirm('컨텐츠를 삭제하시겠습니까?')
       if (check) {
         console.log(this.config)
         this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addNews + `/${boardId}` + `/${newsId}`, this.config)
@@ -314,8 +315,19 @@ export default {
           })
       }
     },
-    deleteTwitter() {
+    deleteTwitter(twitterId) {
+      const boardId = this.$route.params.boardId
 
+      const check = confirm('컨텐츠를 삭제하시겠습니까?')
+      if (check) {
+        this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addTwitter + `/${boardId}` + `/${twitterId}`, this.config)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
     // getUserAuthority() {
     //   const boardId = this.$route.params.boardId
