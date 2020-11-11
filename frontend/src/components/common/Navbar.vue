@@ -153,7 +153,7 @@ export default {
         .then(res => {
           console.log(res)
         })
-        .then(err => {
+        .catch(err => {
           console.log(err)
         })
     },
