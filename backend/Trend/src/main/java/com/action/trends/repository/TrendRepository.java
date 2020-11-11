@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.action.trends.dto.Category;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
+import com.action.trends.dto.Trend_Predict;
 import com.action.trends.dto.Twitter;
 
 @Repository
@@ -22,7 +23,7 @@ public interface TrendRepository {
 
 	List<Twitter> readTwitterByTrendId(int trendId);
 
-	List<Trend> readPredictedTrend();
+	Trend_Predict readPredictedTrend(int year, int month, int week, int categoryId);
 
 	List<HashMap<String, Object>> readAllTrendsWhetherSelfMadeIs(int selfMade);
 }

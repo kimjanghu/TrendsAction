@@ -3,6 +3,7 @@ package com.action.trends.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.action.trends.dto.Category;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
+import com.action.trends.dto.Trend_Predict;
 import com.action.trends.dto.Twitter;
 import com.action.trends.repository.TrendRepository;
 
@@ -45,8 +47,43 @@ public class TrendServiceImpl implements TrendService {
 	}
 
 	@Override
-	public List<Trend> readPredictedTrend() {
-		return repository.readPredictedTrend();
+	public Map<String, Object> readPredictedTrend(int year, int month, int week, int categoryId) {
+		
+			Trend_Predict predictData = repository.readPredictedTrend(year, month, week, categoryId);
+			Map<String, Object> bigMap = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>();
+			System.out.println(predictData.toString());
+			
+			if(predictData.getName() != null && predictData.getDescription() != null) {
+				map.put("id", predictData.getId());
+				map.put("name", predictData.getName());
+//				map.put("categoryId", predictData.getCategory_id());
+				map.put("categoryId", categoryId);
+				map.put("keywords", predictData.getKeywords());
+				map.put("description", predictData.getDescription());
+				map.put("year", predictData.getYear());
+				map.put("month", predictData.getMonth());
+				map.put("week", predictData.getYear());
+				bigMap.put("data", map);
+				bigMap.put("message", "트렌드 단어와 트렌드 설명이 제대로 들어있습니다.");
+				bigMap.put("status", true);
+			}else {
+				map.put("id", predictData.getId());
+				map.put("name", predictData.getName());
+//				map.put("categoryId", predictData.getCategory_id());
+				map.put("categoryId", categoryId);
+				map.put("keywords", predictData.getKeywords());
+				map.put("description", predictData.getDescription());
+				map.put("year", predictData.getYear());
+				map.put("month", predictData.getMonth());
+				map.put("week", predictData.getYear());
+				bigMap.put("data", map);
+				bigMap.put("message", "트렌드 단어와 트렌드 설명 추가가 필요합니다");
+				bigMap.put("status", false);
+			}
+		
+		
+		return bigMap;
 	}
 
 	@Override
