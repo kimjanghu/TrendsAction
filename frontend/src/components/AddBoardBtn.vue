@@ -155,7 +155,8 @@ export default {
         axios
           .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
-            this.userInfo = res.data.data
+            this.userInfo = res.data.data;
+            console.log(this.userInfo);
           })
           .catch((err) => { console.log(err)})
       },
@@ -177,7 +178,7 @@ export default {
     getBoardList() {
       const userId = window.localStorage.getItem('userId')
       axios
-        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + userId, this.config)
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + `auth/` + userId, this.config)
         .then((res) => { this.myBoardList = res.data.data })
         .catch((err) => { console.log(err)})
     },
@@ -187,6 +188,7 @@ export default {
         scrapUser : this.userInfo.id,
         newsId : this.newsId
       }
+      console.log(body)
       axios
         .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
         .then((res) => { 
