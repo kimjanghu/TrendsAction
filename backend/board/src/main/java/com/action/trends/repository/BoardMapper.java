@@ -15,6 +15,7 @@ import com.action.trends.dto.User;
 
 @Mapper
 public interface BoardMapper {
+	public List<Board> getBoardListWithAuth(int userId);
 	public List<Board> getBoardList(int userId);
 	public List<Sharer> getSharerList(int boardId);
 	public List<NewsList> getNewsList(int boardId);
