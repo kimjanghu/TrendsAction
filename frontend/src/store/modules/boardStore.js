@@ -47,6 +47,16 @@ const boardStore = {
     }
   },
   actions: {
+    changeAuthority({ getters, dispatch }, changeData) {
+      axios.put(SERVER.URL + SERVER.ROUTES.boards.changeAuthority, changeData, getters.config)
+        .then(() => {
+          alert('권한을 변경하였습니다.')
+          dispatch('getBoardMember', changeData.boardId)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     getUserAuthority({ commit, getters }, boardId) {
       const userId = +window.localStorage.getItem('userId')
 

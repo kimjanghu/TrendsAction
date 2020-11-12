@@ -63,6 +63,9 @@
                       <span class="avatar-text">{{ maintainer.nickname }}</span>
                     </div>
                     <div v-if="authority === 'host'">
+                      <span style="color: black; font-size: 1rem; cursor:pointer; margin-right: 10px">
+                        <i class="fas fa-exchange-alt" @click="reqAuthorityData(maintainer.userId, 'guest')"></i>
+                      </span>
                       <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 10px">
                         <i class="fas fa-minus-circle" @click="asyncRemoveMember(maintainer.userId)"></i>
                       </span>
@@ -92,6 +95,9 @@
                       <span class="avatar-text">{{ guest.nickname }}</span>
                     </div>
                     <div v-if="authority === 'host'">
+                      <span style="color: black; font-size: 1rem; cursor:pointer; margin-right: 10px">
+                        <i class="fas fa-exchange-alt" @click="reqAuthorityData(guest.userId, 'maintainer')"></i>
+                      </span>
                       <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 10px">
                         <i class="fas fa-minus-circle" @click="asyncRemoveMember(guest.userId)"></i>
                       </span>
@@ -132,7 +138,8 @@ export default {
   methods: {
     ...mapActions('boardStore', [
       'getBoardMember',
-      'removeMember'
+      'removeMember',
+      'changeAuthority'
     ]),
     changeMemberDialog() {
       this.$emit('change-member-dialog', false)
@@ -141,6 +148,18 @@ export default {
       alert('강퇴에 성공했습니다.')
       const deleteBtn = document.querySelector(`.member-profile[data-id="${userId}"]`)
       deleteBtn.remove();
+    },
+    reqAuthorityData(userId, authority) {
+      const changeData = {
+        userId: userId,
+        boardId: +this.$route.params.boardId,
+        authority: authority
+      }
+      const check = confirm('해당 사용자의 권한을 변경하시겠습니까?')
+
+      if (check) {
+        this.changeAuthority(changeData)
+      }
     },
     async asyncRemoveMember(userId) {
       const removeData = {
@@ -154,16 +173,6 @@ export default {
         await this.checkMemberProfile(userId)
       }
     },
-    // removeMember(userId, boardId) {
-    //   this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.leaveBoard + `/${userId}` + `/${boardId}`, this.config)
-    //     .then(() => {
-    //       alert('강퇴에 성공했습니다.')
-    //       this.getBoardMember(boardId)
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
   }
 }
 </script>

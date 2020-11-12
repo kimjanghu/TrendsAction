@@ -27,7 +27,7 @@
             </span>
           </router-link>
           <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
-            <i class="fas fa-bell navbar-icon" @click="getInviteMessage(); changeAlarm();"></i>
+            <i class="fas fa-bell navbar-icon" @click="changeAlarm();"></i>
             <div v-if="isAlarm" class="board-alarm">
               <div v-if="messageList" class="board-alarm-area">
                 <div v-for="message in messageList" :key="message.messageId">
@@ -123,6 +123,15 @@ export default {
   methods: {
     ...mapActions('userStore', ['logout', 'getUserInfo']),
     changeAlarm() {
+      const bell = document.querySelector('.fa-bell')
+      console.log(bell.classList)
+      if (bell.classList.contains('active')) {
+        bell.classList.remove('active')
+      } else if (this.messageList && !bell.classList.contains('active')) {
+        bell.classList.add('active')
+      }
+
+      // bell.classList.remove('active')
       this.isAlarm = !this.isAlarm
     },
     changeDialog(dialog) {
@@ -150,8 +159,8 @@ export default {
         accepted: status
       }
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.acceptInvite, reqData, this.config)
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          this.getInviteMessage()
         })
         .catch(err => {
           console.log(err)
@@ -162,6 +171,12 @@ export default {
       this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getInviteMessage + `/${userId}`, this.config)
         .then(res => {
           this.messageList = res.data.data
+        })
+        .then(() => {
+          if (this.messageList) {
+            const bell = document.querySelector('.fa-bell')
+            bell.classList.add('active')
+          }
         })
         .catch(err => {
           console.log(err)
@@ -174,6 +189,7 @@ export default {
         .then(data => {
           this.userId = data.id
         })
+      this.getInviteMessage()
     }
 
   },
@@ -307,7 +323,7 @@ header.sticky .navbar-icon{
       color: #000;
       top: 50%;
       left: 50%;
-      font-size: 20px;
+      font-size: 15px;
       text-align: center;
       transform: translate(-50%, -50%);
     }
@@ -315,6 +331,44 @@ header.sticky .navbar-icon{
     .check-btn:hover {
       text-shadow: .1px .2px 1px #000;
     }
+  }
+}
+
+i.fa-bell.active {
+  transform-origin: 50% 0%;
+  animation-name: shake;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(20deg);
+  }
+  20% {
+    transform: rotate(-20deg);
+  }
+  30% {
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 </style>
