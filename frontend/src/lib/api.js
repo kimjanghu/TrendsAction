@@ -31,6 +31,7 @@ export default {
       getInviteMessage: '/boards/message/list',
       acceptInvite: '/boards/board/invite/accept',
       getUserAuthority: '/boards/board/auth',
+      changeAuthority: '/boards/board/updateauth',
       searchUser: '/boards/board/searchuser',
       addNewBoard: '/boards/board',
       addNews: '/boards/board/news',
