@@ -11,7 +11,7 @@
           <span class="headline">Board Member</span>
           <v-spacer></v-spacer>
           <v-btn
-            color="blue darken-1"
+            color="#000"
             text
             @click="changeMemberDialog"
           >

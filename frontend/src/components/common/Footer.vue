@@ -21,7 +21,7 @@
       <v-card-text>
         <span>김동휘<a href="https://lab.ssafy.com/wheeking" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-gitlab"></i></v-btn></a></span>
         <span>김남규<a href="https://lab.ssafy.com/kngking22" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-gitlab"></i></v-btn></a></span>
-        <span>김장후<a href="https://lab.ssafy.com/hopewill1030" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-gitlab"></i></v-btn></a></span>
+        <span>김장후<a href="https://github.com/kimjanghu" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-github"></i></v-btn></a></span>
         <span>박지윤<a href="https://lab.ssafy.com/bellnuite" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-gitlab"></i></v-btn></a></span>
         <span>최재빈<a href="https://lab.ssafy.com/justin613" target="_blank"><v-btn icon class="mr-4 white--text"><i class="fab fa-gitlab"></i></v-btn></a></span>
       </v-card-text>
