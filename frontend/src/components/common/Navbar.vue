@@ -1,12 +1,13 @@
 <template>  
   <div>
   <header>
-    <h2
+    <img src="@/assets/logo1.jpg" width="15%" alt="">
+    <!-- <h2
       class="logo"
       @click="goToHome"
     >
       TrendsAction
-    </h2>
+    </h2> -->
     <div class="router-area" v-if="$vuetify.breakpoint.lgAndUp">
       <ul class="navbar-list">
         <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
