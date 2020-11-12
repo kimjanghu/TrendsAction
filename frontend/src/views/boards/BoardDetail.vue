@@ -139,6 +139,10 @@
         </div>
       </section>
     </div>
+
+
+
+
     <v-container>
       <v-sheet
         class="px-5 py-2 mt-3"
@@ -146,13 +150,18 @@
       >
         <v-row>
           <v-col cols="12" md="6" lg="4" v-for="(content, idx) in contents" :key="idx">
+
+
+
             <div v-if="content.newsId">
               <v-card
                 class="mx-auto"
                 max-width="400"
               >
                 <v-responsive :aspect-ratio="4/3">
-                  <i class="fas fa-times-circle" @click="deleteNews(content.newsId)"></i>
+                  <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
+                    <i class="fas fa-times" @click="deleteNews(content.newsId)"></i>
+                  </span>
                   <v-img
                     class="white--text align-end"
                     height="220px"
@@ -173,6 +182,9 @@
                 </v-responsive>
               </v-card>
             </div>
+
+
+
             <div v-if="content.twitterId">
               <v-card
                 class="mx-auto"
@@ -183,7 +195,9 @@
                 max-height="320"
               >
                 <v-responsive :aspect-ratio="4/3">
-                  <i class="fas fa-times-circle" @click="deleteTwitter(content.twitterId)"></i>
+                  <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
+                    <i class="fas fa-times" @click="deleteTwitter(content.twitterId)"></i>
+                  </span>
                   <v-card-title>
                     <v-icon
                       large
@@ -630,5 +644,9 @@ export default {
     margin: 15px;
     font-size: 13px;
   }
+}
+
+.contents-close-btn:hover {
+  color: #fff;
 }
 </style>
