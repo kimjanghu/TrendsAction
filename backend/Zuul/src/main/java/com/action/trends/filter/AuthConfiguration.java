@@ -70,9 +70,10 @@ public class AuthConfiguration extends ZuulFilter {
 	}
 
 	private boolean needAuth(String requestURI, HttpServletRequest request) {
-		// 스웨거, 트렌드 API, 닉네임 중복, 로그인, 댓글 조회 => 인증 필요 x
+		// 스웨거, 트렌드 API, 닉네임 중복, 로그인, 댓글 조회, 보드 FAQ => 인증 필요 x
 		if (requestURI.contains("swagger") || requestURI.contains("api-docs") || requestURI.contains("trend/")
 				|| requestURI.contains("/user/checknickname/") || requestURI.contains("/login/")
+				|| requestURI.contains("/boards/faq")
 				|| (requestURI.contains("/comment/") && (request.getMethod().equals("GET")))) {
 			System.out.println("인증 필요 X");
 			return false;
