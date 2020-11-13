@@ -27,7 +27,7 @@
             </div> -->
           </div>
         </v-sheet>
-        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList' }">내 보드</v-btn>
+        <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'BoardList', params: { id: userId } }">내 보드</v-btn>
         <v-btn dark class="mt-2 custom-rounded" width="100%" color="teal" :to="{ name: 'UserProfile' }">내 프로필 수정하기</v-btn>
       </v-col>
       
