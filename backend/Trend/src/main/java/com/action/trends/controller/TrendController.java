@@ -82,7 +82,7 @@ public class TrendController {
 	@ApiOperation(value = "해당 년도,월,주,카테고리 ID로 예측 트렌드 조회")
 	@GetMapping("predictTrend/{year}/{month}/{week}/{categoryId}")
 	public ResponseEntity<Map<String, Object>> readPredictedByYearMonthWeekCategoryId(@PathVariable int year,
-			@PathVariable int month, @PathVariable int week, int categoryId) {
+			@PathVariable int month, @PathVariable int week, @PathVariable int categoryId) {
 		logger.debug("해당 년도,월,주,카테고리 ID로 예측 트렌드 조회");
 		return new ResponseEntity<Map<String, Object>>(
 				service.readPredictedByYearMonthWeekCategoryId(year, month, week, categoryId), HttpStatus.OK);
