@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.action.trends.dto.Category;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
-import com.action.trends.dto.Trend_Predict;
 import com.action.trends.dto.Twitter;
 import com.action.trends.service.TrendService;
 
@@ -35,18 +34,19 @@ public class TrendController {
 	@Autowired
 	TrendService service;
 
-	@ApiOperation(value = "자체 제작 여부에 따른 카테고리 목록 조회")
-	@GetMapping("category/{selfMade}")
-	public ResponseEntity<List<Category>> readCategoryBySelfMade(@PathVariable int selfMade) {
+	@ApiOperation(value = "기존 카테고리 목록 조회")
+	@GetMapping("categoryList")
+	public ResponseEntity<List<Category>> readCategoryBySelfMade() {
 		logger.debug("자체 제작 여부에 따른 카테고리 목록 조회");
-		return new ResponseEntity<List<Category>>(service.readCategoryBySelfMade(selfMade), HttpStatus.OK);
+		return new ResponseEntity<List<Category>>(service.readCategoryBySelfMade(), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "트렌드 ID로 트렌드 조회")
-	@GetMapping("{trendId}")
-	public ResponseEntity<Trend> readTrendByTrendId(@PathVariable int trendId) {
+	@GetMapping("{categoryId}/{trendId}")
+	public ResponseEntity<Map<String, Object>> readTrendByTrendId(@PathVariable int categoryId,
+			@PathVariable int trendId) {
 		logger.debug("트렌드 ID로 트렌드 조회");
-		return new ResponseEntity<Trend>(service.readTrendByTrendId(trendId), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>(service.readTrendByTrendId(categoryId, trendId), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "카테고리별 트렌드 목록 조회")
@@ -70,22 +70,21 @@ public class TrendController {
 		return new ResponseEntity<List<Twitter>>(service.readTwitterByTrendId(trendId), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "년도,월,주,카테고리Id에 해당하는 이번주 예측 트렌드 키워드 및 중요단어, 설명 조회")
-	@GetMapping("predictTrend/{year}/{month}/{week}/{categoryId}")
-	public ResponseEntity<Map<String, Object>> readPredictedTrend(@PathVariable int year, 
-															@PathVariable int month, 
-															@PathVariable int week,
-															@PathVariable int categoryId) {
-								
+	@ApiOperation(value = "해당 년도,월,주의 예측 트렌드 목록 조회")
+	@GetMapping("predictTrend/{year}/{month}/{week}")
+	public ResponseEntity<List<Map<String, Object>>> readPredictedTrend(@PathVariable int year, @PathVariable int month,
+			@PathVariable int week) {
+
 		logger.debug("예측 트렌드 키워드 목록 조회");
-		return new ResponseEntity<Map<String, Object>>(service.readPredictedTrend(year,month,week,categoryId), HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(
+				service.readPredictedTrendByYearMonthWeek(year, month, week), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "예측 / 기존 카테고리 여부에 따른 카테고리의 모든 트렌드 목록 조회")
-	@GetMapping("allTrendsList/{selfMade}")
-	public ResponseEntity<List<HashMap<String, Object>>> readAllTrendsWhetherSelfMadeIs(@PathVariable int selfMade) {
-		logger.debug("예측 / 기존 카테고리 여부에 따른 카테고리의 모든 트렌드 목록 조회");
-		return new ResponseEntity<>(service.readAllTrendsWhetherSelfMadeIs(selfMade), HttpStatus.OK);
+	@ApiOperation(value = "기존 카테고리의 모든 트렌드 목록 조회")
+	@GetMapping("allTrendsList")
+	public ResponseEntity<List<HashMap<String, Object>>> readAllTrendsWhetherNotMade() {
+		logger.debug("기존 카테고리의 모든 트렌드 목록 조회");
+		return new ResponseEntity<>(service.readAllTrendsNotSelfMade(), HttpStatus.OK);
 	}
 
 }

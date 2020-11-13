@@ -2,26 +2,34 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.action.trends.repository.TrendRepository">
 
-	<!-- 예측 카테고리인지 기존 카테고리인지 여부에 따른 카테고리의 모든 트렌드 목록 조회 -->
-	<select id="readAllTrendsWhetherSelfMadeIs" resultType="java.util.HashMap">
+	<!-- 기존 카테고리의 모든 트렌드 목록 조회 -->
+	<select id="readAllTrendsNotSelfMade" resultType="java.util.HashMap">
 		select category.name as categoryName, trend.name as trendName, trend.id as trendId
 		from category, trend
 		where category.id = trend.category_id
-		and self_made=#{selfMade};
+		and self_made=0
 	</select>
 	
 	<!-- 트렌드 ID로 트렌드 조회 -->
-	<select id="readTrendByTrendId" resultType="Trend">
-		select *
-		from trend
-		where id=#{trendId}
+	<select id="readTrendByTrendId" resultType="java.util.HashMap">
+		<if test="categoryId lt 8">
+			select id, name, category_id as categoryId, description, thumbnail
+			from trend
+			where id=#{trendId}
+		</if>
+		<if test="categoryId gt 8">
+			select trend.id, name, category_id as categoryId, description, thumbnail, keywords, year, month, week
+			from trend, trend_predict
+			where trend.id = trend_predict.trend_id
+			and id=#{trendId}
+		</if>
 	</select>
 	
 	<!-- 카테고리 목록 조회 -->
 	<select id="readCategoryBySelfMade" resultType="Category">
 		select *
 		from category
-		where self_made=#{selfMade}
+		where self_made=0
 	</select>
 	
 	<!-- 카테고리로 트렌드 목록 조회 -->
@@ -47,11 +55,12 @@
 		order by date desc
 	</select>
 
-	<!-- 예측 트렌드 키워드 리스트 조회 -->
-	<select id="readPredictedTrend" resultType="Trend_Predict">
-		select *
-		from trend_predict
-		where year = #{year} and month = #{month} and week = #{week} and category_id = #{categoryId}
+	<!-- 년,월,주로 예측 트렌드 키워드 리스트 조회 -->
+	<select id="readPredictedTrendByYearMonthWeek" resultType="java.util.HashMap">
+		select trend.id, name, category_id as categoryId, description, thumbnail, keywords, year, month, week
+		from trend, trend_predict
+		where trend.id = trend_predict.trend_id
+		and year = #{year} and month = #{month} and week = #{week}
 	</select>
-	
+
 </mapper>

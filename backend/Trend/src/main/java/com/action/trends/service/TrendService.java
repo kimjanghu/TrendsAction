@@ -10,9 +10,9 @@ import com.action.trends.dto.Trend;
 import com.action.trends.dto.Twitter;
 
 public interface TrendService {
-	List<Category> readCategoryBySelfMade(int selfMade);
+	List<Category> readCategoryBySelfMade();
 	
-	Trend readTrendByTrendId(int trendId);
+	Map<String, Object> readTrendByTrendId(int categoryId, int trendId);
 	
 	List<Trend> readBycategoryId(int categoryId);
 	
@@ -20,7 +20,7 @@ public interface TrendService {
 	
 	List<Twitter> readTwitterByTrendId(int trendId);
 	
-	Map<String, Object> readPredictedTrend(int year, int month, int week, int categoryId);
+	List<Map<String, Object>> readPredictedTrendByYearMonthWeek(int year, int month, int week);
 	
-	List<HashMap<String, Object>> readAllTrendsWhetherSelfMadeIs(int selfMade);
+	List<HashMap<String, Object>> readAllTrendsNotSelfMade();
 }
