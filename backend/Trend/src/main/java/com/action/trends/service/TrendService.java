@@ -20,7 +20,9 @@ public interface TrendService {
 	
 	List<Twitter> readTwitterByTrendId(int trendId);
 	
-	List<Map<String, Object>> readPredictedTrendByYearMonthWeek(int year, int month, int week);
+	List<Map<String, Object>> readPredictedListByYearMonthWeek(int year, int month, int week);
+	
+	Map<String, Object> readPredictedByYearMonthWeekCategoryId(int year, int month, int week, int categoryId);
 	
 	List<HashMap<String, Object>> readAllTrendsNotSelfMade();
 }

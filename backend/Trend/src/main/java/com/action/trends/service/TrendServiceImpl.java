@@ -47,8 +47,13 @@ public class TrendServiceImpl implements TrendService {
 	}
 
 	@Override
-	public List<Map<String, Object>> readPredictedTrendByYearMonthWeek(int year, int month, int week) {
-		return repository.readPredictedTrendByYearMonthWeek(year, month, week);
+	public List<Map<String, Object>> readPredictedListByYearMonthWeek(int year, int month, int week) {
+		return repository.readPredictedListByYearMonthWeek(year, month, week);
+	}
+
+	@Override
+	public Map<String, Object> readPredictedByYearMonthWeekCategoryId(int year, int month, int week, int categoryId) {
+		return repository.readPredictedByYearMonthWeekCategoryId(year, month, week, categoryId);
 	}
 
 	@Override

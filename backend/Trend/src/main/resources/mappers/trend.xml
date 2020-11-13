@@ -55,12 +55,20 @@
 		order by date desc
 	</select>
 
-	<!-- 년,월,주로 예측 트렌드 키워드 리스트 조회 -->
-	<select id="readPredictedTrendByYearMonthWeek" resultType="java.util.HashMap">
+	<!-- 년, 월, 주로 예측 트렌드 키워드 리스트 조회 -->
+	<select id="readPredictedListByYearMonthWeek" resultType="java.util.HashMap">
 		select trend.id, name, category_id as categoryId, description, thumbnail, keywords, year, month, week
 		from trend, trend_predict
 		where trend.id = trend_predict.trend_id
 		and year = #{year} and month = #{month} and week = #{week}
+	</select>
+	
+	<!-- 년, 월, 주, 카테고리 ID로 예측 트렌드 키워드 조회 -->
+	<select id="readPredictedByYearMonthWeekCategoryId" resultType="java.util.HashMap">
+		select trend.id, name, category_id as categoryId, description, thumbnail, keywords, year, month, week
+		from trend, trend_predict
+		where trend.id = trend_predict.trend_id
+		and year = #{year} and month = #{month} and week = #{week} and category_id = #{categoryId}
 	</select>
 
 </mapper>
