@@ -68,32 +68,35 @@ public class TrendServiceImpl implements TrendService {
 		HashMap<String, Object> detail;
 
 		String categoryName = (String) list.get(0).get("categoryName");
+		int categoryId = (int) list.get(0).get("categoryId");
 		for (int i = 0, size = list.size(); i < size; i++) {
 			detail = new HashMap<String, Object>();
 			map = list.get(i);
 
-			if (!categoryName.equals((String) map.get("categoryName"))) { // 카테고리명이 바뀌면
-				trendAppendToCategory(category, (String) categoryName, trend); // 트렌드 => 카테고리
-				results.add(category); // 카테고리 => 결과
-				trend = new ArrayList<HashMap<String, Object>>(); // 초기화
+			if (!categoryName.equals((String) map.get("categoryName"))) { 			// 카테고리명이 바뀌면
+				trendAppendToCategory(category, categoryName, trend, categoryId); 	// 트렌드 => 카테고리
+				results.add(category); 												// 카테고리 => 결과
+				trend = new ArrayList<HashMap<String, Object>>(); 					// 초기화
 				category = new HashMap<String, Object>();
-				categoryName = (String) map.get("categoryName"); // 카테고리명 변경
+				categoryName = (String) map.get("categoryName");			 		// 카테고리명 변경
+				categoryId = (int) map.get("categoryId"); 							// 카테고리 ID 변경
 			}
 
-			detail.put("trendName", map.get("trendName")); // 상세 내용
+			detail.put("trendName", map.get("trendName")); 							// 상세 내용
 			detail.put("trendId", map.get("trendId"));
-			trend.add(detail); // 상세 내용 => 트렌드
+			trend.add(detail); 														// 상세 내용 => 트렌드
 
 		}
-		trendAppendToCategory(category, (String) categoryName, trend);
+		trendAppendToCategory(category, (String) categoryName, trend, categoryId);
 		results.add(category);
 
 		return results;
 	}
 
 	private void trendAppendToCategory(HashMap<String, Object> category, String categoryName,
-			List<HashMap<String, Object>> trend) {
+			List<HashMap<String, Object>> trend, int categoryId) {
 		category.put("categoryName", categoryName);
+		category.put("categoryId", categoryId);
 		category.put(categoryName, trend);
 	}
 
