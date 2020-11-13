@@ -11,4 +11,12 @@
 		(SELECT id FROM twitter WHERE content=#{content} and author=#{author} and date=#{date} and category_id=3 and trend_id=21)
 		LIMIT 1;
 	</insert>
+	
+	<insert id="insertNews" parameterType="News">
+		INSERT into news (title, thumbnail, pub_date, link, press)
+		SELECT * FROM (SELECT #{title}, #{thumbnail}, #{date}, #{link}, #{press}) AS tmp
+		WHERE NOT EXISTS
+		(SELECT id FROM news WHERE title=#{title} and thumbnail=#{thumbnail} and pub_date=#{date} and link=#{link} and press=#{press})
+		LIMIT 1;
+	</insert>
 </mapper>

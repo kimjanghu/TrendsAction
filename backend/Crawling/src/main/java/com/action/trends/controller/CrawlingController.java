@@ -4,12 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,21 +22,21 @@ public class CrawlingController {
 	@Autowired
 	CrawlingService crawlingService;
 	
-	@ApiOperation(value="파이썬 코드 실행")
-	@PostMapping("/python")
-	public void executePython() {
+	@ApiOperation(value="뉴스 크롤링 파이썬 코드 실행")
+	@PostMapping("/crawling/news")
+	public void executeNewsCrawling() {
 		String s = null;
 		
-		String keyword = "멀티 페르소나";
+		String keyword = "브이노믹스";
 		
 		try {
 			System.out.println("Executing python code");
 			// 경로는 서버에서 다시 잘~~ 설정해야함. 잊지 말길!
-			String pythonScriptPath = "/Users/donghwi/Desktop/Trend/python/main.py";
-			String[] cmd = new String[3];
+			String pythonScriptPath = "/Users/donghwi/Desktop/Trend/python/news.py";
+			String[] cmd = new String[2];
 			cmd[0] = "python3";
 			cmd[1] = pythonScriptPath;
-			cmd[2] = keyword;
+			// cmd[2] = keyword;
 			
 			Runtime rt = Runtime.getRuntime();
 			Process process = rt.exec(cmd);
@@ -61,10 +55,26 @@ public class CrawlingController {
 				System.out.println(s);
 			}
 			
-			//System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
+		}
+	}
+	
+	@ApiOperation(value="뉴스 데이터 불러와서 DB에 저장")
+	@PostMapping("/load/news")
+	public void loadNews() {
+		String keyword = "브이노믹스";
+		JSONParser parser = new JSONParser();
+		
+		try {
+			Object obj = parser.parse(new FileReader("/Users/donghwi/Desktop/Trend/python/" + keyword + "_news.json"));
+					
+			
+			crawlingService.insertNews(obj);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
