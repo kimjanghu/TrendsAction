@@ -31,19 +31,32 @@
               ></v-select>
             </v-col>
           </v-row>
-          <v-row justify="center">
-            <p><strong>{{ select.year }}년 {{ select.month }}월 {{ select.week }}주</strong> 의 트렌드 예측 키워드</p>
+          <v-row class="mb-5" justify="center" align="center">
+            <v-btn @click="getPredictTrends(select)">확인!</v-btn>
           </v-row>
-          <v-row justify="center">
+          <v-row justify="center" align="center">
+            <p><strong>{{ select.year }}년 {{ select.month }}월 {{ select.week }}주</strong> 의 예측 트렌드 키워드</p>
+          </v-row>
+          <v-row >
             <v-col v-for="(keyword, i) in predictKeywordList" :key="i" cols="12" lg="3">
-              <!-- <router-link :to="{ name: 'TrendDetailNews', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">   -->
+              <router-link :to="{ name: 'PredictDetail', params: { categoryId:keyword.categoryId , trendId: keyword.id }}" style="text-decoration:none; color:#222222;">  
                 <div class="text-center trend-keyword">
                   <div>
-                    <p>카테고리</p>
-                    <p>{{ keword.name }}</p>
+                    <v-chip
+                      class="white--text ml-0 mb-2"
+                      color="purple"
+                      label
+                      small
+                    >
+                      <span v-if="keyword.categoryId == 9">IT과학</span>
+                      <span v-else-if="keyword.categoryId == 10">사회</span>
+                      <span v-else-if="keyword.categoryId == 11">생활문화</span>
+                      <span v-else>세계</span>
+                    </v-chip>
+                    <p class="mb-0">{{ keyword.name }}</p>
                   </div>
                 </div>
-              <!-- </router-link> -->
+              </router-link>
             </v-col>
           </v-row>
         </v-container>
@@ -69,7 +82,7 @@ export default {
       week: [ 1,2,3,4,5],
       select: {
         year: 2020,
-        month: 11,
+        month: 10,
         week: 1,
       }
     }
@@ -78,13 +91,13 @@ export default {
     ...mapGetters('userStore', ['config']),
   },
   created() {
-    this.getPredictTrends()
+    this.getPredictTrends({ year:2020, month:10, week:1})
   },
   methods: {
-    getPredictTrends() {
+    getPredictTrends(obj) {
       axios 
-        .get(SERVER.URL + SERVER.ROUTES.trends.getPredictInfo +this.selection.year + '/' + this.selection.month + '/' + this.selection.week, this.config)
-        .then((res) => { this.predictKeywordList = res.data.data })
+        .get(SERVER.URL + SERVER.ROUTES.trends.getPredictInfo + obj.year + '/' + obj.month + '/' + obj.week, this.config)
+        .then((res) => { console.log(res.data); this.predictKeywordList = res.data })
         .catch((err) => { console.log(err)})
     }
   },
