@@ -84,20 +84,20 @@
       <v-container class="my-16">
         <v-row justify="center">
           <v-col cols="12" lg="10">
-            <h2 class="my-5">FAQ</h2>
+            <h2 class="my-5">질문과 답변</h2>
             <v-expansion-panels focusable>
               <v-expansion-panel
-                v-for="(item,i) in 5"
+                v-for="(faq,i) in faqs"
                 :key="i"
               >
                 <v-expansion-panel-header class="py-5">
                   <span>
                     <span style="font-size:1.5rem;"><i class="far fa-question-circle mr-3"></i></span>
-                    <span style="font-size:1.2rem;">예측 키워드에서 사용된 알고리즘은 무엇인가요?</span>
+                    <span style="font-size:1.2rem;">{{ faq.question }}</span>
                   </span>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content class="pt-5">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  {{ faq.answer }}
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -112,7 +112,10 @@
 import Navbar from '@/components/common/Navbar'
 import Header from '@/components/common/Header'
 import sal from "sal.js";
+
 import { mapGetters } from 'vuex';
+import axios from 'axios'
+import SERVER from '@/lib/api'
 
 export default {
   name: 'Home',
@@ -122,10 +125,11 @@ export default {
   },
   data() {
     return {
-      
+      faqs: {},
     }
   },
   created() {
+    this.getFaq()
   },
   computed: {
     ...mapGetters('userStore', ['isLogin', 'config'])
@@ -134,6 +138,12 @@ export default {
     sal();
   },
   methods: {
+    getFaq() {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.boards.getFaq)
+        .then((res) => { console.log(res.data.data); this.faqs = res.data.data })
+        .catch((err) => { console.log(err)})
+    }
   },
   
 }
