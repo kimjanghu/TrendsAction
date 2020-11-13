@@ -8,8 +8,10 @@
       data-sal-duration="800"
       data-sal-repeat
       >
-      <h2>Trends Action!</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, quod blanditiis sequi dolor eveniet minus adipisci? Corporis itaque accusamus, facere magni distinctio et repellendus non deleniti, voluptas, quam sapiente expedita.</p>
+      
+      <h2>Trends Action</h2>
+      <span>트렌드를 액션하라!</span>
+      <p></p>
     </div>
     <div class="arrow" @click="$vuetify.goTo('#first-section')"><span style="color:white; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div>
   <!-- <div class="header-area">

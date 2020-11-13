@@ -18,6 +18,7 @@ import BoardList from '../views/boards/BoardList.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
 
 // predict
+import PredictList from '../views/predict/PredictList.vue'
 import PredictDetail from '../views/predict/PredictDetail.vue'
 
 
@@ -49,23 +50,23 @@ const routes = [
     component: loadView('trends/TrendList')
   },
   {
-    path: '/trend/:trendId',
+    path: '/trend',
     name: 'TrendDetailLayout',
     component: TrendDetailLayout,
     props: true,
     children: [
         {
-          path: 'news',
+          path: ':categoryId/:trendId/news',
           name: 'TrendDetailNews',
           component: TrendDetailNews
         },
         {
-          path: 'sns',
+          path: ':categoryId/:trendId/sns',
           name: 'TrendDetailSns',
           component: TrendDetailSns
         },
         {
-          path: 'agora',
+          path: ':categoryId/:trendId/agora',
           name: 'TrendDetailAgora',
           component: TrendDetailAgora
         },
@@ -93,12 +94,18 @@ const routes = [
     component: BoardDetail
   },
   {
+    path: '/predict-list',
+    name: 'PredictList',
+    component: PredictList
+  },
+  {
     path: '/predict',
     name: constants.URL_TYPE.PREDICT.LIST,
     component: loadView('predict/PredictLayout'),
+    props: true,
     children: [
       {
-        path: '/:year/:month/:week/:categoryId',
+        path: ':categoryId/:trendId',
         name: 'PredictDetail',
         component: PredictDetail,
         props: true,

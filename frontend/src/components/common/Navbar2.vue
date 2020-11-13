@@ -1,16 +1,11 @@
 <template>  
   <div>
   <header>
-    <h2
-      class="logo"
-      @click="goToHome"
-    >
-      TrendsAction
-    </h2>
+    <img src="@/assets/logo1.jpg" @click="goToHome" width="15%" style="cursor:pointer;" alt="logo">
     <div class="router-area" v-if="$vuetify.breakpoint.lgAndUp">
       <ul class="navbar-list">
         <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
-        <li class="navbar-list-item" @click="$router.push({ name: 'PredictDetail', params: { year: '2021', month: '11', week: 1, categoryId: 1} })">Predict</li>
+        <li class="navbar-list-item" @click="$router.push({ name: 'PredictList' })">Predict</li>
         <li class="navbar-list-item" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
@@ -64,7 +59,7 @@
       </div>
       <ul style="text-align:center">
         <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
-        <li style="cursor:pointer;" @click="$router.push({ name: 'PredictDetail', params: { year: '2021', month: '11', week: 1, categoryId: 1} })">Predict</li>
+        <li style="cursor:pointer;" @click="$router.push({ name: 'PredictList' })">Predict</li>
         <li style="cursor:pointer;" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />

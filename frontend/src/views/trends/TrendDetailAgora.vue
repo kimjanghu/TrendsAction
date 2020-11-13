@@ -99,7 +99,7 @@ import UsersLoginForm from '@/components/users/UsersLoginForm'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['trendId', 'userInfo'],
+  props: ['trendId', 'userInfo', 'categoryId'],
   components: {
     CommentUDBtn,
     UsersLoginForm,
@@ -134,7 +134,7 @@ export default {
     addComment() {
       let body = {
         content: this.input,
-        trendId: 1,
+        trendId: this.trendId,
         userId: this.userInfo.id
       }
       axios

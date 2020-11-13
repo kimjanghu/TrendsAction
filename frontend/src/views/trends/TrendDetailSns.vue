@@ -48,7 +48,7 @@ import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex';
 
 export default {
-  props: ['userInfo', 'trendId'],
+  props: ['userInfo', 'trendId', 'categoryId'],
   components: {
     AddBoardBtn
   },

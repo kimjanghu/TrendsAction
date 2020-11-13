@@ -12,7 +12,7 @@
                   :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
                   lazy-src="https://picsum.photos/id/11/10/6"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  src="https://picsum.photos/id/11/500/300"
+                  :src="trendInfo.thumbnail"
                   class="trend-img"
                   style="border-radius: 19px;"
                 >
@@ -51,7 +51,9 @@
                   :to="{name: item.link}"
                 >{{ item.name }}</v-tab>
               </v-tabs>
-              <router-view class="neumor-design" :userInfo="userInfo" :trendId="trendId"></router-view>
+
+              <router-view class="neumor-design" :key="$route.fullPath" :userInfo="userInfo" :trendId="trendId"></router-view>
+            
             </v-col>
           </v-row>
         </v-col>
@@ -75,7 +77,7 @@
                   min-height="50"
                   max-height="50"
                 ></v-img>
-                <v-list-item-content class="py-0" @click="goToTrendDetail(keyword.id)">
+                <v-list-item-content class="py-0" @click="goToTrendDetail(keyword.categoryId, keyword.id)">
                   <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
                   <v-list-item-title v-text="keyword.name"></v-list-item-title>
                 </v-list-item-content>
@@ -100,7 +102,7 @@ export default {
   components: {
     Navbar,
   },
-  props: ['trendId'],
+  props: ['categoryId', 'trendId'],
   data () {
       return {
         trendInfo: {},
@@ -124,7 +126,8 @@ export default {
     created() {
       // this.getBestNews()
       this.getUserInfo()
-      this.getTrendInfo()
+      this.getTrendInfo(this.categoryId, this.trendId)
+      this.getOtherKeywords()
     },
     methods: {
       // getBestNews() {
@@ -137,9 +140,10 @@ export default {
       //       console.log(err)
       //     } )
       // },
-      goToTrendDetail(keywordId) {
-        this.$router.push({ name: 'TrendDetailNews', params: { trendId: keywordId }})
-        this.$router.go(0)
+      goToTrendDetail(categoryId, keywordId) {
+        this.getTrendInfo(categoryId, keywordId)
+        this.$router.push({ name: 'TrendDetailNews', params: { categoryId: categoryId, trendId: keywordId }})
+        
       },
       getUserInfo() {
         const userId = window.localStorage.getItem('userId')
@@ -150,17 +154,16 @@ export default {
           })
           .catch((err) => { console.log(err)})
       },
-      getTrendInfo() {
+      getTrendInfo(categoryId, trendId) {
         axios
-          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
+          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + '/' + categoryId + '/' + trendId)
           .then((res) => {
-            this.trendInfo = res.data; 
-            this.getOtherKeywords(res.data.categoryId)})
+            this.trendInfo = res.data;}) 
           .catch((err) => {console.log(err)})
       },
-      getOtherKeywords(catergoryId) {
+      getOtherKeywords() {
         axios
-          .get(SERVER.URL + SERVER.ROUTES.trends.trendCategories + catergoryId)
+          .get(SERVER.URL + SERVER.ROUTES.trends.trendCategories + this.categoryId)
           .then((res) => { this.otherkeywords = res.data})
           .catch((err) => console.log(err))
       }
