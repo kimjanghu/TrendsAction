@@ -68,9 +68,7 @@
         </li>
         <div v-else>
           <li @click="logout()">Logout</li>
-          <div style="cursor:pointer; display:flex; justify-content:center">
-            <v-icon class="mr-3">Mypage</v-icon>
-          </div>
+          <li style="cursor:pointer;" @click="$router.push({ name: 'BoardList', params: { id: userId }})">Mypage</li>
         </div>
       </ul>
     </div>
