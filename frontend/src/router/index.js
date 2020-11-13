@@ -50,23 +50,23 @@ const routes = [
     component: loadView('trends/TrendList')
   },
   {
-    path: '/trend/:trendId',
+    path: '/trend',
     name: 'TrendDetailLayout',
     component: TrendDetailLayout,
     props: true,
     children: [
         {
-          path: 'news',
+          path: ':categoryId/:trendId/news',
           name: 'TrendDetailNews',
           component: TrendDetailNews
         },
         {
-          path: 'sns',
+          path: ':categoryId/:trendId/sns',
           name: 'TrendDetailSns',
           component: TrendDetailSns
         },
         {
-          path: 'agora',
+          path: ':categoryId/:trendId/agora',
           name: 'TrendDetailAgora',
           component: TrendDetailAgora
         },
@@ -102,9 +102,10 @@ const routes = [
     path: '/predict',
     name: constants.URL_TYPE.PREDICT.LIST,
     component: loadView('predict/PredictLayout'),
+    props: true,
     children: [
       {
-        path: ':year/:month/:week/:categoryId',
+        path: ':categoryId/:trendId',
         name: 'PredictDetail',
         component: PredictDetail,
         props: true,

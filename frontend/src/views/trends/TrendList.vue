@@ -7,7 +7,7 @@
           <p class="trend-category">#{{ keyword.categoryName }}</p>
           <v-row justify="center">
             <v-col v-for="trend in keyword[keyword.categoryName]" :key="trend.trendId" cols="12" lg="4">
-              <router-link :to="{ name: 'TrendDetailNews', params: { trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">  
+              <router-link :to="{ name: 'TrendDetailNews', params: { categoryId: keyword.categoryId, trendId: trend.trendId }}" style="text-decoration:none; color:#222222;">  
                 <div class="text-center trend-keyword">
                   {{ trend.trendName }}
                 </div>
@@ -33,8 +33,9 @@ export default {
   },
   methods: {
     getBookTrends() {
-      this.$http.get(this.$api.URL + this.$api.ROUTES.trends.trendList + '/0')
+      this.$http.get(this.$api.URL + this.$api.ROUTES.trends.trendList)
         .then(res => {
+          console.log(res.data)
           this.keywordList = res.data
         })
         .catch(err => {

@@ -73,7 +73,7 @@
         <div class="predictBx">
           <div>
             <h2>예측 트렌드 키워드</h2>
-            <input class="trendBx-btn" @click="$router.push({ name: $constants.URL_TYPE.PREDICT.LIST })" type="button" value="Learn more">
+            <input class="trendBx-btn" @click="$router.push({ name: 'PredictList' })" type="button" value="Learn more">
           </div>     
         </div>
       </div>

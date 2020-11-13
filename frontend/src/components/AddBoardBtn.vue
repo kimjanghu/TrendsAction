@@ -156,7 +156,6 @@ export default {
           .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
           .then((res) => { 
             this.userInfo = res.data.data;
-            console.log(this.userInfo);
           })
           .catch((err) => { console.log(err)})
       },

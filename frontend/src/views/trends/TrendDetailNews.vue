@@ -53,7 +53,7 @@ import SERVER from "@/lib/api";
 import { mapGetters } from 'vuex';
 
 export default {
-  props: ['userInfo', 'trendId'],
+  props: ['userInfo', 'trendId', 'categoryId'],
   components: {
     AddBoardBtn
   },
@@ -74,7 +74,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
         .then((res) => 
-          { console.log(res.data)
+          { 
             this.newsList = res.data })
         .catch((err) => { console.log(err)})
     },
