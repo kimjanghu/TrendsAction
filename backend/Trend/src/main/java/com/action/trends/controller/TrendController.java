@@ -72,12 +72,20 @@ public class TrendController {
 
 	@ApiOperation(value = "해당 년도,월,주의 예측 트렌드 목록 조회")
 	@GetMapping("predictTrend/{year}/{month}/{week}")
-	public ResponseEntity<List<Map<String, Object>>> readPredictedTrend(@PathVariable int year, @PathVariable int month,
-			@PathVariable int week) {
-
-		logger.debug("예측 트렌드 키워드 목록 조회");
+	public ResponseEntity<List<Map<String, Object>>> readPredictedListByYearMonthWeek(@PathVariable int year,
+			@PathVariable int month, @PathVariable int week) {
+		logger.debug("해당 년도,월,주의 예측 트렌드 목록 조회");
 		return new ResponseEntity<List<Map<String, Object>>>(
-				service.readPredictedTrendByYearMonthWeek(year, month, week), HttpStatus.OK);
+				service.readPredictedListByYearMonthWeek(year, month, week), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "해당 년도,월,주,카테고리 ID로 예측 트렌드 조회")
+	@GetMapping("predictTrend/{year}/{month}/{week}/{categoryId}")
+	public ResponseEntity<Map<String, Object>> readPredictedByYearMonthWeekCategoryId(@PathVariable int year,
+			@PathVariable int month, @PathVariable int week, int categoryId) {
+		logger.debug("해당 년도,월,주,카테고리 ID로 예측 트렌드 조회");
+		return new ResponseEntity<Map<String, Object>>(
+				service.readPredictedByYearMonthWeekCategoryId(year, month, week, categoryId), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "기존 카테고리의 모든 트렌드 목록 조회")
