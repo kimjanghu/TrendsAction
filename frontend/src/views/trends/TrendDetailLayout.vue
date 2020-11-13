@@ -12,7 +12,7 @@
                   :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
                   lazy-src="https://picsum.photos/id/11/10/6"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  src="https://picsum.photos/id/11/500/300"
+                  :src="trendInfo.thumbnail"
                   class="trend-img"
                   style="border-radius: 19px;"
                 >
@@ -75,7 +75,7 @@
                   min-height="50"
                   max-height="50"
                 ></v-img>
-                <v-list-item-content class="py-0" @click="goToTrendDetail(keyword.id)">
+                <v-list-item-content class="py-0" @click="getTrendInfo(keyword.id)">
                   <v-list-item-subtitle v-text="keyword.category"></v-list-item-subtitle>
                   <v-list-item-title v-text="keyword.name"></v-list-item-title>
                 </v-list-item-content>
@@ -124,7 +124,7 @@ export default {
     created() {
       // this.getBestNews()
       this.getUserInfo()
-      this.getTrendInfo()
+      this.getTrendInfo(this.trendId)
     },
     methods: {
       // getBestNews() {
@@ -137,10 +137,6 @@ export default {
       //       console.log(err)
       //     } )
       // },
-      goToTrendDetail(keywordId) {
-        this.$router.push({ name: 'TrendDetailNews', params: { trendId: keywordId }})
-        this.$router.go(0)
-      },
       getUserInfo() {
         const userId = window.localStorage.getItem('userId')
         axios
@@ -150,9 +146,9 @@ export default {
           })
           .catch((err) => { console.log(err)})
       },
-      getTrendInfo() {
+      getTrendInfo(trendId) {
         axios
-          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.trendId)
+          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + trendId)
           .then((res) => {
             this.trendInfo = res.data; 
             this.getOtherKeywords(res.data.categoryId)})
