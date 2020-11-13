@@ -159,19 +159,20 @@
                 max-width="400"
               >
                 <v-responsive :aspect-ratio="4/3">
+                  {{ content }}
                   <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
                     <i class="fas fa-times" @click="deleteNews(content.newsId)"></i>
                   </span>
                   <v-img
                     class="white--text align-end"
                     height="220px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    :src="content.thumbnail"
                   >
-                    <v-card-title>Top 10 Australian beaches</v-card-title>
+                    <v-card-title></v-card-title>
                   </v-img>
 
                   <v-card-subtitle class="pb-0">
-                    Number 10
+                    {{ content.title }}
                   </v-card-subtitle>
 
                   <v-card-text class="text--primary">
@@ -321,8 +322,8 @@ export default {
       if (check) {
         console.log(this.config)
         this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addNews + `/${boardId}` + `/${newsId}`, this.config)
-          .then(res => {
-            console.log(res)
+          .then(() => {
+            this.getUserBoard(boardId)
           })
           .catch(err => {
             console.log(err)
@@ -335,8 +336,8 @@ export default {
       const check = confirm('컨텐츠를 삭제하시겠습니까?')
       if (check) {
         this.$http.delete(this.$api.URL + this.$api.ROUTES.boards.addTwitter + `/${boardId}` + `/${twitterId}`, this.config)
-          .then(res => {
-            console.log(res)
+          .then(() => {
+            this.getUserBoard(boardId)
           })
           .catch(err => {
             console.log(err)

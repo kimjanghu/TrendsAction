@@ -32,7 +32,7 @@
               <div v-if="messageList" class="board-alarm-area">
                 <div v-for="message in messageList" :key="message.messageId">
                   <div class="d-flex align-center justify-space-between">
-                    <p class="board-alarm-text">{{ message.sendFromName }}님이 {{ message.boardId }} 보드에 {{ message.authority }}로 초대했습니다.</p>
+                    <p class="board-alarm-text">{{ message.sendFromName }}님이 "{{ message.boardName }}"에 {{ message.authority }}로 초대했습니다.</p>
                     <v-spacer></v-spacer>
                     <div class="d-flex align-center">
                       <span style="color: green; font-size: 1rem; cursor:pointer; margin-right: 5px;" class="check-btn">

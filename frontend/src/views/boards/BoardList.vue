@@ -65,9 +65,9 @@ export default {
   methods: {
     getUserBoards() {
       const userId = this.$route.params.id
+      
       this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardList + `${userId}`, this.config)
         .then(res => {
-          console.log(res.data.data)
           this.boards = res.data.data
         })
         .catch(err => {
