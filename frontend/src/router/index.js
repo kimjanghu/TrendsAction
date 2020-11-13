@@ -18,6 +18,7 @@ import BoardList from '../views/boards/BoardList.vue'
 import BoardDetail from '../views/boards/BoardDetail.vue'
 
 // predict
+import PredictList from '../views/predict/PredictList.vue'
 import PredictDetail from '../views/predict/PredictDetail.vue'
 
 
@@ -93,12 +94,17 @@ const routes = [
     component: BoardDetail
   },
   {
+    path: '/predict-list',
+    name: 'PredictList',
+    component: PredictList
+  },
+  {
     path: '/predict',
     name: constants.URL_TYPE.PREDICT.LIST,
     component: loadView('predict/PredictLayout'),
     children: [
       {
-        path: '/:year/:month/:week/:categoryId',
+        path: ':year/:month/:week/:categoryId',
         name: 'PredictDetail',
         component: PredictDetail,
         props: true,
