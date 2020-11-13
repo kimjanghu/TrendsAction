@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.action.trends.dto.Category;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
-import com.action.trends.dto.Trend_Predict;
 import com.action.trends.dto.Twitter;
 import com.action.trends.repository.TrendRepository;
 
@@ -22,13 +21,14 @@ public class TrendServiceImpl implements TrendService {
 	TrendRepository repository;
 
 	@Override
-	public List<Category> readCategoryBySelfMade(int selfMade) {
-		return repository.readCategoryBySelfMade(selfMade);
+	public List<Category> readCategoryBySelfMade() {
+		return repository.readCategoryBySelfMade();
 	}
-	
+
 	@Override
-	public Trend readTrendByTrendId(int trendId) {
-		return repository.readTrendByTrendId(trendId);
+	public Map<String, Object> readTrendByTrendId(int categoryId, int trendId) {
+		System.out.println(repository.readTrendByTrendId(categoryId, trendId));
+		return repository.readTrendByTrendId(categoryId, trendId);
 	}
 
 	@Override
@@ -47,48 +47,13 @@ public class TrendServiceImpl implements TrendService {
 	}
 
 	@Override
-	public Map<String, Object> readPredictedTrend(int year, int month, int week, int categoryId) {
-		
-			Trend_Predict predictData = repository.readPredictedTrend(year, month, week, categoryId);
-			Map<String, Object> bigMap = new HashMap<String, Object>();
-			Map<String, Object> map = new HashMap<String, Object>();
-			System.out.println(predictData.toString());
-			
-			if(predictData.getName() != null && predictData.getDescription() != null) {
-				map.put("id", predictData.getId());
-				map.put("name", predictData.getName());
-//				map.put("categoryId", predictData.getCategory_id());
-				map.put("categoryId", categoryId);
-				map.put("keywords", predictData.getKeywords());
-				map.put("description", predictData.getDescription());
-				map.put("year", predictData.getYear());
-				map.put("month", predictData.getMonth());
-				map.put("week", predictData.getYear());
-				bigMap.put("data", map);
-				bigMap.put("message", "트렌드 단어와 트렌드 설명이 제대로 들어있습니다.");
-				bigMap.put("status", true);
-			}else {
-				map.put("id", predictData.getId());
-				map.put("name", predictData.getName());
-//				map.put("categoryId", predictData.getCategory_id());
-				map.put("categoryId", categoryId);
-				map.put("keywords", predictData.getKeywords());
-				map.put("description", predictData.getDescription());
-				map.put("year", predictData.getYear());
-				map.put("month", predictData.getMonth());
-				map.put("week", predictData.getYear());
-				bigMap.put("data", map);
-				bigMap.put("message", "트렌드 단어와 트렌드 설명 추가가 필요합니다");
-				bigMap.put("status", false);
-			}
-		
-		
-		return bigMap;
+	public List<Map<String, Object>> readPredictedTrendByYearMonthWeek(int year, int month, int week) {
+		return repository.readPredictedTrendByYearMonthWeek(year, month, week);
 	}
 
 	@Override
-	public List<HashMap<String, Object>> readAllTrendsWhetherSelfMadeIs(int selfMade) {
-		return getJson(new HashMap<String, Object>(), repository.readAllTrendsWhetherSelfMadeIs(selfMade));
+	public List<HashMap<String, Object>> readAllTrendsNotSelfMade() {
+		return getJson(new HashMap<String, Object>(), repository.readAllTrendsNotSelfMade());
 	}
 
 	private List<HashMap<String, Object>> getJson(HashMap<String, Object> map, List<HashMap<String, Object>> list) {

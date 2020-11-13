@@ -2,20 +2,20 @@ package com.action.trends.repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import com.action.trends.dto.Category;
 import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
-import com.action.trends.dto.Trend_Predict;
 import com.action.trends.dto.Twitter;
 
 @Repository
 public interface TrendRepository {
-	List<Category> readCategoryBySelfMade(int selfMade);
-	
-	Trend readTrendByTrendId(int trendId);
+	List<Category> readCategoryBySelfMade();
+
+	Map<String, Object> readTrendByTrendId(int categoryId, int trendId);
 
 	List<Trend> readBycategoryId(int categoryId);
 
@@ -23,7 +23,7 @@ public interface TrendRepository {
 
 	List<Twitter> readTwitterByTrendId(int trendId);
 
-	Trend_Predict readPredictedTrend(int year, int month, int week, int categoryId);
+	List<Map<String, Object>> readPredictedTrendByYearMonthWeek(int year, int month, int week);
 
-	List<HashMap<String, Object>> readAllTrendsWhetherSelfMadeIs(int selfMade);
+	List<HashMap<String, Object>> readAllTrendsNotSelfMade();
 }
