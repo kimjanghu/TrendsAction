@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.action.trends.dto.Category;
-import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
-import com.action.trends.dto.Twitter;
 import com.action.trends.service.TrendService;
 
 import io.swagger.annotations.Api;
@@ -57,17 +55,17 @@ public class TrendController {
 	}
 
 	@ApiOperation(value = "해당 트렌드의 최신 뉴스 리스트 조회")
-	@GetMapping("news/{trendId}")
-	public ResponseEntity<List<News>> readNewsByTrendId(@PathVariable int trendId) {
+	@GetMapping("news/{trendId}/{page}")
+	public ResponseEntity<?> readNewsByTrendId(@PathVariable int trendId, @PathVariable int page) {
 		logger.debug("해당 트렌드의 최신 뉴스 리스트 조회");
-		return new ResponseEntity<List<News>>(service.readNewsByTrendId(trendId), HttpStatus.OK);
+		return new ResponseEntity<>(service.readNewsByTrendId(trendId, page), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "해당 트렌드의 최신 트위터 리스트 조회")
-	@GetMapping("twitter/{trendId}")
-	public ResponseEntity<List<Twitter>> readTwitterByTrendId(@PathVariable int trendId) {
+	@GetMapping("twitter/{trendId}/{page}")
+	public ResponseEntity<?> readTwitterByTrendId(@PathVariable int trendId, @PathVariable int page) {
 		logger.debug("해당 트렌드의 최신 트위터 리스트 조회");
-		return new ResponseEntity<List<Twitter>>(service.readTwitterByTrendId(trendId), HttpStatus.OK);
+		return new ResponseEntity<>(service.readTwitterByTrendId(trendId, page), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "해당 년도,월,주의 예측 트렌드 목록 조회")

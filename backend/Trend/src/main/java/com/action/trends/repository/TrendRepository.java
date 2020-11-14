@@ -19,13 +19,15 @@ public interface TrendRepository {
 
 	List<Trend> readBycategoryId(int categoryId);
 
-	List<News> readNewsByTrendId(int trendId);
+	List<News> readNewsByTrendId(int trendId, int currentPage, int pagePerSize);
 
-	List<Twitter> readTwitterByTrendId(int trendId);
+	List<Twitter> readTwitterByTrendId(int trendId, int currentPage, int pagePerSize);
 
 	List<Map<String, Object>> readPredictedListByYearMonthWeek(int year, int month, int week);
 	
 	Map<String, Object> readPredictedByYearMonthWeekCategoryId(int year, int month, int week, int categoryId);
 
 	List<HashMap<String, Object>> readAllTrendsNotSelfMade();
+	
+	Integer getTotalCount(int trendId, String table);
 }
