@@ -6,7 +6,7 @@
       persistent
       max-width="400px"
     >
-      <v-card>
+      <v-card class="custom-rounded">
         <v-card-title>
           <span class="headline">Board Member</span>
           <v-spacer></v-spacer>
@@ -178,6 +178,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-rounded {
+  border-radius: 4px;
+}
+
 .avatar-profile-area {
   display: flex;
   flex-direction: column;

@@ -15,14 +15,6 @@
                 <v-img :aspect-ratio="4/3" v-else src="https://picsum.photos/400/300?random"></v-img>
               </v-col>
             </v-row>
-            <!-- <v-row class="board-row">
-              <v-col cols="6" class="inner-img">
-
-              </v-col>
-              <v-col cols="6" class="inner-img">
-
-              </v-col>
-            </v-row> -->
           </v-responsive>
         </v-card>
       </v-col>
@@ -35,26 +27,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
-    boards: [
-      // { 
-      //   boardId: 17,
-      //   name: '안녕', 
-      //   contents: [
-      //     {
-      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-      //     },
-      //     {
-      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-      //     },
-      //     {
-      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-      //     },
-      //     {
-      //       thumbnail: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'
-      //     }
-      //   ]
-      // },
-    ],
+    boards: [],
   }),
   computed: {
     ...mapGetters('userStore', ['config'])
