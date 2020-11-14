@@ -132,7 +132,7 @@ export default {
     },
     handleScroll() {
       let header = document.querySelector('header');
-      header.classList.toggle('sticky', window.scrollY > 650)
+      header.classList.toggle('sticky', window.scrollY > 500)
     },
     goToHome() {
       this.$router.push('/')
@@ -292,7 +292,7 @@ header.sticky .navbar-icon{
     position: absolute;
     margin-top: 10px;
     right: 0;
-    border: 3px solid #000;
+    border: 5px solid rgb(134, 134, 134);
     border-radius: 10px;
     background: #F5F5F6;
     width: 350px;

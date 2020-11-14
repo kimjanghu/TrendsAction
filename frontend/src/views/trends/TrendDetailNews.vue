@@ -74,7 +74,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
         .then((res) => 
-          { 
+          { console.log(res.data)
             this.newsList = res.data })
         .catch((err) => { console.log(err)})
     },
