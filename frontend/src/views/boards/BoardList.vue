@@ -1,7 +1,6 @@
 <template>
   <v-sheet
-    class="px-5 py-2"
-    color="grey lighten-3"
+    class="px-5 py-2 neumor-design"
   >
     <v-row>
       <v-col cols="12" md="6" lg="4" v-for="(board, idx) in boards" :key="idx">
@@ -11,21 +10,19 @@
           </div>
           <v-responsive :aspect-ratio="4/3">
             <v-row class="board-row">
-              <v-col cols="6" class="inner-img">
-
-              </v-col>
-              <v-col cols="6" class="inner-img">
-
+              <v-col class="py-0 px-0" cols="6" v-for="(news, i) in board.newsList.slice(0,4)" :key="i">
+                <v-img :aspect-ratio="4/3" v-if="news.thumbnail" :src="news.thumbnail"></v-img>
+                <v-img :aspect-ratio="4/3" v-else src="https://picsum.photos/400/300?random"></v-img>
               </v-col>
             </v-row>
-            <v-row class="board-row">
+            <!-- <v-row class="board-row">
               <v-col cols="6" class="inner-img">
 
               </v-col>
               <v-col cols="6" class="inner-img">
 
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-responsive>
         </v-card>
       </v-col>
@@ -68,6 +65,7 @@ export default {
       
       this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getBoardList + `${userId}`, this.config)
         .then(res => {
+          console.log(res.data.data)
           this.boards = res.data.data
         })
         .catch(err => {
@@ -120,5 +118,13 @@ export default {
   z-index: 10;
   background: rgb(0,0,0);
   background: linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(255,255,255,1) 100%);
+}
+
+.neumor-design {
+  padding: 2%;
+  border-radius: 19px;
+  background: #F5F5F6;
+  box-shadow:  9px 9px 18px #ebebec, 
+              -9px -9px 18px #ffffff;
 }
 </style>
