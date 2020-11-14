@@ -3,13 +3,10 @@ package com.action.trends.dto;
 public class NewsList {
 	private int newsId;
 	private String title;
-	private String content;
 	private String thumbnail;
-	private String author;
 	private String press;
 	private String pubDate;
-	private String naverLink;
-	private String pressLink;
+	private String link;
 	private int categoryId;
 	private int trendId;
 	
@@ -31,23 +28,11 @@ public class NewsList {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
 	public String getThumbnail() {
 		return thumbnail;
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 	public String getPress() {
 		return press;
@@ -61,17 +46,11 @@ public class NewsList {
 	public void setPubDate(String pubDate) {
 		this.pubDate = pubDate;
 	}
-	public String getNaverLink() {
-		return naverLink;
+	public String getLink() {
+		return link;
 	}
-	public void setNaverLink(String naverLink) {
-		this.naverLink = naverLink;
-	}
-	public String getPressLink() {
-		return pressLink;
-	}
-	public void setPressLink(String pressLink) {
-		this.pressLink = pressLink;
+	public void setLink(String link) {
+		this.link = link;
 	}
 	public int getCategoryId() {
 		return categoryId;
