@@ -21,7 +21,7 @@
         </v-img>
         <v-card-title>{{ news.title }}</v-card-title>
         <v-card-subtitle class="pb-0">
-          {{ news.press }} / {{ news.pubDate }}
+          {{ news.press }} / {{ news.pub_date }}
         </v-card-subtitle>     
         <v-card-actions>
           <v-spacer></v-spacer>
