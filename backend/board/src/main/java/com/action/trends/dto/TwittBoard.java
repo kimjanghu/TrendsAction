@@ -4,7 +4,14 @@ public class TwittBoard {
 	private int boardId;
 	private int twitterId;
 	private int scrapUser;
+	private String scrapedDate;
 	
+	public String getScrapedDate() {
+		return scrapedDate;
+	}
+	public void setScrapedDate(String scrapedDate) {
+		this.scrapedDate = scrapedDate;
+	}
 	public int getBoardId() {
 		return boardId;
 	}
