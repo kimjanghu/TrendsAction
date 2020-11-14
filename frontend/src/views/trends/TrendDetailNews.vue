@@ -25,7 +25,7 @@
         </v-card-subtitle>     
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :href="news.pressLink" target="_blank">기사보기</v-btn>
+          <v-btn :href="news.link" target="_blank">기사보기</v-btn>
           <AddBoardBtn v-if="isLogin" :newsId="news.id"/>
         </v-card-actions> 
       </v-card>
