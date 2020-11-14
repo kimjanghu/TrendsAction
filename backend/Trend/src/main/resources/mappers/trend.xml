@@ -45,6 +45,7 @@
 		from news
 		where trend_id=#{trendId}
 		order by pub_date desc
+		limit #{currentPage}, #{pagePerSize}
 	</select>
 
 	<!-- 해당 트렌드의 최신 트위터 리스트 조회 -->
@@ -53,6 +54,7 @@
 		from twitter
 		where trend_id=#{trendId}
 		order by date desc
+		limit #{currentPage}, #{pagePerSize}
 	</select>
 
 	<!-- 년, 월, 주로 예측 트렌드 키워드 리스트 조회 -->
@@ -70,5 +72,20 @@
 		where trend.id = trend_predict.trend_id
 		and year = #{year} and month = #{month} and week = #{week} and category_id = #{categoryId}
 	</select>
+	
+	<!-- 해당 트렌드 뉴스 총 개수 -->
+	<select id="getTotalCount" resultType="Integer">
+		<if test=' "news".equals(table) '>
+			select count(*)
+			from news
+			where trend_id=#{trendId}
+		</if>
+		<if test=' "twitter".equals(table) '>
+			select count(*)
+			from twitter
+			where trend_id=#{trendId}
+		</if>
+	</select>
+	
 
 </mapper>

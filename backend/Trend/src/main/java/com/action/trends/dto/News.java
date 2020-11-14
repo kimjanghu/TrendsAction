@@ -21,40 +21,32 @@ public class News {
 	@ApiModelProperty(value = "뉴스 썸네일")
 	private String thumbnail;
 
-	@ApiModelProperty(value = "뉴스 내용")
-	private String content;
-
 	@ApiModelProperty(value = "뉴스 게시일")
 	private String pubDate;
 
-	@ApiModelProperty(value = "뉴스 네이버 링크")
-	private String naverLink;
+	@ApiModelProperty(value = "뉴스 링크")
+	private String link;
 
 	@ApiModelProperty(value = "뉴스 언론사")
 	private String press;
 
-	@ApiModelProperty(value = "뉴스 언론사 링크")
-	private String pressLink;
-
-	@ApiModelProperty(value = "뉴스 기자")
-	private String author;
+	@ApiModelProperty(value = "뉴스 스크랩 개수")
+	private String scrapCount;
 
 	public News() {
 	}
 
-	public News(int id, int categoryId, int trendId, String title, String thumbnail, String content, String pubDate,
-			String naverLink, String press, String pressLink, String author) {
+	public News(int id, int categoryId, int trendId, String title, String thumbnail, String pubDate, String link,
+			String press, String scrapCount) {
 		this.id = id;
 		this.categoryId = categoryId;
 		this.trendId = trendId;
 		this.title = title;
 		this.thumbnail = thumbnail;
-		this.content = content;
 		this.pubDate = pubDate;
-		this.naverLink = naverLink;
+		this.link = link;
 		this.press = press;
-		this.pressLink = pressLink;
-		this.author = author;
+		this.scrapCount = scrapCount;
 	}
 
 	public int getId() {
@@ -63,6 +55,22 @@ public class News {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getTrendId() {
+		return trendId;
+	}
+
+	public void setTrendId(int trendId) {
+		this.trendId = trendId;
 	}
 
 	public String getTitle() {
@@ -81,14 +89,6 @@ public class News {
 		this.thumbnail = thumbnail;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public String getPubDate() {
 		return pubDate;
 	}
@@ -97,12 +97,12 @@ public class News {
 		this.pubDate = pubDate;
 	}
 
-	public String getNaverLink() {
-		return naverLink;
+	public String getLink() {
+		return link;
 	}
 
-	public void setNaverLink(String naverLink) {
-		this.naverLink = naverLink;
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	public String getPress() {
@@ -113,36 +113,12 @@ public class News {
 		this.press = press;
 	}
 
-	public String getPressLink() {
-		return pressLink;
+	public String getScrapCount() {
+		return scrapCount;
 	}
 
-	public void setPressLink(String pressLink) {
-		this.pressLink = pressLink;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public int getTrendId() {
-		return trendId;
-	}
-
-	public void setTrendId(int trendId) {
-		this.trendId = trendId;
+	public void setScrapCount(String scrapCount) {
+		this.scrapCount = scrapCount;
 	}
 
 }

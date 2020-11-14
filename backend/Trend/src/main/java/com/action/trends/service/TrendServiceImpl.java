@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Category;
-import com.action.trends.dto.News;
 import com.action.trends.dto.Trend;
-import com.action.trends.dto.Twitter;
 import com.action.trends.repository.TrendRepository;
 
 @Service
@@ -37,13 +35,27 @@ public class TrendServiceImpl implements TrendService {
 	}
 
 	@Override
-	public List<News> readNewsByTrendId(int trendId) {
-		return repository.readNewsByTrendId(trendId);
+	public HashMap<String, Object> readNewsByTrendId(int trendId, int currentPage) {
+		return getPageNation(trendId, currentPage, "news");
 	}
 
 	@Override
-	public List<Twitter> readTwitterByTrendId(int trendId) {
-		return repository.readTwitterByTrendId(trendId);
+	public HashMap<String, Object> readTwitterByTrendId(int trendId, int currentPage) {
+		return getPageNation(trendId, currentPage, "twitter");
+	}
+	
+	private HashMap<String, Object> getPageNation(int trendId, int currentPage, String table) {
+		int pagePerSize = 10;										// 한 페이지에 보여줄 개수
+		currentPage = (currentPage - 1) * pagePerSize;
+		int totalCount = repository.getTotalCount(trendId, table); 	// 총 리스트 개수
+		int naviSize = 10; 											// 한번에 보여줄 네비게이션 개수
+		int totalPageCount = (totalCount - 1) / naviSize + 1; 		// 총 페이지 수 naviSize(sizePerPage)
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("totalPageCount", totalPageCount);
+		map.put("list", repository.readNewsByTrendId(trendId, currentPage, pagePerSize));
+		
+		return map;
 	}
 
 	@Override
