@@ -1,13 +1,6 @@
 <template>
   <v-container>
-    <!-- <v-card
-      class="mx-auto my-5"
-      v-for="news in newsList"
-      :key="news.id"
-      :href="'//' + news.pressLink"
-      target="_blank"
-    > -->
-    <div v-if="newsList.length !== 0">
+    <div v-if="newsList.length">
       <v-card
         class="mx-auto my-5"
         v-for="news in newsList"
@@ -29,13 +22,7 @@
           <AddBoardBtn v-if="isLogin" :newsId="news.id"/>
         </v-card-actions> 
       </v-card>
-
-      <div class="text-center">
-        <v-pagination
-          v-model="page"
-          :length="3"
-        ></v-pagination>
-      </div>
+      <infinite-loading @infinite="infiniteHandler" spinner="circles"></infinite-loading>
     </div>
     <div v-else class="text-center my-10 mx-10">
       관련된 뉴스가 없습니다.
@@ -48,14 +35,14 @@
 
 <script>
 import AddBoardBtn from '@/components/AddBoardBtn.vue'
-import axios from 'axios'
-import SERVER from "@/lib/api";
-import { mapGetters } from 'vuex';
+import InfiniteLoading from 'vue-infinite-loading'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['userInfo', 'trendId', 'categoryId'],
   components: {
-    AddBoardBtn
+    AddBoardBtn,
+    InfiniteLoading
   },
   computed: {
     ...mapGetters('userStore', ['isLogin'])
@@ -63,23 +50,38 @@ export default {
   data() {
     return {
       page: 1,
-      newsList: [],
+      newsList: []
     }
   },
-  created() {
-    this.getNews()
-  },
   methods: {
-    getNews() {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
-        .then((res) => 
-          { console.log(res.data)
-            this.newsList = res.data })
-        .catch((err) => { console.log(err)})
+    infiniteHandler($state) {
+      this.$http
+        .get(this.$api.URL + this.$api.ROUTES.trends.trendNews + this.trendId + `/${this.page+1}`)
+        .then(res => {
+          setTimeout(() => {
+            if (res.data.list.length) {
+              this.newsList = this.newsList.concat(res.data.list)
+              $state.loaded()
+              this.page += 1
+              if (this.newsList.length / 10 === 0) {
+                $state.complete()
+              }
+            } else {
+              $state.complete()
+            }
+          }, 1000)
+        })
+        .catch(err => console.log(err.response.data))
     },
+  },
+  created() {
+    this.$http
+      .get(this.$api.URL + this.$api.ROUTES.trends.trendNews + this.trendId + `/${this.page}`)
+      .then(res => {
+        this.newsList = res.data.list
+      })
+      .catch(err => console.log(err.response.data))
   }
-
 }
 </script>
 
