@@ -6,6 +6,14 @@ public class Contents {
 	private int boardId;
 	private String name;
 	private String thumbnail;
+	private String scrapedDate;
+	
+	public String getScrapedDate() {
+		return scrapedDate;
+	}
+	public void setScrapedDate(String scrapedDate) {
+		this.scrapedDate = scrapedDate;
+	}
 	public int getBoardId() {
 		return boardId;
 	}
@@ -24,6 +32,8 @@ public class Contents {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
+	
+	
 	private List<NewsList> newsList;
 	private List<TwittList> twittList;
 	

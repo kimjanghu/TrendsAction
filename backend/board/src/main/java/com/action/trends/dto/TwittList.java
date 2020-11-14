@@ -14,6 +14,13 @@ public class TwittList {
 	private String nickname;
 	private String profile;
 	private int scrapCount;
+	private String scrapedDate;
+	public String getScrapedDate() {
+		return scrapedDate;
+	}
+	public void setScrapedDate(String scrapedDate) {
+		this.scrapedDate = scrapedDate;
+	}
 	public int getTwitterId() {
 		return twitterId;
 	}

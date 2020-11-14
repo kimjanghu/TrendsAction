@@ -1,6 +1,8 @@
 package com.action.trends.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +127,11 @@ public class BoardServiceImpl implements BoardService {
 			return -1;
 		}
 		boardMapper.plusCountOfTwitt(twittBoard.getTwitterId());
+		
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		Date time = new Date();
+		String scrapedDate = format.format(time);
+		twittBoard.setScrapedDate(scrapedDate);
 		int result = boardMapper.addTwitt(twittBoard);
 		return result;
 	}
