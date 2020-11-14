@@ -1,21 +1,13 @@
 <template>
   <div>
     <Navbar />
-    <div class="board-header mt-16">
+    <div class="board-header">
       <img v-if="boardInfo" :src="boardInfo.coverImage" alt="" class="board-header-img">
       <section class="board-info">
-        <v-avatar
-          color="#efefef"
-          size="200"
-        >
-          <img
-            :src="profile"
-          >
-        </v-avatar>
         <div class="user-info" v-if="boardInfo">
-          <h1>{{ boardInfo.boardName }}</h1>
+          <p class="board-title">{{ boardInfo.boardName }}</p>
           <button
-            class="board-member-btn"
+            class="board-btn"
           >
             <p @click="memberDialog = true">참여중인 멤버 {{ hosts.length + maintainers.length + guests.length }}명</p>
             <BoardsMember 
@@ -103,7 +95,7 @@
               </v-card>
             </v-dialog>
           </v-row> -->
-          <div v-if="authority === 'host'">
+          <div v-if="authority === 'host'" class="mt-10">
             <button
               class="board-btn"
             >
@@ -128,7 +120,7 @@
             >커버이미지 변경</p>
             <input v-show="false" ref="inputUpload" type="file" @change="uploadFile">
           </div>
-          <div v-else>
+          <div v-else class="mt-10">
             <button
               class="board-btn"
               @click="asyncRemoveMember"
@@ -140,30 +132,26 @@
       </section>
     </div>
 
-
-
-
-    <v-container>
+    <v-container class="mt-10 mb-16">
       <v-sheet
-        class="px-5 py-2 mt-3"
-        color="white"
-      >
+        class="px-10 py-10 mt-3 neumor-design"
+      > 
         <v-row>
           <v-col cols="12" md="6" lg="4" v-for="(content, idx) in contents" :key="idx">
-
-
-
             <div v-if="content.newsId">
               <v-card
                 class="mx-auto"
                 max-width="400"
+                min-height="300"
+                max-height="400"
+                target="_blank"
               >
                 <v-responsive :aspect-ratio="4/3">
-                  {{ content }}
                   <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
                     <i class="fas fa-times" @click="deleteNews(content.newsId)"></i>
                   </span>
                   <v-img
+                    :aspect-ratio="4/3"
                     class="white--text align-end"
                     height="220px"
                     :src="content.thumbnail"
@@ -174,12 +162,10 @@
                   <v-card-subtitle class="pb-0">
                     {{ content.title }}
                   </v-card-subtitle>
-
-                  <v-card-text class="text--primary">
-                    <div>Whitehaven Beach</div>
-
-                    <div>Whitsunday Island, Whitsunday Islands</div>
-                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn :href="content.link">기사 보기</v-btn>
+                  </v-card-actions>
                 </v-responsive>
               </v-card>
             </div>
@@ -192,8 +178,8 @@
                 color="#26c6da"
                 dark
                 max-width="400"
-                height="320"
-                max-height="320"
+                min-height="300"
+                max-height="400"
               >
                 <v-responsive :aspect-ratio="4/3">
                   <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
@@ -258,7 +244,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 // import Loading from '@/components/common/Loading'
 import BoardsEditForm from '@/components/boards/BoardsEditForm'
 import BoardsMember from '@/components/boards/BoardsMember'
-import Navbar from '@/components/common/Navbar2'
+import Navbar from '@/components/common/Navbar'
 
 export default {
   name: 'BoardDetail',
@@ -553,9 +539,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.board-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
 .board-header {
   position: relative;
-  height: 600px;
+  height: 70vh;
 
   &::after {
     content: '';
@@ -600,9 +592,18 @@ export default {
 
     .cover-img-btn {
       cursor: pointer;
-      font-size: 2px;
-      margin: 10px 0 0 0;
+      font-size: 0.5rem;
+      border-radius: 10px;
+      margin-top: 10px;
+      padding: 3px 0;
       text-align: center;
+
+      &:hover {
+        background-color: white;
+        color: black;
+        transition: 0.3s;
+
+      }
     }
   }
 }
@@ -619,35 +620,60 @@ export default {
   }
 }
 
+// .board-btn {
+//   border: 2px solid #000;
+//   border-radius: 10px;
+//   margin: 2px 0;
+//   padding: 4px 7px ;
+//   outline: 0;
+
+//   &:hover {
+//     background-color: #fff;
+//     color: #000;
+//     transition: .4s;
+//   }
+
+//   .board-btn-text {
+//     margin: 0;
+//     font-size: 13px;
+//   }
+// }
+
 .board-btn {
-  border: 2px solid #000;
   border-radius: 10px;
-  margin: 2px 0;
-  padding: 4px 7px ;
   outline: 0;
-
-  &:hover {
-    background-color: #fff;
-    color: #000;
-    transition: .4s;
-  }
-
-  .board-btn-text {
-    margin: 0;
-    font-size: 13px;
+  margin-bottom: 10px;
+  p {
+    margin: 3px 15px;
+    font-size: 0.8rem;
   }
 }
 
-.board-member-btn {
-  outline: 0;
+.board-btn:hover {
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
 
-  p {
-    margin: 15px;
-    font-size: 13px;
-  }
+.contents-close-btn {
+  padding: 2px 7px;
+  cursor: pointer;
+  border-radius: 100%;
 }
 
 .contents-close-btn:hover {
   color: #fff;
+  padding: 2px 7px;
+  border-radius: 100%;
+  background-color: black;
+  opacity: 0.3;
+}
+
+.neumor-design {
+  padding: 2%;
+  border-radius: 19px;
+  background: #F5F5F6;
+  box-shadow:  9px 9px 18px #ebebec, 
+              -9px -9px 18px #ffffff;
 }
 </style>

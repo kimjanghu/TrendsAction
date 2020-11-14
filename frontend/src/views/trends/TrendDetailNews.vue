@@ -21,11 +21,11 @@
         </v-img>
         <v-card-title>{{ news.title }}</v-card-title>
         <v-card-subtitle class="pb-0">
-          {{ news.press }} / {{ news.pubDate }}
+          {{ news.press }} / {{ news.pub_date }}
         </v-card-subtitle>     
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :href="news.pressLink" target="_blank">기사보기</v-btn>
+          <v-btn :href="news.link" target="_blank">기사보기</v-btn>
           <AddBoardBtn v-if="isLogin" :newsId="news.id"/>
         </v-card-actions> 
       </v-card>
@@ -74,7 +74,7 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.trendNews + this.trendId)
         .then((res) => 
-          { 
+          { console.log(res.data)
             this.newsList = res.data })
         .catch((err) => { console.log(err)})
     },

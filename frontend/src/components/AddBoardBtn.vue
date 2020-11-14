@@ -18,7 +18,7 @@
             </v-icon>
             <!-- <span class="subheading">45</span> -->
           </template>
-          <v-card class="custom-rounded">
+          <v-card class="-rounded">
             <v-card-title>
               <span>트렌드보드에 추가</span>
               <v-spacer></v-spacer>

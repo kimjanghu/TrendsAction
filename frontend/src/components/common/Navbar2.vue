@@ -66,9 +66,7 @@
         </li>
         <div v-else>
           <li @click="logout()">Logout</li>
-          <div style="cursor:pointer; display:flex; justify-content:center">
-            <v-icon class="mr-3">Mypage</v-icon>
-          </div>
+          <li style="cursor:pointer;" @click="$router.push({ name: 'BoardList', params: { id: userId }})">Mypage</li>
         </div>
       </ul>
     </div>
@@ -251,7 +249,7 @@ header.sticky .navbar-icon{
     position: absolute;
     margin-top: 10px;
     right: 0;
-    border: 3px solid #000;
+    border: 5px solid rgb(134, 134, 134);
     border-radius: 10px;
     background: #F5F5F6;
     width: 350px;

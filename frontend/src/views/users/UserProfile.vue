@@ -1,55 +1,74 @@
 <template>
-<v-container class="pt-0">
-  <v-sheet
-    class="px-5 py-2"
-    color="grey lighten-3"
-  >
-    <v-row>
-      <v-col cols="12" md="12">
-        <section class="profile-area d-flex">
-          <v-file-input
-            show-size
-            counter
-            label="프로필 사진을 등록해주세요."
-            v-model="file"
-          ></v-file-input>
-
+<v-container style="padding-top: 8%" class="px-5 neumor-design">
+  <v-row justify="center" align="center" class="mt-3 pb-0">
+    <v-col cols="12" md="10" class="py-0">
+      <v-text-field disabled filled v-model="email" label="이메일"></v-text-field>
+    </v-col>
+  </v-row>
+  <v-row justify="center" align="center">
+    <v-col cols="12" md="10" class="py-0">
+      <v-row>
+        <v-col cols="12" lg="10" class="py-0">
+          <v-text-field filled v-model="nickname" label="닉네임"></v-text-field>
+        </v-col>
+        <v-col cols="12" lg="2" class="py-0">
           <v-btn
-            :loading="loading3"
-            :disabled="loading3"
-            class="ma-2 white--text teal lighten-2"
-            @click="loader = 'loading3'; uploadFile();"
-          >
-            사진등록
-          </v-btn>
-        </section>
-        
-        <section class="nickname-area d-flex">
-          <v-text-field v-model="nickname" label="닉네임"></v-text-field>
-          <v-btn
-            class="ma-2 white--text teal lighten-2"
+            width="100%"
+            height="50px"
+            class="grey lighten-2"
             @click="checkNickname();"
           >
             중복확인
           </v-btn>
-        </section>
-
-        <v-combobox
-          class="custom-rounded"
+        </v-col>
+      </v-row>        
+    </v-col>
+  </v-row>
+  <v-row justify="center" align="center">
+    <v-col cols="12" lg="10" class="pb-0">
+      <v-combobox
           v-model="select"
           :items="items"
           label="관심 카테고리"
           multiple
-          outlined
+          filled
         ></v-combobox>
-      </v-col>
-    </v-row>
-  </v-sheet>
+    </v-col>
+  </v-row>
+  <v-row justify="center" align="center">
+    <v-col cols="12" lg="10" class="py-0">
+      <v-row>
+        <v-col cols="12" lg="10" class="py-0">
+          <v-file-input
+            show-size
+            counter
+            filled
+            label="사진을 등록해주세요."
+            v-model="file"
+          ></v-file-input>
+        </v-col>
+        <v-col cols="12" lg="2" class="py-0">
+          <v-btn
+          :loading="loading3"
+          :disabled="loading3"
+          width="100%"
+          height="50px"
+          class="grey lighten-2"
+          @click="loader = 'loading3'; uploadFile();"
+          >
+            사진등록
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 
   <v-row justify="end">
     <v-btn 
-      dark 
-      class="mt-2 custom-rounded mr-3" 
+      dark
+      width="20%"
+      height="40px"
+      class="mt-5 mb-5 mr-8 custom-rounded mr-3" 
       color="teal lighten-2" 
       @click="editUserInfo"
     >수정</v-btn>
@@ -65,6 +84,7 @@ export default {
     return {
       userId: '',
       nickname: '',
+      email: '',
       isNickname: false,
       select: [],
       loader: null,
@@ -72,13 +92,11 @@ export default {
       items: [
         '비즈니스/소비', 
         '일상', 
-        '문화'
+        '문화',
+        'IT과학',
+        '사회',
+        '세계'
       ],
-      // categoryItems: {
-      //   '비즈니스/소비': 1,
-      //   '일상': 2, 
-      //   '문화': 3
-      // },
       file: null
     }
   },
@@ -148,6 +166,7 @@ export default {
     this.getUserInfo()
       .then(data => {
         this.userId = data.id
+        this.email = data.email
         this.nickname = data.nickname
         this.select = data.categoryName
       })
@@ -158,6 +177,14 @@ export default {
 </script>
 
 <style scoped>
+.neumor-design {
+  padding: 2%;
+  border-radius: 19px;
+  background: #F5F5F6;
+  box-shadow:  9px 9px 18px #ebebec, 
+              -9px -9px 18px #ffffff;
+}
+
 .custom-loader {
   animation: loader 1s infinite;
   display: flex;
