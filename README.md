@@ -1,4 +1,5 @@
 ![TrendsActionLogo](/uploads/b8f3451437c232d1b1c9d32fa385cf3d/TrendsActionLogo.jpg)
+
 # :person_frowning: 오빠 나 달라진거 없어? [서울 4반 8조] [2020.10.12 ~ 2020.11.17]
 #### :link:[TrendsAction](http://k3a408.p.ssafy.io/)
 
@@ -17,6 +18,43 @@
 #### 축적된 데이터를 기반으로 미래의 트렌드를 예측하고, 소비자는 예측 트렌드를 통해 인사이트 도출 및 행동 실천
 #### 커뮤니티를 통해 사용자간 의사소통 및 인사이트 공유로 현 사회에 대한 사용자들의 관심과 이해도를 증진
 #### 데이터 수집과 분석을 자동화하여 주기적으로 객관적인 정보를 제공
+
+## :globe_with_meridians: 시스템 구조
+![아키텍처](/uploads/247bbfe57b2c7418d79dcc1ebfe498cb/아키텍처.png)
+
+## :computer: 기술 스택
+![badge](https://img.shields.io/badge/Framework-Vue-4FC08D?logo=Vue.js)
+![badge](https://img.shields.io/badge/Framework-Vuetify-1867C0?logo=Vuetify)
+![badge](https://img.shields.io/badge/Framework-SpringBoot-6DB33F?logo=Spring)
+![badge](https://img.shields.io/badge/DBMS-MySQL-4479A1?logo=MySQL)
+![badge](https://img.shields.io/badge/Infra-AWS-232F3E?logo=Amazon-AWS)
+![badge](https://img.shields.io/badge/Infra-Docker-2496ED?logo=Docker)
+![badge](https://img.shields.io/badge/Infra-NGINX-269539?logo=NGINX)
+![badge](https://img.shields.io/badge/Architecture-Netflix--OSS-E50914?logo=Netflix)
+![badge](https://img.shields.io/badge/CI/CD-Jenkins-D24939?logo=Jenkins)
+![badge](https://img.shields.io/badge/SCM-Git-F05032?logo=Git)
+![badge](https://img.shields.io/badge/SCM-GitLab-FCA121?logo=GitLab)
+![badge](https://img.shields.io/badge/Language-Java-007396?logo=Java)
+![badge](https://img.shields.io/badge/Language-JavaScript-F7DF1E?logo=JavaScript)
+![badge](https://img.shields.io/badge/Language-Python-3776AB?logo=Python)
+![badge](https://img.shields.io/badge/Language-HTML5-E34F26?logo=HTML5)
+![badge](https://img.shields.io/badge/Language-CSS3-1572B6?logo=CSS3)
+![badge](https://img.shields.io/badge/Communication-Jira-0052CC?logo=Jira)
+![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
+![badge](https://img.shields.io/badge/Package-Maven-0072C6?logo=Apache-Maven)
+![badge](https://img.shields.io/badge/Package-NPM-0072C6?logo=NPM)
+![badge](https://img.shields.io/badge/API-Kakao--Login-FFCD00?logo=Kakao)
+![badge](https://img.shields.io/badge/API-Twitter-1DA1F2?logo=Twitter)
+![badge](https://img.shields.io/badge/Library-Swagger-85EA2D?logo=Swagger)
+![badge](https://img.shields.io/badge/Library-JSON--Web--Tokens-000000?logo=JSON-Web-Tokens)
+![badge](https://img.shields.io/badge/Library-Pandas-150458?logo=Pandas)
+![badge](https://img.shields.io/badge/Library-NumPy-013243?logo=NumPy)
+![badge](https://img.shields.io/badge/Library-Scikit--Learn-F7931E?logo=Scikit-learn)
+![badge](https://img.shields.io/badge/Library-Kkma-ff69b4)
+![badge](https://img.shields.io/badge/Library-Word2Vec-7E4798)
+![badge](https://img.shields.io/badge/IDE-Eclipse-2C2255?logo=Eclipse-IDE)
+![badge](https://img.shields.io/badge/IDE-VSCode-007ACC?logo=Visual-Studio-Code)
+![badge](https://img.shields.io/badge/IDE-PyCharm-000000?logo=PyCharm)
 
 ## :bulb: 핵심 기술
 #### 데스크탑, 모바일에서 이용 가능한 반응형 웹 사이트
@@ -79,40 +117,6 @@
 > #### 팀원 : 김장후 (Front End, Infra, Documentation)
 > #### 팀원 : 박지윤 (Front End, Infra, Presentation)
 > #### 팀원 : 최재빈 (Back End, Infra, Documentation)
-
-## :computer: 기술 스택
-![badge](https://img.shields.io/badge/Framework-Vue-4FC08D?logo=Vue.js)
-![badge](https://img.shields.io/badge/Framework-Vuetify-1867C0?logo=Vuetify)
-![badge](https://img.shields.io/badge/Framework-SpringBoot-6DB33F?logo=Spring)
-![badge](https://img.shields.io/badge/DBMS-MySQL-4479A1?logo=MySQL)
-![badge](https://img.shields.io/badge/Infra-AWS-232F3E?logo=Amazon-AWS)
-![badge](https://img.shields.io/badge/Infra-Docker-2496ED?logo=Docker)
-![badge](https://img.shields.io/badge/Infra-NGINX-269539?logo=NGINX)
-![badge](https://img.shields.io/badge/Architecture-Netflix--OSS-E50914?logo=Netflix)
-![badge](https://img.shields.io/badge/CI/CD-Jenkins-D24939?logo=Jenkins)
-![badge](https://img.shields.io/badge/SCM-Git-F05032?logo=Git)
-![badge](https://img.shields.io/badge/SCM-GitLab-FCA121?logo=GitLab)
-![badge](https://img.shields.io/badge/Language-Java-007396?logo=Java)
-![badge](https://img.shields.io/badge/Language-JavaScript-F7DF1E?logo=JavaScript)
-![badge](https://img.shields.io/badge/Language-Python-3776AB?logo=Python)
-![badge](https://img.shields.io/badge/Language-HTML5-E34F26?logo=HTML5)
-![badge](https://img.shields.io/badge/Language-CSS3-1572B6?logo=CSS3)
-![badge](https://img.shields.io/badge/Communication-Jira-0052CC?logo=Jira)
-![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
-![badge](https://img.shields.io/badge/Package-Maven-0072C6?logo=Apache-Maven)
-![badge](https://img.shields.io/badge/Package-NPM-0072C6?logo=NPM)
-![badge](https://img.shields.io/badge/API-Kakao--Login-FFCD00?logo=Kakao)
-![badge](https://img.shields.io/badge/API-Twitter-1DA1F2?logo=Twitter)
-![badge](https://img.shields.io/badge/Library-Swagger-85EA2D?logo=Swagger)
-![badge](https://img.shields.io/badge/Library-JSON--Web--Tokens-000000?logo=JSON-Web-Tokens)
-![badge](https://img.shields.io/badge/Library-Pandas-150458?logo=Pandas)
-![badge](https://img.shields.io/badge/Library-NumPy-013243?logo=NumPy)
-![badge](https://img.shields.io/badge/Library-Scikit--Learn-F7931E?logo=Scikit-learn)
-![badge](https://img.shields.io/badge/Library-Kkma-ff69b4)
-![badge](https://img.shields.io/badge/Library-Word2Vec-7E4798)
-![badge](https://img.shields.io/badge/IDE-Eclipse-2C2255?logo=Eclipse-IDE)
-![badge](https://img.shields.io/badge/IDE-VSCode-007ACC?logo=Visual-Studio-Code)
-![badge](https://img.shields.io/badge/IDE-PyCharm-000000?logo=PyCharm)
 
 ## :dvd: License
 #### :link:[MIT License 2.0](https://lab.ssafy.com/s03-final/s03p31a408/blob/feature/project-introduction/LICENSE.txt)
