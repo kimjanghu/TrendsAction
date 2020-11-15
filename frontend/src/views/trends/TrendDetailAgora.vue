@@ -15,8 +15,8 @@
         <v-timeline-item
           fill-dot
           class="white--text mb-12"
-          color="orange"
           large
+          color="white"
         >
           <template v-slot:icon>
             <v-avatar>
@@ -63,6 +63,7 @@
           v-for="(comment, i) in comments"
           :key="i"
           large
+          color="white"
         >
           <template v-slot:icon>
             <v-avatar>
