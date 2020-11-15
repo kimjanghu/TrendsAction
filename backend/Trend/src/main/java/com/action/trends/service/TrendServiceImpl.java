@@ -53,8 +53,8 @@ public class TrendServiceImpl implements TrendService {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("totalPageCount", totalPageCount);
-		map.put("list", repository.readNewsByTrendId(trendId, currentPage, pagePerSize));
-
+		if(table.equals("news")) map.put("list", repository.readNewsByTrendId(trendId, currentPage, pagePerSize));
+		else map.put("list", repository.readTwitterByTrendId(trendId, currentPage, pagePerSize));
 		return map;
 	}
 
