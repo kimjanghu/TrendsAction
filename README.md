@@ -1,3 +1,4 @@
+![TrendsActionLogo](/uploads/b8f3451437c232d1b1c9d32fa385cf3d/TrendsActionLogo.jpg)
 # :person_frowning: 오빠 나 달라진거 없어? [서울 4반 8조] [2020.10.12 ~ 2020.11.17]
 #### :link:[TrendsAction](http://k3a408.p.ssafy.io/)
 
