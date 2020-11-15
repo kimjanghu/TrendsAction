@@ -1,4 +1,5 @@
 package com.action.trends.controller;
+
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
@@ -28,10 +29,10 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "Comment", value = "댓글 컨트롤러")
 public class CommentController {
 	static final Logger logger = LoggerFactory.getLogger(CommentController.class);
-	
+
 	@Autowired
 	CommentService service;
-	
+
 	@ApiOperation(value = "해당 트렌드의 댓글 리스트 조회")
 	@GetMapping("{trendId}")
 	public ResponseEntity<?> readByTrendId(@PathVariable int trendId) {
@@ -39,7 +40,7 @@ public class CommentController {
 		System.out.println(service.readByTrendId(trendId));
 		return new ResponseEntity<>(service.readByTrendId(trendId), HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "해당 트렌드에 댓글 삽입")
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Comment comment) {
@@ -49,7 +50,7 @@ public class CommentController {
 		service.insert(comment);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@ApiOperation(value = "해당 트렌드의 댓글 수정")
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Comment comment) {
@@ -59,7 +60,7 @@ public class CommentController {
 		service.update(comment);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@ApiOperation(value = "해당 트렌드의 댓글 삭제")
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {

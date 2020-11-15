@@ -8,9 +8,10 @@ public class UserStringCategory {
 	private String nickname;
 	private String profile;
 	private List<String> categoryList;
-	
-	public UserStringCategory() {}
-	
+
+	public UserStringCategory() {
+	}
+
 	public UserStringCategory(int id, String email, String nickname, String profile, List<String> categoryList) {
 		super();
 		this.id = id;
@@ -65,7 +66,5 @@ public class UserStringCategory {
 		return "UserStringCategory [id=" + id + ", email=" + email + ", nickname=" + nickname + ", profile=" + profile
 				+ ", categoryList=" + categoryList + "]";
 	}
-	
-	
-	
+
 }
