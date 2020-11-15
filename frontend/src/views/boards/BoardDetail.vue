@@ -296,6 +296,7 @@ export default {
           this.boardName = this.editName
           this.dialog = false
           alert('보드 이름이 변경되었습니다.')
+          this.getUserBoard(this.$route.params.boardId)
         })
         .catch(err => {
           console.log(err)
