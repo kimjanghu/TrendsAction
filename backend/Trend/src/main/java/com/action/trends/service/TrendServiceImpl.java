@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.action.trends.dto.Category;
 import com.action.trends.dto.Trend;
+import com.action.trends.dto.Twitter;
 import com.action.trends.repository.TrendRepository;
 
 @Service
@@ -40,8 +41,9 @@ public class TrendServiceImpl implements TrendService {
 	}
 
 	@Override
-	public HashMap<String, Object> readTwitterByTrendId(int trendId, int currentPage) {
-		return getPageNation(trendId, currentPage, "twitter");
+	public List<Twitter> readTwitterByTrendId(int trendId) { // HashMap<String, Object> int currentPage
+		// return getPageNation(trendId, currentPage, "twitter");
+		return repository.readTwitterByTrendId(trendId); // currentPage, pagePerSize
 	}
 
 	private HashMap<String, Object> getPageNation(int trendId, int currentPage, String table) {
@@ -54,7 +56,7 @@ public class TrendServiceImpl implements TrendService {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("totalPageCount", totalPageCount);
 		if(table.equals("news")) map.put("list", repository.readNewsByTrendId(trendId, currentPage, pagePerSize));
-		else map.put("list", repository.readTwitterByTrendId(trendId, currentPage, pagePerSize));
+		// else map.put("list", repository.readTwitterByTrendId(trendId, currentPage, pagePerSize));
 		return map;
 	}
 

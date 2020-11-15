@@ -54,7 +54,7 @@
 		from twitter
 		where trend_id=#{trendId}
 		order by date desc
-		limit #{currentPage}, #{pagePerSize}
+		<!-- limit #{currentPage}, #{pagePerSize} -->
 	</select>
 
 	<!-- 년, 월, 주로 예측 트렌드 키워드 리스트 조회 -->

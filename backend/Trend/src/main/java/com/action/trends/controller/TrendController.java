@@ -62,10 +62,10 @@ public class TrendController {
 	}
 
 	@ApiOperation(value = "해당 트렌드의 최신 트위터 리스트 조회")
-	@GetMapping("twitter/{trendId}/{page}")
-	public ResponseEntity<?> readTwitterByTrendId(@PathVariable int trendId, @PathVariable int page) {
+	@GetMapping("twitter/{trendId}") // paging => /{page} 추가
+	public ResponseEntity<?> readTwitterByTrendId(@PathVariable int trendId) { // @PathVariable int page
 		logger.debug("해당 트렌드의 최신 트위터 리스트 조회");
-		return new ResponseEntity<>(service.readTwitterByTrendId(trendId, page), HttpStatus.OK);
+		return new ResponseEntity<>(service.readTwitterByTrendId(trendId), HttpStatus.OK); // page
 	}
 
 	@ApiOperation(value = "해당 년도,월,주의 예측 트렌드 목록 조회")

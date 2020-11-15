@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.action.trends.dto.Category;
 import com.action.trends.dto.Trend;
+import com.action.trends.dto.Twitter;
 
 public interface TrendService {
 	List<Category> readCategoryBySelfMade();
@@ -16,7 +17,7 @@ public interface TrendService {
 
 	HashMap<String, Object> readNewsByTrendId(int trendId, int currentPage);
 
-	HashMap<String, Object> readTwitterByTrendId(int trendId, int currentPage);
+	List<Twitter> readTwitterByTrendId(int trendId); // HashMap<String, Object> int currentPage
 
 	List<Map<String, Object>> readPredictedListByYearMonthWeek(int year, int month, int week);
 

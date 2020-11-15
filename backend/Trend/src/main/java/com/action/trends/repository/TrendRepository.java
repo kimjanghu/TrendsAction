@@ -21,7 +21,7 @@ public interface TrendRepository {
 
 	List<News> readNewsByTrendId(int trendId, int currentPage, int pagePerSize);
 
-	List<Twitter> readTwitterByTrendId(int trendId, int currentPage, int pagePerSize);
+	List<Twitter> readTwitterByTrendId(int trendId); // int currentPage, int pagePerSize
 
 	List<Map<String, Object>> readPredictedListByYearMonthWeek(int year, int month, int week);
 
