@@ -72,13 +72,13 @@ import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'TrendList',
+  name: 'PredictList',
   components: { Navbar },
   data() {
     return {
       predictKeywordList: [],
       year: [2020],
-      month: [ 6,7,8,9,10 ],
+      month: [10, 11],
       week: [ 1,2,3,4,5],
       select: {
         year: 2020,

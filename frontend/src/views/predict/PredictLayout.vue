@@ -75,7 +75,7 @@ import SERVER from '@/lib/api'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'PredictList',
+  name: 'PredictLayout',
   components: { Navbar, },
   props: [ 'trendId', 'categoryId'],
   computed: {
@@ -84,8 +84,8 @@ export default {
   data() {
     return {
       year: [2020],
-      month: [ 9,10 ],
-      week: [ 1,2,3],
+      month: [10, 11],
+      week: [1, 2, 3, 4, 5],
       categories: [
         { id:9, name:'IT과학'},
         { id:10, name:'사회'},

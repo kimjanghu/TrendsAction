@@ -14,7 +14,7 @@
         </v-img>
         <v-card-title>{{ news.title }}</v-card-title>
         <v-card-subtitle class="pb-0">
-          {{ news.press }} / {{ news.pub_date }}
+          {{ news.press }} / {{ news.pubDate }}
         </v-card-subtitle>     
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -26,10 +26,8 @@
     </div>
     <div v-else class="text-center my-10 mx-10">
       관련된 뉴스가 없습니다.
-      
-      <v-btn @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })" color="primary" style="display:block; margin: 10px auto;">다른 키워드 보러가기</v-btn>
+      <v-btn @click="goToTrendList();" color="primary" style="display:block; margin: 10px auto;">다른 키워드 보러가기</v-btn>
     </div>
-
   </v-container>
 </template>
 
@@ -54,6 +52,13 @@ export default {
     }
   },
   methods: {
+    goToTrendList() {
+      if (this.categoryId < 9) {
+        this.$router.push({ name: this.$constants.URL_TYPE.TREND.LIST })
+      } else {
+        this.$router.push({ name: 'PredictList' })
+      }
+    },
     infiniteHandler($state) {
       this.$http
         .get(this.$api.URL + this.$api.ROUTES.trends.trendNews + this.trendId + `/${this.page+1}`)

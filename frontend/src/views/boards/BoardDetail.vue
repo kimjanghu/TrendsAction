@@ -68,7 +68,7 @@
                 target="_blank"
               >
                 <v-responsive :aspect-ratio="4/3">
-                  <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
+                  <span v-if="authority === 'host' || authority === 'maintainer'" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
                     <i class="fas fa-times" @click="deleteNews(content.newsId)"></i>
                   </span>
                   <v-img
@@ -103,7 +103,7 @@
                 max-height="400"
               >
                 <v-responsive :aspect-ratio="4/3">
-                  <span v-if="authority === ('host' || 'maintainer')" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
+                  <span v-if="authority === 'host' || authority === 'maintainer'" class="contents-close-btn" style="position: absolute; top: 5px; right: 7px; z-index: 1;">
                     <i class="fas fa-times" @click="deleteTwitter(content.twitterId)"></i>
                   </span>
                   <v-card-title>
@@ -437,6 +437,7 @@ export default {
 }
 
 .contents-close-btn {
+  z-index: 10;
   padding: 2px 7px;
   cursor: pointer;
   border-radius: 100%;
