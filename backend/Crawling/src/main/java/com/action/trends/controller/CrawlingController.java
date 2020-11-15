@@ -27,16 +27,15 @@ public class CrawlingController {
 	public void executeNewsCrawling() {
 		String s = null;
 		
-		String keyword = "브이노믹스";
+		String keyword = "언컨택트";
 		
 		try {
 			System.out.println("Executing python code");
-			// 경로는 서버에서 다시 잘~~ 설정해야함. 잊지 말길!
 			String pythonScriptPath = "/Users/donghwi/Desktop/Trend/python/news.py";
-			String[] cmd = new String[2];
+			String[] cmd = new String[3];
 			cmd[0] = "python3";
 			cmd[1] = pythonScriptPath;
-			// cmd[2] = keyword;
+			cmd[2] = keyword;
 			
 			Runtime rt = Runtime.getRuntime();
 			Process process = rt.exec(cmd);
@@ -64,7 +63,7 @@ public class CrawlingController {
 	@ApiOperation(value="뉴스 데이터 불러와서 DB에 저장")
 	@PostMapping("/load/news")
 	public void loadNews() {
-		String keyword = "브이노믹스";
+		String keyword = "언컨택트";
 		JSONParser parser = new JSONParser();
 		
 		try {
