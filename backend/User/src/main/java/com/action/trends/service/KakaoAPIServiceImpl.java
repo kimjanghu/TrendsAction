@@ -32,7 +32,7 @@ public class KakaoAPIServiceImpl implements KakaoAPIService {
 		String access_Token = "";
 		String refresh_Token = "";
 		String reqURL = "https://kauth.kakao.com/oauth/token";
-		
+
 		System.out.println("redirect uri >>> " + redirectURI);
 
 		try {
@@ -74,13 +74,9 @@ public class KakaoAPIServiceImpl implements KakaoAPIService {
 			access_Token = element.getAsJsonObject().get("access_token").getAsString();
 			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-			System.out.println("access_token : " + access_Token);
-			System.out.println("refresh_token : " + refresh_Token);
-
 			br.close();
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -115,18 +111,11 @@ public class KakaoAPIServiceImpl implements KakaoAPIService {
 
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);
-
-//            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-//            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 			String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
-//            userInfo.put("nickname", nickname);
 			userInfo.put("email", email);
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

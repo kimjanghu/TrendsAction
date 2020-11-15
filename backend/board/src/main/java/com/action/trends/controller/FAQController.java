@@ -50,14 +50,6 @@ public class FAQController {
 	}
 
 	// ------------------- 예외처리 -----------------------
-
-	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("status", true);
-		resultMap.put("message", data);
-		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
-	}
-
 	private ResponseEntity<Map<String, Object>> handleException(Exception e) {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("status", false);

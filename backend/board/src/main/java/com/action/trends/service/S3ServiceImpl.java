@@ -42,7 +42,7 @@ public class S3ServiceImpl implements S3Service {
 			} else if (type == 1) {
 				uploadFileToS3Bucket(bucketName, file, id, type);
 			}
-			
+
 			LOGGER.info("File upload is completed.");
 			Boolean result = file.delete(); // S3 업로드 후 프로젝트에 저장된 파일 지우기
 			System.out.println("Delete result?" + result);
@@ -82,7 +82,6 @@ public class S3ServiceImpl implements S3Service {
 			String url = "https://trendsaction.s3.ap-northeast-2.amazonaws.com/" + uniqueFileName;
 			s3UploadMapper.uploadBoardProfileImage(id, url);
 		}
-		
-		
+
 	}
 }

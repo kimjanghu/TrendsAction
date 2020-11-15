@@ -6,6 +6,7 @@ public class Board {
 	private int boardId;
 	private String name;
 	private String thumbnail;
+
 	public String getThumbnail() {
 		return thumbnail;
 	}
@@ -15,7 +16,7 @@ public class Board {
 	}
 
 	private List<News> newsList;
-	
+
 	public List<News> getNewsList() {
 		return newsList;
 	}
@@ -43,5 +44,5 @@ public class Board {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

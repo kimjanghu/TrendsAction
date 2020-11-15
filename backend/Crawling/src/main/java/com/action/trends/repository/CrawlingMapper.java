@@ -8,5 +8,6 @@ import com.action.trends.dto.Twitter;
 @Mapper
 public interface CrawlingMapper {
 	int insertNews(News news);
+
 	int insertTwitt(Twitter twitt);
 }
