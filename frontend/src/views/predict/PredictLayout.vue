@@ -98,45 +98,12 @@ export default {
         week: 1,
         category: 9 
       },
-      // selection: {
-      //   year: 2020,
-      //   month: 10,
-      //   week: 1,
-      //   category: 9,
-      // },
-      // categories: [
-      //   { id: 9, value: 'IT과학'},
-      //   { id: 10, value: '사회'},
-      //   { id: 11, value: '생활문화'},
-      //   { id: 12, value: '세계'},
-      // ],
-      // week: [
-      //   { value: 1 },
-      //   { value: 2 },
-      //   { value: 3 },
-      //   { value: 4 },
-      //   { value: 5 },
-      // ],
-      // dateCategories: [
-      //   {
-      //     active: true,
-      //     year: 2020,
-      //     month: [
-      //       // { title: '6', },
-      //       // { title: '7', },
-      //       // { title: '8', },
-      //       { title: '9', },
-      //       { title: '10', },
-      //       // { title: '11', },
-      //     ],
-      //   },
-      // ],
       predictInfo: {},
       trendInfo: {},
     }
   },
   created() {
-    // this.getTrendInfo();
+    
   },
   methods: {
     changeYear(year) {
@@ -153,21 +120,18 @@ export default {
     },
     changeCategory(category) {
       this.selection.category = category;
-      // this.getPredictInfo(this.selection)
     },
     getTrendInfo() {
         axios
           .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.categoryId + '/' + this.trendId)
           .then((res) => {
-            console.log('$$$$$'); console.log(res.data); this.trendInfo = res.data })
+            this.trendInfo = res.data })
           .catch((err) => {console.log(err)})
       },
     getPredictInfo(obj) {
       axios 
         .get(SERVER.URL + SERVER.ROUTES.trends.getPredictInfo + obj.year + '/' + obj.month + '/' + obj.week + '/' + obj.category)
         .then((res) => { 
-          console.log(res.data.id);
-          console.log(res.data.categoryId);
           this.$router.push({ name: 'PredictDetail', params: { categoryId: res.data.categoryId , trendId: res.data.id }});
           })
         .catch((err) => { console.log(err)})

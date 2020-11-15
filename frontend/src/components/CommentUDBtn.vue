@@ -112,8 +112,7 @@ export default {
       }
       axios
         .put(SERVER.URL + SERVER.ROUTES.comments.cuComment, body, this.config)
-        .then((res) => { 
-          console.log(res);
+        .then(() => { 
           this.isEdit = false
           })
         .catch((err) => { console.log(err)})
@@ -121,8 +120,7 @@ export default {
     deleteComment(commentId) {
       axios
         .delete(SERVER.URL + SERVER.ROUTES.comments.rdComment + '/' + commentId, this.config)
-        .then((res) => { 
-          console.log(res)
+        .then(() => { 
           this.$emit('deleteComment')
           this.dialog = false
           })

@@ -35,7 +35,6 @@ export default {
     getBookTrends() {
       this.$http.get(this.$api.URL + this.$api.ROUTES.trends.trendList)
         .then(res => {
-          console.log(res.data)
           this.keywordList = res.data
         })
         .catch(err => {

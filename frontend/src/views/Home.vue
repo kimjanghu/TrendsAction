@@ -3,62 +3,61 @@
     <Navbar />
     <Header />
     <section id="first-section" class="section-area">
-    <v-container>
-      <v-row class="section" justify="center" align="center">
-        <v-col class="text-center" cols="12">
-          <h2>TrendsAction</h2>
-          <p>Get insight, and set the trend</p>
-        </v-col>
-        <v-col class="text-center" cols="12" md="4">
-          <div class="trend-card" 
-            data-sal="slide-up"
-            data-sal-duration="800"
-            data-sal-repeat>
-              <v-img
-              src="../assets/images/getinfo.jpg"
-              style="border-radius:19px;"
-              ></v-img>
-              <div class="trend-card-info">
-                <h2 class="mb-3">STEP 1.</h2>
-                <p>트렌드 키워드에 따라, NEWS, SNS 다양한 트렌드 정보를 얻고, 사용자들과 자유롭게 의견을 공유하세요.</p>
-              </div>
-          </div>
-        </v-col>
-        <v-col class="text-center" cols="12" md="4">
-          <div class="trend-card"
-            data-sal="slide-up"
-            data-sal-duration="800"
-            data-sal-delay="500"
-            data-sal-repeat>
-              <v-img
-              src="../assets/images/share.jpg"
-              style="border-radius:19px;"
-              ></v-img>
-              <div class="trend-card-info">
-                <h2 class="mb-3">STEP 2.</h2>
-                <p>혹시 관련 프로젝트나 스터디를 진행 중인가요? 나만의 트렌드 보드에 담아 저장하고, 친구와 팀원과 공유가 가능합니다.</p>
-              </div>
-          </div>
-        </v-col>
-        <v-col class="text-center" cols="12" md="4">
-          <div class="trend-card"
-            data-sal="slide-up"
-            data-sal-duration="800"
-            data-sal-delay="800"
-            data-sal-repeat>
-            <v-img
-              src="../assets/images/step3.jpg"
-              style="border-radius:19px;"
-              ></v-img>
-            <div class="trend-card-info">
-              <h2 class="mb-3">STEP 3.</h2>
-              <p>최신 이슈들을 파악하고 트렌드를 예측해보세요. 당신의 트렌드는 무엇인가요?</p>
+      <v-container>
+        <v-row class="section" justify="center" align="center">
+          <v-col class="text-center" cols="12">
+            <h2>TrendsAction</h2>
+            <p>Get insight, and set the trend</p>
+          </v-col>
+          <v-col class="text-center" cols="12" md="4">
+            <div class="trend-card" 
+              data-sal="slide-up"
+              data-sal-duration="800"
+              data-sal-repeat>
+                <v-img
+                src="../assets/images/getinfo.jpg"
+                style="border-radius:19px;"
+                ></v-img>
+                <div class="trend-card-info">
+                  <h2 class="mb-3">STEP 1.</h2>
+                  <p>트렌드 키워드에 따라, NEWS, SNS 다양한 트렌드 정보를 얻고, 사용자들과 자유롭게 의견을 공유하세요.</p>
+                </div>
             </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-    <!-- <div class="arrow" @click="$vuetify.goTo('#second-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div> -->
+          </v-col>
+          <v-col class="text-center" cols="12" md="4">
+            <div class="trend-card"
+              data-sal="slide-up"
+              data-sal-duration="800"
+              data-sal-delay="500"
+              data-sal-repeat>
+                <v-img
+                src="../assets/images/share.jpg"
+                style="border-radius:19px;"
+                ></v-img>
+                <div class="trend-card-info">
+                  <h2 class="mb-3">STEP 2.</h2>
+                  <p>혹시 관련 프로젝트나 스터디를 진행 중인가요? 나만의 트렌드 보드에 담아 저장하고, 친구와 팀원과 공유가 가능합니다.</p>
+                </div>
+            </div>
+          </v-col>
+          <v-col class="text-center" cols="12" md="4">
+            <div class="trend-card"
+              data-sal="slide-up"
+              data-sal-duration="800"
+              data-sal-delay="800"
+              data-sal-repeat>
+              <v-img
+                src="../assets/images/step3.jpg"
+                style="border-radius:19px;"
+                ></v-img>
+              <div class="trend-card-info">
+                <h2 class="mb-3">STEP 3.</h2>
+                <p>최신 이슈들을 파악하고 트렌드를 예측해보세요. 당신의 트렌드는 무엇인가요?</p>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </section>
 
     <section id="second-section" class="section-area">
@@ -77,7 +76,6 @@
           </div>     
         </div>
       </div>
-      <!-- <div class="arrow" @click="$vuetify.goTo('#third-section')"><span style="color:black; font-size: 3rem"><i class="fas fa-arrow-down"></i></span></div> -->
     </section>
 
     <section id="third-section" class="section-area my-16">
@@ -141,7 +139,7 @@ export default {
     getFaq() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.boards.getFaq)
-        .then((res) => { console.log(res.data.data); this.faqs = res.data.data })
+        .then((res) => { this.faqs = res.data.data })
         .catch((err) => { console.log(err)})
     }
   },

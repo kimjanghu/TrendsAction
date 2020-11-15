@@ -70,7 +70,6 @@ export default {
   created() {
     this.getUserInfo()
       .then(data => {
-        console.log(data)
         this.email = data.email
         this.nickname = data.nickname
         this.categoryName = data.categoryName

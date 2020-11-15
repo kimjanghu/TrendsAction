@@ -45,12 +45,6 @@
           color="black"
           :grow="$vuetify.breakpoint.mobile"
         >
-                
-          <!-- <v-tab
-            v-for="item in items"
-            :key="item.id"
-            :to="{name: item.link}"
-          > -->
           <v-tab
             v-for="item in items"
             :key="item.id"
@@ -58,7 +52,7 @@
             {{ item.name }}
           </v-tab>
         </v-tabs>
-        <!-- <router-view></router-view> -->
+
         <v-tabs-items v-model="tab" style="background-color:#F5F5F6;" class="neumor-design">
           <v-tab-item
             v-for="item in items"
@@ -111,7 +105,6 @@ export default {
   },
   created() {
     this.getUserInfo()
-    // this.getPredictInfo()
     this.getTrendInfo()
   },
   methods: {
@@ -127,14 +120,14 @@ export default {
     getPredictInfo() {
       axios 
         .get(SERVER.URL + SERVER.ROUTES.trends.getPredictInfo +this.selection.year + '/' + this.selection.month + '/' + this.selection.week + '/' + this.selection.category, this.config)
-        .then((res) => { console.log(this.selection.year); console.log(res.data.data); this.predictInfo = res.data.data})
+        .then((res) => {this.predictInfo = res.data.data})
         .catch((err) => { console.log(err)})
     },
     getTrendInfo() {
       axios
         .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.categoryId + '/' + this.trendId)
         .then((res) => {
-          console.log('$$$$$'); console.log(res.data); this.trendInfo = res.data;
+          this.trendInfo = res.data;
           this.mainKeywords = res.data.keywords.split("//") })
         .catch((err) => {console.log(err)})
     },

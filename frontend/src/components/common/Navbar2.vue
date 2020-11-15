@@ -131,8 +131,8 @@ export default {
         accepted: status
       }
       this.$http.post(this.$api.URL + this.$api.ROUTES.boards.acceptInvite, reqData, this.config)
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          this.getInviteMessage()
         })
         .then(err => {
           console.log(err)

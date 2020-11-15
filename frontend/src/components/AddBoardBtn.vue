@@ -16,7 +16,6 @@
               v-on="on">
                 mdi-share-variant
             </v-icon>
-            <!-- <span class="subheading">45</span> -->
           </template>
           <v-card class="-rounded">
             <v-card-title>
@@ -187,7 +186,6 @@ export default {
         scrapUser : this.userInfo.id,
         newsId : this.newsId
       }
-      console.log(body)
       axios
         .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
         .then((res) => { 

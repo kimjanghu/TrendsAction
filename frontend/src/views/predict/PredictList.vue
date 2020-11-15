@@ -97,7 +97,7 @@ export default {
     getPredictTrends(obj) {
       axios 
         .get(SERVER.URL + SERVER.ROUTES.trends.getPredictInfo + obj.year + '/' + obj.month + '/' + obj.week, this.config)
-        .then((res) => { console.log(res.data); this.predictKeywordList = res.data })
+        .then((res) => { this.predictKeywordList = res.data })
         .catch((err) => { console.log(err)})
     }
   },

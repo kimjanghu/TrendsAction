@@ -117,7 +117,6 @@ export default {
     ...mapActions('userStore', ['logout', 'getUserInfo']),
     changeAlarm() {
       const bell = document.querySelector('.fa-bell')
-      console.log(bell.classList)
       if (bell.classList.contains('active')) {
         bell.classList.remove('active')
       } else if (this.messageList && !bell.classList.contains('active')) {

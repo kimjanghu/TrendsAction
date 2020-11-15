@@ -124,26 +124,14 @@ export default {
     mounted() {
     },
     created() {
-      // this.getBestNews()
       this.getUserInfo()
       this.getTrendInfo(this.categoryId, this.trendId)
       this.getOtherKeywords()
     },
     methods: {
-      // getBestNews() {
-      //   axios
-      //     .get(SERVER.URL + SERVER.ROUTES.boards.getBestNews + 1, this.config)
-      //     .then((res) => {
-      //       this.bestNews = res.data.data;
-      //     })
-      //     .catch((err) => {
-      //       console.log(err)
-      //     } )
-      // },
       goToTrendDetail(categoryId, keywordId) {
         this.getTrendInfo(categoryId, keywordId)
         this.$router.push({ name: 'TrendDetailNews', params: { categoryId: categoryId, trendId: keywordId }})
-        
       },
       getUserInfo() {
         const userId = window.localStorage.getItem('userId')
