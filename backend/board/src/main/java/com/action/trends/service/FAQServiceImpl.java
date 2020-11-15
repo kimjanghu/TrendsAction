@@ -10,10 +10,10 @@ import com.action.trends.repository.FAQMapper;
 
 @Service
 public class FAQServiceImpl implements FAQService {
-	
+
 	@Autowired
 	FAQMapper faqMapper;
-	
+
 	public List<FAQ> getFAQ() {
 		return faqMapper.getFAQ();
 	}

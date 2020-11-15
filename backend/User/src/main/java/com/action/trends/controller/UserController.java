@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +26,6 @@ import com.action.trends.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
-//http://localhost:8080/swagger-ui.html
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("user")
@@ -43,18 +41,15 @@ public class UserController {
 		logger.debug("닉네임 중복 확인 - 호출");
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-
 			int checknick = userService.checknickname(nickname);
 
 			if (checknick == 1) {
 				map.put("status", false);
 				map.put("message", "중복되는 닉네임이 존재합니다");
-
 				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			} else {
 				map.put("status", true);
 				map.put("message", "사용 가능한 닉네임 입니다");
-
 				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			}
 
@@ -73,7 +68,7 @@ public class UserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User userData = userService.detail(userId);
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		
+
 		try {
 			dataMap.put("id", userData.getId());
 			dataMap.put("email", userData.getEmail());
@@ -97,13 +92,12 @@ public class UserController {
 			map.put("error", error.toString());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		map.put("status", true);
 		map.put("message", "유저정보 조회 성공하였습니다");
 		map.put("data", dataMap);
 
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		
 
 	}
 

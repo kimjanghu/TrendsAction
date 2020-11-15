@@ -18,15 +18,15 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<HashMap<String, Object>> readByTrendId(int trendId) {
 		List<HashMap<String, Object>> list = repository.readByTrendId(trendId);
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			String temp = list.get(i).get("date") + "";
 			temp = temp.replace('T', ' ');
-			temp = temp.substring(0, temp.length()-2);
-			
+			temp = temp.substring(0, temp.length() - 2);
+
 			list.get(i).put("date", temp);
 		}
-		
+
 		return list;
 	}
 
