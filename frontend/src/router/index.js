@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import constants from '@/lib/constants'
 import Home from '../views/Home.vue'
+import ErrorPage from '../views/ErrorPage.vue'
 
 // trend
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
@@ -111,7 +112,12 @@ const routes = [
         props: true,
       },
     ]
-  }
+  },
+  {
+    path: "*",
+    name: "ErrorPage",
+    component: ErrorPage,
+  },
 ]
 
 const router = new VueRouter({

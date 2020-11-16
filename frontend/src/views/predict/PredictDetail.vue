@@ -27,7 +27,7 @@
             :height="$vuetify.breakpoint.smAndDown ? 300 : 300"
             lazy-src="https://picsum.photos/id/11/10/6"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            src="https://picsum.photos/id/11/500/300"
+            :src="trendInfo.thumbnail"
             class="trend-img"
             style="border-radius: 19px;"
           >
@@ -58,9 +58,9 @@
             v-for="item in items"
             :key="item.id"
           >
-            <trend-detail-news v-if="item.id==1" :userInfo="userInfo" :trendId="trendInfo.id" />
-            <trend-detail-sns v-if="item.id==2" :userInfo="userInfo" :trendId="trendInfo.id"/>
-            <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendInfo.id"/>
+            <trend-detail-news v-if="item.id==1" :userInfo="userInfo" :trendId="trendId"/>
+            <trend-detail-sns v-if="item.id==2" :userInfo="userInfo" :trendId="trendId"/>
+            <trend-detail-agora v-if="item.id==3" :userInfo="userInfo" :trendId="trendId"/>
 
           </v-tab-item>
         </v-tabs-items>
@@ -106,6 +106,7 @@ export default {
   created() {
     this.getUserInfo()
     this.getTrendInfo()
+    console.log(this.trendId, this.categoryId)
   },
   methods: {
     getUserInfo() {

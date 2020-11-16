@@ -4,7 +4,7 @@
     <v-container class="mt-16">
       <v-row>
         <v-col cols="12" md="9">
-          <router-view :key="$route.fullPath"></router-view>
+          <router-view :key="$route.fullPath" :categoryId="categoryId"></router-view>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -94,7 +94,7 @@ export default {
       ],
       selection: {
         year: 2020,
-        month: 10,
+        month: 11,
         week: 1,
         category: 9 
       },
@@ -103,7 +103,6 @@ export default {
     }
   },
   created() {
-    
   },
   methods: {
     changeYear(year) {
@@ -122,8 +121,9 @@ export default {
       this.selection.category = category;
     },
     getTrendInfo() {
+      let categoryId = this.categoryId
         axios
-          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + this.categoryId + '/' + this.trendId)
+          .get(SERVER.URL + SERVER.ROUTES.trends.getTrendInfo + categoryId + '/' + this.trendId)
           .then((res) => {
             this.trendInfo = res.data })
           .catch((err) => {console.log(err)})
