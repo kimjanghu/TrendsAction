@@ -1,187 +1,366 @@
-<template>
-  <div class="navbar transparent">
-    <div class="web-title">
-      <h2>TrendsAction</h2>
-    </div>
-    <div class="router-area" v-if="$vuetify.breakpoint.mdAndUp">
-      <v-tabs align-with-title>
-        <v-tab>Trend</v-tab>
-        <v-tab>Predict</v-tab>
-        <v-tab @click="dialog = true" v-if="!isLogin">
+<template>  
+  <div>
+  <header>
+    <img src="@/assets/logo1.jpg" @click="goToHome" width="15%" style="cursor:pointer;" alt="logo">
+    <div class="router-area" v-if="$vuetify.breakpoint.lgAndUp">
+      <ul class="navbar-list">
+        <li class="navbar-list-item" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
+        <li class="navbar-list-item" @click="$router.push({ name: 'PredictList' })">Predict</li>
+        <li class="navbar-list-item" @click="dialog = true" v-if="!isLogin">
           Login
           <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
-        </v-tab>
-        <v-tab @click="dialog = true" v-if="isLogin">
-          Logout
-        </v-tab>
-        <div @click="dialog = true" v-if="isLogin" class="navbar-icon">
+        </li>
+        <div v-else style="display:flex;">
+          <li class="navbar-list-item" @click="logout()">Logout</li>
           <router-link
+            class="navbar-icon"
             tag="button"
-            class="router-btn"
-            :to="{ name: 'UserProfile' }"
+            :to="{ name: 'BoardList', params: { id: userId }}"
           >
-            <v-icon class="mr-3">
-              mdi-account-circle
-            </v-icon>
+            <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer; margin-right: 10px;">
+              <i class="fas fa-user-circle navbar-icon"></i>
+            </span>
           </router-link>
-          <v-icon>
-            mdi-bell
-          </v-icon>
+          <span style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+            <i class="fas fa-bell navbar-icon" @click="changeAlarm();"></i>
+            <div v-if="isAlarm" class="board-alarm">
+              <div v-if="messageList" class="board-alarm-area">
+                <div v-for="message in messageList" :key="message.messageId">
+                  <div class="d-flex align-center justify-space-between">
+                    <p class="board-alarm-text">{{ message.sendFromName }}님이 "{{ message.boardName }}"에 {{ message.authority }}로 초대했습니다.</p>
+                    <v-spacer></v-spacer>
+                    <div class="d-flex align-center">
+                      <span style="color: green; font-size: 1rem; cursor:pointer; margin-right: 5px;" class="check-btn">
+                        <i class="fas fa-check-circle" @click="acceptInvite(message.messageId, 'true')"></i>
+                      </span>
+                      <span style="color: red; font-size: 1rem; cursor:pointer; margin-right: 5px;" class="check-btn">
+                        <i class="fas fa-times-circle"  @click="acceptInvite(message.messageId, 'false')"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <hr class="board-alarm-hr">
+                </div>
+              </div>
+              <div v-else class="board-alarm-area">
+                <p class="board-non-text">메시지가 없습니다.</p>
+              </div>
+            </div>
+          </span>
         </div>
-      </v-tabs>
+      </ul>
     </div>
-    <div v-if="$vuetify.breakpoint.smAndDown">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div v-else>
+      <span @click="toggleClassName" style="color: #ffffff; font-size: 1.5rem; cursor:pointer;">
+        <i class="fas fa-bars navbar-icon toggle-icon"></i>
+      </span>
     </div>
-
-
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      right
-      temporary
-      v-if="$vuetify.breakpoint.smAndDown"
-    >
-      <!-- 로그인 false -->
-      <v-list-item v-if="!isLogin" class="avatar-info">
-        <!-- 익명 이미지 -->
-        <v-list-item-avatar>
-          <v-img src="mdi-account"></v-img>
-        </v-list-item-avatar>
-        <!-- 비로그인 유저 안내 -->
-        <v-list-item-content>
-          <v-list-item-title>로그인이 필요합니다.</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <!-- 로그인 true -->
-      <v-list-item v-if="isLogin" class="avatar-info">
-        <!-- 유저 프로필 이미지 -->
-        <v-list-item-avatar>
-          <v-icon>mdi-menu-down</v-icon>
-        </v-list-item-avatar>
-
-        <!-- 유저 닉네임 -->
-        <v-list-item-content>
-          <v-list-item-title>메뉴 리스트</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <!-- 하단 구분선 -->
-      <v-divider></v-divider>
-
-      <!-- 사이드바 메뉴 리스트 -->
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-orange--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>홈</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>내 정보</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-if="isLogin">
-            <v-list-item-icon>
-              <v-icon>mdi-logout</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>로그아웃</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-else>
-            <v-list-item-icon>
-              <v-icon>mdi-login</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>로그인</v-list-item-title>
-          </v-list-item>
-
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-
-
-
-
+    
+    <div class="sidebar">
+      <div style="position:absolute; top:50px; left: 50px; font-size: 1.5rem; cursor:pointer;">
+        <i class="fas fa-times" @click="toggleClassName"></i>
+      </div>
+      <ul style="text-align:center">
+        <li style="cursor:pointer;" @click="$router.push({ name: $constants.URL_TYPE.TREND.LIST })">Trend</li>
+        <li style="cursor:pointer;" @click="$router.push({ name: 'PredictList' })">Predict</li>
+        <li style="cursor:pointer;" @click="dialog = true" v-if="!isLogin">
+          Login
+          <UsersLoginForm :dialog="dialog" @change-dialog="changeDialog" />
+        </li>
+        <div v-else>
+          <li @click="logout()">Logout</li>
+          <li style="cursor:pointer;" @click="$router.push({ name: 'BoardList', params: { id: userId }})">Mypage</li>
+        </div>
+      </ul>
+    </div>
+  </header>
   </div>
+  
 </template>
 
 <script>
 import UsersLoginForm from '@/components/users/UsersLoginForm'
-// import { mapGetters } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
+// import BoardsAlarm from '@/components/boards/BoardsAlarm'
 
 export default {
   name: 'Navbar',
   data() {
     return {
       dialog: false,
-      isLogin: true,
       drawer: false,
-      group: null
+      userId: null,
+      group: null,
+      isAlarm: false,
+      messageList: []
     }
   },
   components: {
-    UsersLoginForm
+    UsersLoginForm,
+    // BoardsAlarm
   },
   computed: {
-    // ...mapGetters('userStore', ['isLogin'])
+    ...mapState('userStore', ['userInfo']),
+    ...mapGetters('userStore', ['isLogin', 'config']),
   },
   watch: { 
     group () {
       this.drawer = false
     },
   },
+  created() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
   methods: {
+    ...mapActions('userStore', ['logout', 'getUserInfo']),
+    changeAlarm() {
+      const bell = document.querySelector('.fa-bell')
+      if (bell.classList.contains('active')) {
+        bell.classList.remove('active')
+      } else if (this.messageList && !bell.classList.contains('active')) {
+        bell.classList.add('active')
+      }
+
+      // bell.classList.remove('active')
+      this.isAlarm = !this.isAlarm
+    },
     changeDialog(dialog) {
       this.dialog = dialog
+    },
+    handleScroll() {
+      let header = document.querySelector('header');
+      header.classList.toggle('sticky', window.scrollY > 500)
+    },
+    goToHome() {
+      this.$router.push('/')
+        .catch(err => {
+          if(err.name != "NavigationDuplicated" ){
+            throw err
+          }
+        })
+    },
+    toggleClassName() {
+      let sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('active')
+    },
+    acceptInvite(messageId, status) {
+      const reqData = {
+        messageId: +messageId,
+        accepted: status
+      }
+      this.$http.post(this.$api.URL + this.$api.ROUTES.boards.acceptInvite, reqData, this.config)
+        .then(() => {
+          this.getInviteMessage()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getInviteMessage() {
+      const userId = window.localStorage.getItem('userId')
+      this.$http.get(this.$api.URL + this.$api.ROUTES.boards.getInviteMessage + `/${userId}`, this.config)
+        .then(res => {
+          this.messageList = res.data.data
+        })
+        .then(() => {
+          if (this.messageList) {
+            const bell = document.querySelector('.fa-bell')
+            bell.classList.add('active')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
-  }
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.getUserInfo()
+        .then(data => {
+          this.userId = data.id
+        })
+      this.getInviteMessage()
+    }
+
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.navbar {
-  height: 100px;
-  width: 85%;
-  margin: 0 auto;
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  padding: 20px 8%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.5);
-  
-  .router-area {
-    display: flex;
-    align-items: center;
+}
+header .logo {
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+  color: #ffffff;
+  cursor: pointer;
+}
 
-    .router-name {
-      cursor: pointer;
-      color: #01579b;
-      margin: 0 20px;
+header .toggle {
+  position: relative;
+  z-index: 3;
+}
+
+header.sticky {
+  background: #F5F5F6;
+  transition: 0.3s;
+}
+
+header.sticky h2{
+  color: #111111;
+  transition: 0.3s;
+}
+
+header.sticky .navbar-list-item{
+  color: #111111;
+  transition: 0.3s;
+}
+
+header.sticky .navbar-icon{
+  color: #111111;
+  transition: 0.3s;
+}
+
+.navbar-list {
+  list-style: none;
+  display: flex;
+  color: #ffffff;
+} 
+
+.navbar-list-item {
+  margin: 0 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  // z-index: 3;
+  top: 0;
+  right: -60%;
+  width: 60%;
+  height: 100%;
+  background-color: #efefef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 30px 0;
+}
+
+.sidebar ul li:hover {
+  color: #ffffff;
+}
+
+.navbar-link {
+  cursor: pointer;
+}
+
+.navbar-icon:focus {
+  outline: none;
+}
+
+.board-alarm {
+  position: relative;
+
+  .board-alarm-area {
+    position: absolute;
+    margin-top: 10px;
+    right: 0;
+    border: 5px solid rgb(134, 134, 134);
+    border-radius: 10px;
+    background: #F5F5F6;
+    width: 350px;
+    height: 400px;
+    overflow: auto;
+    padding: 15px;
+
+    .board-alarm-text {
+      color: #000;
+      font-size: 11px;
+      margin-left: 2px;
+      margin-bottom: 0;
     }
 
-    .router-name:hover {
-      font-weight: bold;
+    .board-alarm-hr {
+      margin: 10px 0;
     }
 
-    .navbar-icon {
-      display: flex;
-      align-items: center;
-
-      .router-btn:focus {
-        outline: none;
-      }
+    .board-non-text {
+      position: absolute;
+      color: #000;
+      top: 50%;
+      left: 50%;
+      font-size: 15px;
+      text-align: center;
+      transform: translate(-50%, -50%);
     }
+
+    .check-btn:hover {
+      text-shadow: .1px .2px 1px #000;
+    }
+  }
+}
+
+i.fa-bell.active {
+  transform-origin: 50% 0%;
+  animation-name: shake;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(20deg);
+  }
+  20% {
+    transform: rotate(-20deg);
+  }
+  30% {
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 </style>

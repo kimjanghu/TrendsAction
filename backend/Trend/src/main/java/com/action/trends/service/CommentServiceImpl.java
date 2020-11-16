@@ -1,5 +1,6 @@
 package com.action.trends.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,18 @@ public class CommentServiceImpl implements CommentService {
 	CommentRepository repository;
 
 	@Override
-	public List<Comment> readByTrendId(int trendId) {
-		return repository.readByTrendId(trendId);
+	public List<HashMap<String, Object>> readByTrendId(int trendId) {
+		List<HashMap<String, Object>> list = repository.readByTrendId(trendId);
+
+		for (int i = 0; i < list.size(); i++) {
+			String temp = list.get(i).get("date") + "";
+			temp = temp.replace('T', ' ');
+			temp = temp.substring(0, temp.length() - 2);
+
+			list.get(i).put("date", temp);
+		}
+
+		return list;
 	}
 
 	@Override

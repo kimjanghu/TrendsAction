@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.action.trends.repository.CrawlingMapper">
+    <insert id="insertTwitt" parameterType="Twitter">
+		INSERT into twitter (content, author, date, category_id, trend_id)
+		SELECT * FROM (SELECT #{content}, #{author}, #{date}, 3, 21) AS tmp
+		WHERE NOT EXISTS
+		(SELECT id FROM twitter WHERE content=#{content} and author=#{author} and date=#{date} and category_id=3 and trend_id=21)
+		LIMIT 1;
+	</insert>
+	
+	<insert id="insertNews" parameterType="News">
+		INSERT into news (title, thumbnail, pub_date, link, press)
+		SELECT * FROM (SELECT #{title}, #{thumbnail}, #{date}, #{link}, #{press}) AS tmp
+		WHERE NOT EXISTS
+		(SELECT id FROM news WHERE title=#{title} and thumbnail=#{thumbnail} and pub_date=#{date} and link=#{link} and press=#{press})
+		LIMIT 1;
+	</insert>
+</mapper>

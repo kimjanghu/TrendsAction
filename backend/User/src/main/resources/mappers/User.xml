@@ -11,11 +11,18 @@
 		select EXISTS (select * from user where nickname=#{nickname})
 	</select>
 	
-	<!-- 유저정보 확인 -->
+	<!-- 유저정보(id로 확인) 확인 -->
 	<select id="detail" resultType="User">
 		select *
 		from user
 		where id = #{userId}
+	</select>
+	
+	<!-- 유저정보(이메일로 확인) 확인 -->
+	<select id="detailByEmail" resultType="User">
+		select *
+		from user
+		where email = #{email}
 	</select>
 	
 	<!-- 유저정보 수정 -->
@@ -27,10 +34,48 @@
 	</update>
 	
 	<!-- 유저정보 삭제 -->
-	<delete id="delete">
+	<delete id="delete" parameterType="int">
 		delete 
 		  from user 
 		 where id = #{userId}
 	</delete>
+	
+	
+	
+	<!-- 유저 개인의 카테고리 정보 확인 -->
+	<select id="userCategoryList" resultType="Integer">
+		select category_id
+		from user_category
+		where user_id = #{userId}
+	</select>
+	
+	
+	<!-- 유저 개인의 카테고리 정보 삽입 -->
+	
+	<insert id="insertUserCategory">
+	    INSERT INTO user_category (user_id, category_id) 
+	    select #{userId}, ca.id
+	    from category as ca
+	    where ca.name = #{categoryName};
+	</insert>
+
+	<!-- 유저 개인의 카테고리 정보 삭제 -->
+	<delete id="deleteUserCategory">
+		delete 
+		from user_category
+		where user_id = #{userId} and category_id IN 
+					(select * from (
+						select id
+						from category
+                    	where name = #{categoryName}) as result
+					); 
+	</delete>
+	
+	<!-- 유저 개인의 카테고리 정보 확인 return 카테고리이름 버전-->
+	<select id="userCategoryListAsString" resultType="String">
+		select name
+		from user_category as us, category as ca
+		where us.category_id = ca.id and user_id = #{userId}
+	</select>
 	
 </mapper>

@@ -9,5 +9,7 @@
     </settings>
     <mappers>
         <mapper resource="mybatis/mapper/BoardMapper.xml" />
+        <mapper resource="mybatis/mapper/S3UploadMapper.xml" />
+        <mapper resource="mybatis/mapper/FAQ.xml" />
     </mappers>
 </configuration>

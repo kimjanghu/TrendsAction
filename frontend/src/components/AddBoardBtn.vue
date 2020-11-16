@@ -16,9 +16,8 @@
               v-on="on">
                 mdi-share-variant
             </v-icon>
-            <!-- <span class="subheading">45</span> -->
           </template>
-          <v-card class="custom-rounded">
+          <v-card class="-rounded">
             <v-card-title>
               <span>트렌드보드에 추가</span>
               <v-spacer></v-spacer>
@@ -30,15 +29,13 @@
               <v-container>
                 <v-list shaped>
                   <v-list-item-group
-                    v-model="model"
-                    multiple
+                    v-model="groupSelect"
                   >
-                    <template v-for="(item, i) in myboards">
+                    <template v-for="(item, i) in myBoardList">
                       <v-divider
                         v-if="!item"
                         :key="`divider-${i}`"
                       ></v-divider>
-
                       <v-list-item
                         v-else
                         :key="`item-${i}`"
@@ -47,7 +44,7 @@
                       >
                         <template v-slot:default="{ active }">
                           <v-list-item-content>
-                            <v-list-item-title v-text="item"></v-list-item-title>
+                            <v-list-item-title v-text="item.name"></v-list-item-title>
                           </v-list-item-content>
 
                           <v-list-item-action>
@@ -106,9 +103,18 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="dialog = false"
+                v-if="newsId"
+                @click="addNewsInfo"
               >
-                Action
+                트렌즈액션_뉴스!
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                v-else
+                @click="addTwittInfo"
+              >
+                트렌즈액션_트윗!
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -119,25 +125,104 @@
 </template>
 
 <script>
+import axios from 'axios'
+import SERVER from '@/lib/api'
+import { mapGetters} from 'vuex'
+
 export default {
+  props: ['newsId', 'snsId'],
   data () {
       return {
-        dialogm1: '',
         dialog: false,
         dialog2: false,
         newBoard: '',
-        model: [],
-        myboards: ['news', 'project', 'favorite', '꼴라쥬']
+        groupSelect: [],
+        myBoardList: [],
+        userInfo: {},
       }
     },
+  computed: {
+    ...mapGetters('userStore', ['config']),
+  },
+  created() {
+    this.getUserInfo()
+    this.getBoardList()
+  },
   methods: {
+    getUserInfo() {
+        const userId = window.localStorage.getItem('userId')
+        axios
+          .get(SERVER.URL + SERVER.ROUTES.accounts.user + `/${userId}`, this.config)
+          .then((res) => { 
+            this.userInfo = res.data.data;
+          })
+          .catch((err) => { console.log(err)})
+      },
     addNewBoard() {
-      this.myboards.push(this.newBoard);
-      this.dialog2 = false;
-      this.newBoard = '';
+      let body = { 'userId': this.userInfo.id, 'name': this.newBoard }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNewBoard, body, this.config)
+        .then((res) => {
+          alert(res.data.message)
+          this.getBoardList()
+          this.dialog2 = false;
+          this.newBoard = '';
+        })
+        .catch((err) => {
+          alert('등록에 실패했습니다.')
+          console.log(err)
+        })
+    },
+    getBoardList() {
+      const userId = window.localStorage.getItem('userId')
+      axios
+        .get(SERVER.URL+ SERVER.ROUTES.boards.getBoardList + `auth/` + userId, this.config)
+        .then((res) => { this.myBoardList = res.data.data })
+        .catch((err) => { console.log(err)})
+    },
+    addNewsInfo() {
+      let body = {
+        boardId : this.groupSelect.boardId,
+        scrapUser : this.userInfo.id,
+        newsId : this.newsId
+      }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addNews, body, this.config)
+        .then((res) => { 
+          if (res.data.message != '이미 담은 뉴스입니다.') {
+            alert('트렌드보드에 등록되었습니다.')
+            this.groupSelect = []
+            this.dialog = false
+          } else {
+            alert(res.data.message)
+          }
+          })
+        .catch((err) => {
+          alert('트렌드보드에 뉴스를 저장하지 못했습니다.') 
+          console.log(err)})
+    },
+    addTwittInfo() {
+      let body = {
+        boardId : this.groupSelect.boardId,
+        scrapUser : this.userInfo.id,
+        twitterId : this.snsId
+      }
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.boards.addTwitter, body, this.config)
+        .then((res) => { 
+          if (res.data.message != '이미 담은 트윗입니다.') {
+            alert('트렌드보드에 등록되었습니다.')
+            this.groupSelect = []
+            this.dialog = false
+          } else {
+            alert(res.data.message)
+          }
+          })
+        .catch((err) => { 
+          alert('트렌드보드에 트윗을 저장하지 못했습니다.')
+          console.log(err)})
     }
   }
-
 }
 </script>
 

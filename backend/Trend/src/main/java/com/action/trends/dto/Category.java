@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "카테고리 상세 정보를 위한 도메인 객체")
 public class Category {
-	
+
 	@ApiModelProperty(value = "카테고리 ID")
 	private int id;
 

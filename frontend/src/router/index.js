@@ -1,10 +1,33 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import constants from '@/lib/constants'
 import Home from '../views/Home.vue'
+import ErrorPage from '../views/ErrorPage.vue'
+
+// trend
 import TrendDetailLayout from '../views/trends/TrendDetailLayout.vue'
+import TrendDetailNews from '../views/trends/TrendDetailNews.vue'
+import TrendDetailSns from '../views/trends/TrendDetailSns.vue'
+import TrendDetailAgora from '../views/trends/TrendDetailAgora.vue'
+
+// user
+import UserProfileLayout from '../views/users/UserProfileLayout.vue'
 import UserProfile from '../views/users/UserProfile.vue'
 
+// board
+import BoardList from '../views/boards/BoardList.vue'
+import BoardDetail from '../views/boards/BoardDetail.vue'
+
+// predict
+import PredictList from '../views/predict/PredictList.vue'
+import PredictDetail from '../views/predict/PredictDetail.vue'
+
+
 Vue.use(VueRouter)
+
+function loadView(view) {
+  return () => import(/* webpackChunkName: "view-[request]" */ `@/views/${view}.vue`)
+}
 
 const routes = [
   {
@@ -13,23 +36,88 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/oauth/kakao',
+    name: constants.URL_TYPE.USER.LOGIN,
+    component: loadView('oauth/OauthLogin')
   },
   {
-    path: '/trend-detail',
+    path: '/logout',
+    name: constants.URL_TYPE.USER.LOGOUT,
+    component: loadView('users/UserLogout')
+  },
+  {
+    path: '/trends',
+    name: constants.URL_TYPE.TREND.LIST,
+    component: loadView('trends/TrendList')
+  },
+  {
+    path: '/trend',
     name: 'TrendDetailLayout',
-    component: TrendDetailLayout
+    component: TrendDetailLayout,
+    props: true,
+    children: [
+        {
+          path: ':categoryId/:trendId/news',
+          name: 'TrendDetailNews',
+          component: TrendDetailNews
+        },
+        {
+          path: ':categoryId/:trendId/sns',
+          name: 'TrendDetailSns',
+          component: TrendDetailSns
+        },
+        {
+          path: ':categoryId/:trendId/agora',
+          name: 'TrendDetailAgora',
+          component: TrendDetailAgora
+        },
+    ]
   },
   {
-    path: '/mypage',
-    name: 'UserProfile',
-    component: UserProfile
-  }
+    path: '/mypage/:id',
+    component: UserProfileLayout,
+    children: [
+      {
+        path: 'profile',
+        name: 'UserProfile',
+        component: UserProfile,
+      },
+      {
+        path: 'board',
+        name: 'BoardList',
+        component: BoardList
+      },
+    ]
+  },
+  {
+    path: '/mypage/:id/board/:boardId',
+    name: 'BoardDetail',
+    component: BoardDetail
+  },
+  {
+    path: '/predict-list',
+    name: 'PredictList',
+    component: PredictList
+  },
+  {
+    path: '/predict',
+    name: constants.URL_TYPE.PREDICT.LIST,
+    component: loadView('predict/PredictLayout'),
+    props: true,
+    children: [
+      {
+        path: ':categoryId/:trendId',
+        name: 'PredictDetail',
+        component: PredictDetail,
+        props: true,
+      },
+    ]
+  },
+  {
+    path: "*",
+    name: "ErrorPage",
+    component: ErrorPage,
+  },
 ]
 
 const router = new VueRouter({

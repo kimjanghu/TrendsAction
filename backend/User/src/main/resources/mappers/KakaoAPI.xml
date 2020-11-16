@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mappers/gueset.xml -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mappers/user.xml -->
+<mapper namespace="com.action.trends.repository.KakaoAPIRepository"> <!-- mybatis는 namespace필수!! -->
+
+	<!-- 닉네임 중복 확인 -->
+	<insert  id="isUserInfoExist">
+		INSERT INTO user (email)
+		SELECT #{email}
+		FROM dual
+			WHERE NOT EXISTS (
+			SELECT * FROM user
+			WHERE email = #{email}
+	)
+	</insert >
+	
+	<!-- 카카오 이메일을 통한 유저정보 받아오기 -->
+	<select id="userDetail" resultType="User">
+		select id , email, nickname, profile
+		from user
+		where email = #{email}
+	</select>
+</mapper>

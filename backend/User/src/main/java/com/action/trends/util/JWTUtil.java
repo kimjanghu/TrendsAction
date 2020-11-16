@@ -2,16 +2,17 @@ package com.action.trends.util;
 
 import java.util.Date;
 
-import com.action.trends.dto.User;
+import org.springframework.stereotype.Component;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 
+@Component
 public class JWTUtil {
 	static final String tokenSecret = "HS256"; // 암호화 방식
 	
 	/* 회원 정보 JWT 암호화 */
-	public static String createJWTToken(String name, String email, String birthday, String gender, int userNo, boolean isSNS) {
+	public static String createJWTToken(String email) {
 		String token = null;
 
 		try {
@@ -23,9 +24,8 @@ public class JWTUtil {
 
 			// 토큰 암호화
 			Algorithm algorithm = Algorithm.HMAC256(tokenSecret);
-			token = JWT.create().withIssuer("auth0").withSubject(name).withAudience("ssafy").withClaim("isSNS", isSNS)
-					.withClaim("email", email).withClaim("name", name).withClaim("birth", birthday).withClaim("userNo", userNo)
-					.withClaim("gender", gender).withNotBefore(notBefore).withExpiresAt(expiresAt).sign(algorithm);
+			token = JWT.create().withIssuer("auth0").withAudience("TrendsAction")
+					.withClaim("email", email).withNotBefore(notBefore).withExpiresAt(expiresAt).sign(algorithm);
 		} catch (Exception e) { System.err.println("err: " + e); }
 		return token;
 	}
@@ -35,7 +35,7 @@ public class JWTUtil {
 		if (token == null) return "error";
 		try {
 			String result = JWT.require(Algorithm.HMAC256(tokenSecret.getBytes())).build()
-					.verify(token.replace("Bearer", "")).getClaim("email").asString();
+					.verify(token.replaceFirst("Bearer", "").replaceFirst(" ", "")).getClaim("email").asString();
 			return result;
 		} catch (Exception e) { return "error"; }
 	}

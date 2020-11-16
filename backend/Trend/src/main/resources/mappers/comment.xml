@@ -3,10 +3,12 @@
 <mapper namespace="com.action.trends.repository.CommentRepository">
 	
 	<!-- 해당 트렌드의 댓글 리스트 조회 -->
-	<select id="readByTrendId" resultType="Comment">
-		select *
-		from comment
-		where trend_id=#{trendId}
+	<select id="readByTrendId" resultType="java.util.HashMap">
+		select comment.id, content, date, comment_id, trend_id, nickname, profile
+		from comment, user
+		where comment.user_id = user.id
+		and trend_id=#{trendId}
+		order by date DESC;
 	</select>
 	
 	<!-- 해당 트렌드에 댓글 삽입 -->
