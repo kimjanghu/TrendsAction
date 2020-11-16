@@ -103,13 +103,13 @@
 #### FAQ
 
 ## :cow: 서비스 소개 :dog:
-#### :link:[Introduction Service](https://lab.ssafy.com/s03-final/s03p31a408/blob/feature/project-introduction/docs/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C.md)
+#### :link:[Introduction Service](https://lab.ssafy.com/s03-final/s03p31a408/blob/master/docs/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C.md)
 
 ## :clipboard: 프로젝트 사용법
-#### :link:[How To Use](https://lab.ssafy.com/s03-final/s03p31a408/blob/feature/project-introduction/docs/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%82%AC%EC%9A%A9%EB%B2%95.md)
+#### :link:[How To Use](https://lab.ssafy.com/s03-final/s03p31a408/blob/featuremaster/docs/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%82%AC%EC%9A%A9%EB%B2%95.md)
 
 ## :pencil: 개발 규칙
-#### :link:[Convention & Workflow](https://lab.ssafy.com/s03-final/s03p31a408/blob/develop/docs/%EC%9E%90%EC%9C%A8%ED%94%8C%EC%A0%9D%EC%BB%A8%EB%B2%A4%EC%85%98.md)
+#### :link:[Convention & Workflow](https://lab.ssafy.com/s03-final/s03p31a408/blob/master/docs/%EC%9E%90%EC%9C%A8%ED%94%8C%EC%A0%9D%EC%BB%A8%EB%B2%A4%EC%85%98.md)
 
 ## :family: 팀소개
 > #### 팀장 : 김동휘 (Back End, Data Analysis, UCC)
