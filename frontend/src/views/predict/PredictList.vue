@@ -32,7 +32,7 @@
             </v-col>
           </v-row>
           <v-row class="mb-5" justify="center" align="center">
-            <v-btn @click="getPredictTrends(select)">확인!</v-btn>
+            <v-btn color="primary" @click="getPredictTrends(select)">확인!</v-btn>
           </v-row>
           <v-row justify="center" align="center">
             <p><strong>{{ select.year }}년 {{ select.month }}월 {{ select.week }}주</strong> 의 예측 트렌드 키워드</p>
