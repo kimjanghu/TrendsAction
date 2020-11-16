@@ -106,7 +106,6 @@ export default {
   created() {
     this.getUserInfo()
     this.getTrendInfo()
-    console.log(this.trendId, this.categoryId)
   },
   methods: {
     getUserInfo() {
