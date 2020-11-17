@@ -119,4 +119,4 @@
 > #### 팀원 : 최재빈 (Back End, Infra, Documentation)
 
 ## :dvd: License
-#### :link:[MIT License 2.0](https://lab.ssafy.com/s03-final/s03p31a408/blob/feature/project-introduction/LICENSE.txt)
+#### :link:[MIT License 2.0](https://lab.ssafy.com/s03-final/s03p31a408/blob/master/LICENSE.txt)
