@@ -22,6 +22,9 @@
 ## :globe_with_meridians: 시스템 구조
 ![아키텍처](/uploads/247bbfe57b2c7418d79dcc1ebfe498cb/아키텍처.png)
 
+## :globe_with_meridians: ER Diagram
+![ERD물리](/uploads/a06909935efaa25eedcb7610418c0b6f/ERD물리.JPG)
+
 ## :computer: 기술 스택
 ![badge](https://img.shields.io/badge/Framework-Vue-4FC08D?logo=Vue.js)
 ![badge](https://img.shields.io/badge/Framework-Vuetify-1867C0?logo=Vuetify)
@@ -41,6 +44,8 @@
 ![badge](https://img.shields.io/badge/Language-CSS3-1572B6?logo=CSS3)
 ![badge](https://img.shields.io/badge/Communication-Jira-0052CC?logo=Jira)
 ![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
+![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
+![badge](https://img.shields.io/badge/Communication-Notion-000000?logo=Notion)
 ![badge](https://img.shields.io/badge/Package-Maven-0072C6?logo=Apache-Maven)
 ![badge](https://img.shields.io/badge/Package-NPM-0072C6?logo=NPM)
 ![badge](https://img.shields.io/badge/API-Kakao--Login-FFCD00?logo=Kakao)
