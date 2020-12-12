@@ -1,4 +1,4 @@
-![TrendsActionLogo](/uploads/b8f3451437c232d1b1c9d32fa385cf3d/TrendsActionLogo.jpg)
+![TrendsActionLogo](images/TrendsActionLogo.jpg)
 
 # :person_frowning: 오빠 나 달라진거 없어? [서울 4반 8조] [2020.10.12 ~ 2020.11.17]
 #### :link:[TrendsAction](http://k3a408.p.ssafy.io/)
@@ -20,10 +20,10 @@
 #### 데이터 수집과 분석을 자동화하여 주기적으로 객관적인 정보를 제공
 
 ## :globe_with_meridians: 시스템 구조
-![아키텍처](/uploads/247bbfe57b2c7418d79dcc1ebfe498cb/아키텍처.png)
+![아키텍처](images/아키텍처.png)
 
 ## :globe_with_meridians: ER Diagram
-![ERD물리](/uploads/a06909935efaa25eedcb7610418c0b6f/ERD물리.JPG)
+![ERD물리](images/ERD물리.JPG)
 
 ## :computer: 기술 스택
 ![badge](https://img.shields.io/badge/Framework-Vue-4FC08D?logo=Vue.js)
@@ -42,10 +42,6 @@
 ![badge](https://img.shields.io/badge/Language-Python-3776AB?logo=Python)
 ![badge](https://img.shields.io/badge/Language-HTML5-E34F26?logo=HTML5)
 ![badge](https://img.shields.io/badge/Language-CSS3-1572B6?logo=CSS3)
-![badge](https://img.shields.io/badge/Communication-Jira-0052CC?logo=Jira)
-![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
-![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
-![badge](https://img.shields.io/badge/Communication-Notion-000000?logo=Notion)
 ![badge](https://img.shields.io/badge/Package-Maven-0072C6?logo=Apache-Maven)
 ![badge](https://img.shields.io/badge/Package-NPM-0072C6?logo=NPM)
 ![badge](https://img.shields.io/badge/API-Kakao--Login-FFCD00?logo=Kakao)
@@ -57,9 +53,18 @@
 ![badge](https://img.shields.io/badge/Library-Scikit--Learn-F7931E?logo=Scikit-learn)
 ![badge](https://img.shields.io/badge/Library-Kkma-ff69b4)
 ![badge](https://img.shields.io/badge/Library-Word2Vec-7E4798)
+![badge](https://img.shields.io/badge/OS-Linux-FCC624?logo=Linux)
+![badge](https://img.shields.io/badge/OS-Ubuntu-E95420?logo=Ubuntu)
+![badge](https://img.shields.io/badge/OS-Windows-0078D6?logo=Windows)
+![badge](https://img.shields.io/badge/Library-Word2Vec-7E4798)
 ![badge](https://img.shields.io/badge/IDE-Eclipse-2C2255?logo=Eclipse-IDE)
 ![badge](https://img.shields.io/badge/IDE-VSCode-007ACC?logo=Visual-Studio-Code)
 ![badge](https://img.shields.io/badge/IDE-PyCharm-000000?logo=PyCharm)
+![badge](https://img.shields.io/badge/Communication-Jira-0052CC?logo=Jira)
+![badge](https://img.shields.io/badge/Communication-Mattermost-0072C6?logo=Mattermost)
+![badge](https://img.shields.io/badge/Communication-Notion-000000?logo=Notion)
+
+
 
 ## :bulb: 핵심 기술
 #### 데스크탑, 모바일에서 이용 가능한 반응형 웹 사이트
